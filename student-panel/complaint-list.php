@@ -2,12 +2,12 @@
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
+
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>E-Hostel Complaint - My Complaints</title>
-
     <link rel="icon" href="images/logo.png" type="images/x-icon">
 
     <!-- Bootstrap CSS -->
@@ -18,9 +18,11 @@
 
     <!-- Icons CSS -->
     <link href="admin-panel/assets/css/icons.min.css" rel="stylesheet">
+
 </head>
 
 <body>
+
     <!-- App Header -->
     <header class="app-header">
         <div class="main-header-container container-fluid">
@@ -58,6 +60,7 @@
     <!-- Start::App Content -->
     <div class="main-content app-content">
         <div class="container-fluid">
+
             <!-- Page Header -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb py-sm-4 py-md-0">
                 <h1 class="page-title fw-semibold fs-18 mb-0">My Complaints</h1>
@@ -74,6 +77,18 @@
 
             <!-- Start::Complaint Form Section -->
             <div class="row mt-4">
+                
+                <!-- Start::Room Issue History Section -->
+            <div class="row mt-4">
+            <div class="d-flex my-3">
+                    <a href="student_dashboard.php" class="btn btn-primary btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill me-2" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+                        </svg>
+                        Back
+                    </a>
+                </div>
+
                 <div class="col-md-12">
                     <div class="card custom-card">
                         <div class="card-header">
@@ -87,6 +102,18 @@
                                         <option value="">Select Complaint Type</option>
                                         <option>Room Issues</option>
                                         <option>Facility Issues</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="room-issue">Issue Type</label>
+                                    <select class="form-control" id="room-issue" required>
+                                        <option value="">Select Issue Type</option>
+                                        <option>Plumbing</option>
+                                        <option>Electrical</option>
+                                        <option>Air Conditioning</option>
+                                        <option>Furniture</option>
+                                        <option>Cleanliness</option>
                                     </select>
                                 </div>
 
@@ -141,7 +168,53 @@
                     </div>
                 </div>
             </div>
+
             <!-- /Complaints Table Section -->
+                <div class="col-md-12">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title">Complaint Issue History</div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Complaint Type</th>
+                                        <th>Issue Type</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Room Issues</td>
+                                        <td>Plumbing</td>
+                                        <td>Leaking tap in the bathroom</td>
+                                        <td>Resolved</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Facility Issues</td>
+                                        <td>Air Conditioning</td>
+                                        <td>AC not cooling properly</td>
+                                        <td>Pending</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Facility Issues</td>
+                                        <td>Furniture</td>
+                                        <td>Broken chair in the room</td>
+                                        <td>Resolved</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Room Issue History Section -->
 
         </div>
     </div>
