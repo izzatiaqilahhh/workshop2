@@ -85,19 +85,6 @@
                     </div>
                 </div>
 
-                <!-- Room Information Section -->
-                <div class="col-md-4">
-                    <div class="card custom-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Room Information</h5>
-                            <p class="card-text">Check your room details.</p>
-                            <a href="room-information.php" class="btn btn-primary">Room Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End::Dashboard Modules Section -->
-
                 <!-- My Complaints Section -->
                 <div class="col-md-4">
                     <div class="card custom-card">
@@ -108,6 +95,19 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Room Information Section -->
+                <div class="col-md-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Room Information</h5>
+                            <p class="card-text">Check your room details and report any issues you may have with your hostel room.</p>
+                            <a href="room-information.php" class="btn btn-primary">Room Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End::Dashboard Modules Section -->
 
         </div>
     </div>

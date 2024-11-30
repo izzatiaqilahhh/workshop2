@@ -75,7 +75,7 @@
             <!-- Start::Profile Section -->
             <div class="row mt-4">
                 <div class="d-flex my-3">
-                    <a href="#" class="btn btn-primary btn-sm">
+                    <a href="student-dashboard.php" class="btn btn-primary btn-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill me-2" viewBox="0 0 16 16">
                             <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
                         </svg>
@@ -89,75 +89,41 @@
                     <div class="card-body">
                         <form>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label>Full Name</label>
-                                        <input type="text" class="form-control" placeholder="Enter your full name">
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Full Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter your full name">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Matric Number</label>
+                                    <input type="text" class="form-control" placeholder="Enter your matric number">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Identification Card Number</label>
+                                    <input type="text" class="form-control" placeholder="Enter your IC number">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Phone Number</label>
+                                    <input type="text" class="form-control" placeholder="Enter your phone number">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Faculty</label>
+                                    <input type="text" class="form-control" placeholder="Enter your faculty">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Course</label>
+                                    <input type="text" class="form-control" placeholder="Enter your course">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Year of Study</label>
+                                    <select class="form-control">
+                                        <option>Year 1</option>
+                                        <option>Year 2</option>
+                                        <option>Year 3</option>
+                                        <option>Year 4</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label>Matric Number</label>
-                                        <input type="text" class="form-control" placeholder="Enter your matric number">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label>Identification Card Number</label>
-                                        <input type="text" class="form-control" placeholder="Enter your IC number">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label>Marital Status</label>
-                                        <select class="form-control">
-                                            <option>Single</option>
-                                            <option>Married</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label>Home Address</label>
-                                        <textarea class="form-control" rows="3" placeholder="Enter your home address"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label>Birth Date</label>
-                                        <input type="date" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label>Year of Study</label>
-                                        <select class="form-control">
-                                            <option>Year 1</option>
-                                            <option>Year 2</option>
-                                            <option>Year 3</option>
-                                            <option>Year 4</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label>Citizen</label>
-                                        <select class="form-control">
-                                            <option>Malaysian</option>
-                                            <option>Non-Malaysian</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label>Intake Session</label>
-                                        <input type="text" class="form-control" placeholder="Enter intake session (e.g., September 2020)">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <button type="button" class="btn btn-primary">Save Changes</button>
-                                    </div>
+                                    <button type="button" class="btn btn-primary w-100">Save Changes</button>
                                 </div>
                             </div>
                         </form>
