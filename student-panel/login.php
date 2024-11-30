@@ -63,7 +63,7 @@
                 </div>
               </div>
               <div class="text-center">
-                <p class="fs-12 text-muted mt-3">Forgot Password? <a href="" class="text-primary text-decoration-underline">Reset Password Here</a></p>
+                <p class="fs-12 text-muted mt-3">Forgot Password? <a href="forgor-password.php" class="text-primary text-decoration-underline">Reset Password Here</a></p>
               </div>
             </div>
           </div>
