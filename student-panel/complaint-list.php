@@ -145,7 +145,10 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Complaint Type</th>
+                                        <th>Issue Type</th>
                                         <th>Description</th>
+                                        <th>Date Filled</th>
+                                        <th>Last Updated</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -154,7 +157,10 @@
                                     <tr>
                                         <td>1</td>
                                         <td>Room Issues</td>
+                                        <th>Plumbing</th>
                                         <td>Leaking tap in bathroom</td>
+                                        <td>2024-04-15</td>
+                                        <td>2024-04-16</td>
                                         <td>Pending</td>
                                         <td>
                                             <a href="#" class="btn btn-info btn-sm">View</a>
@@ -199,7 +205,7 @@
                                         <td>Facility Issues</td>
                                         <td>Air Conditioning</td>
                                         <td>AC not cooling properly</td>
-                                        <td>Pending</td>
+                                        <td>Resolved</td>
                                     </tr>
                                     <tr>
                                         <td>3</td>
