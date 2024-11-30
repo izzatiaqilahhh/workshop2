@@ -90,32 +90,70 @@
                 </div>
 
                 <div class="col-md-12">
-                    <div class="card custom-card">
-                        <div class="card-header">
-                            <div class="card-title">Submit New Complaint</div>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="complaint-type">Complaint Type</label>
-                                    <select class="form-control" id="complaint-type" required>
-                                        <option value="">Select Complaint Type</option>
-                                        <option>Room Issues</option>
-                                        <option>Facility Issues</option>
-                                    </select>
-                                </div>
+                <div class="card custom-card">
+                 <div class="card-header">
+                     <div class="card-title">Submit New Complaint</div>
+                    </div>
+                    <div class="card-body">
+                     <form>
+                    <!-- Complaint Type -->
+                    <div class="mb-3">
+                    <label for="complaint-type">Complaint Type</label>
+                    <select class="form-control" id="complaint-type" required onchange="filterIssues()">
+                        <option value="">Select Complaint Type</option>
+                        <option value="facility">Facility Maintenance Issues</option>
+                        <option value="cleanliness">Cleanliness and Hygiene Complaints</option>
+                        <option value="security">Security Concerns</option>
+                        <option value="internet">Internet Connectivity Issues</option>
+                        <option value="roommate">Roommate or Neighbor Issues</option>
+                        <option value="food">Food and Dining Complaints</option>
+                        <option value="general">General Complaints</option>
+                    </select>
+                </div>
 
-                                <div class="mb-3">
-                                    <label for="room-issue">Issue Type</label>
-                                    <select class="form-control" id="room-issue" required>
-                                        <option value="">Select Issue Type</option>
-                                        <option>Plumbing</option>
-                                        <option>Electrical</option>
-                                        <option>Air Conditioning</option>
-                                        <option>Furniture</option>
-                                        <option>Cleanliness</option>
-                                    </select>
-                                </div>
+                                 <!-- Issue Type -->
+                <div class="mb-3">
+                    <label for="issue-type">Issue Type</label>
+                    <select class="form-control" id="issue-type" required>
+                        <option value="">Select Issue Type</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Define issues related to each category
+    const issues = {
+        facility: ["Plumbing", "Electrical", "Air Conditioning", "Furniture", "Broken Doors/Windows"],
+        cleanliness: ["Dirty Rooms", "Overflowing Trash Bins", "Pest Infestation", "Dirty Bathrooms"],
+        security: ["Broken Locks", "Unauthorized Access", "Theft"],
+        internet: ["Slow Wi-Fi", "No Connection"],
+        roommate: ["Noise Disturbances", "Conflicts", "Smoking or Prohibited Activities"],
+        food: ["Poor Food Quality", "Hygiene Issues in Dining"],
+        general: ["Unresponsive Management", "Delayed Issue Resolution"]
+    };
+
+    // Filter issues based on complaint type
+    function filterIssues() {
+        const complaintType = document.getElementById("complaint-type").value;
+        const issueType = document.getElementById("issue-type");
+
+        // Clear existing options
+        issueType.innerHTML = '<option value="">Select Issue Type</option>';
+
+        // Add filtered options
+        if (issues[complaintType]) {
+            issues[complaintType].forEach((issue) => {
+                const option = document.createElement("option");
+                option.value = issue.toLowerCase().replace(/\s+/g, "-");
+                option.textContent = issue;
+                issueType.appendChild(option);
+            });
+        }
+    }
+</script>
 
                                 <div class="mb-3">
                                     <label for="complaint-description">Complaint Description</label>
