@@ -122,6 +122,12 @@
                                     <textarea class="form-control" id="complaint-description" rows="4" placeholder="Describe your complaint here..." required></textarea>
                                 </div>
 
+                                <!-- Image Upload Field -->
+                                 <div class="mb-3">
+                                    <label for="complaint-image">Upload Image</label>
+                                    <input type="file" class="form-control" id="complaint-image" name="complaint-image" accept="image/*">
+                                </div>
+
                                 <div class="mb-3">
                                     <button type="submit" class="btn btn-primary">Submit Complaint</button>
                                 </div>
