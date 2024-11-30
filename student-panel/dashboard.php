@@ -85,17 +85,6 @@
                     </div>
                 </div>
 
-                <!-- My Complaints Section -->
-                <div class="col-md-4">
-                    <div class="card custom-card">
-                        <div class="card-body">
-                            <h5 class="card-title">My Complaints</h5>
-                            <p class="card-text">Submit a new complaint or check the status of your existing complaints.</p>
-                            <a href="complaint-list.php" class="btn btn-primary">Manage Complaints</a>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Room Information Section -->
                 <div class="col-md-4">
                     <div class="card custom-card">
@@ -108,6 +97,17 @@
                 </div>
             </div>
             <!-- End::Dashboard Modules Section -->
+
+                <!-- My Complaints Section -->
+                <div class="col-md-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <h5 class="card-title">My Complaints</h5>
+                            <p class="card-text">Submit a new complaint or check the status of your existing complaints.</p>
+                            <a href="complaint-list.php" class="btn btn-primary">Manage Complaints</a>
+                        </div>
+                    </div>
+                </div>
 
         </div>
     </div>
