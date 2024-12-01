@@ -99,7 +99,7 @@
                     <!-- Complaint Type -->
                     <div class="mb-3">
                     <label for="complaint-type">Complaint Type</label>
-                    <select class="form-control" id="complaint-type" required onchange="filterIssues()">
+                    <select class="form-control custom-select" id="complaint-type" required onchange="filterIssues()" style="appearance: auto;">
                         <option value="">Select Complaint Type</option>
                         <option value="facility">Facility Maintenance Issues</option>
                         <option value="cleanliness">Cleanliness and Hygiene Complaints</option>
@@ -114,7 +114,7 @@
                                  <!-- Issue Type -->
                 <div class="mb-3">
                     <label for="issue-type">Issue Type</label>
-                    <select class="form-control" id="issue-type" required>
+                    <select class="form-control custom-select" id="issue-type" required style="appearance: auto;">
                         <option value="">Select Issue Type</option>
                     </select>
                 </div>
@@ -126,13 +126,13 @@
 <script>
     // Define issues related to each category
     const issues = {
-        facility: ["Plumbing", "Electrical", "Air Conditioning", "Furniture", "Broken Doors/Windows"],
-        cleanliness: ["Dirty Rooms", "Overflowing Trash Bins", "Pest Infestation", "Dirty Bathrooms"],
-        security: ["Broken Locks", "Unauthorized Access", "Theft"],
-        internet: ["Slow Wi-Fi", "No Connection"],
-        roommate: ["Noise Disturbances", "Conflicts", "Smoking or Prohibited Activities"],
-        food: ["Poor Food Quality", "Hygiene Issues in Dining"],
-        general: ["Unresponsive Management", "Delayed Issue Resolution"]
+        facility: ["Plumbing", "Electrical", "Air Conditioning", "Furniture", "Broken Doors/Windows", "Others (Describe on Complaint Description field)"],
+        cleanliness: ["Dirty Rooms", "Overflowing Trash Bins", "Pest Infestation", "Dirty Bathrooms", "Others (Describe on Complaint Description field)"],
+        security: ["Broken Locks", "Unauthorized Access", "Theft", "Others (Describe on Complaint Description field)"],
+        internet: ["Slow Wi-Fi", "No Connection", "Others (Describe on Complaint Description field)"],
+        roommate: ["Noise Disturbances", "Conflicts", "Smoking or Prohibited Activities", "Others (Describe on Complaint Description field)"],
+        food: ["Poor Food Quality", "Hygiene Issues in Dining", "Others (Describe on Complaint Description field)"],
+        general: ["Unresponsive Management", "Delayed Issue Resolution", "Others (Describe on Complaint Description field)"]
     };
 
     // Filter issues based on complaint type
