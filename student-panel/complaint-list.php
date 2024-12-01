@@ -106,7 +106,6 @@
                         <option value="security">Security Concerns</option>
                         <option value="internet">Internet Connectivity Issues</option>
                         <option value="roommate">Roommate or Neighbor Issues</option>
-                        <option value="food">Food and Dining Complaints</option>
                         <option value="general">General Complaints</option>
                     </select>
                 </div>
@@ -131,7 +130,6 @@
         security: ["Broken Locks", "Unauthorized Access", "Theft", "Others (Describe on Complaint Description field)"],
         internet: ["Slow Wi-Fi", "No Connection", "Others (Describe on Complaint Description field)"],
         roommate: ["Noise Disturbances", "Conflicts", "Smoking or Prohibited Activities", "Others (Describe on Complaint Description field)"],
-        food: ["Poor Food Quality", "Hygiene Issues in Dining", "Others (Describe on Complaint Description field)"],
         general: ["Unresponsive Management", "Delayed Issue Resolution", "Others (Describe on Complaint Description field)"]
     };
 

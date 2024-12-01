@@ -102,7 +102,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Hostel Information</h5>
                             <p class="card-text">Check your room details and report any issues you may have with your hostel room.</p>
-                            <a href="room-information.php" class="btn btn-primary">Hostel Details</a>
+                            <a href="hostel-information.php" class="btn btn-primary">Hostel Details</a>
                         </div>
                     </div>
                 </div>
