@@ -1,12 +1,12 @@
 <?php include('includes/header.php'); ?>
 
-<title>GreSIS - Admin Dashboard</title>
+<title>E-Hostel Complaint - Hostel Staff Dashboard</title>
 <!-- Start::app-content -->
 <div class="main-content app-content">
     <div class="container">
 
         <!-- Page Header -->
-        <div class="d-md-flex d-block align-items-center justify-content-between my-4  page-header-breadcrumb ">
+        <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
             <h1 class="page-title fw-semibold fs-22 mb-0">Dashboard</h1>
             <div class="ms-md-1 ms-0">
                 <nav>
@@ -19,22 +19,7 @@
         <!-- Page Header Close -->
 
         <!-- Start::row-1 -->
-        <?php
-
-        $sql = "SELECT views FROM counter WHERE id = 1";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $visits = $row["views"];
-            }
-        } else {
-            echo "0";
-        }
-        
-        ?>
         <div class="row print">
-            <?= alertMessage(); ?>
             <div class="d-flex justify-content-end my-3 hidden-print">
                 <button class="btn btn-primary btn-sm text-center" onclick="printPage()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);">
@@ -44,12 +29,14 @@
                     Print
                 </button>
             </div>
+
+            <!-- Card 1 -->
             <div class="col-sm-6">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-2">Total Item</p>
-                            <h4 class="mb-0 fw-semibold mb-2"><?= getCount('item') ?></h4>
+                            <h4 class="mb-0 fw-semibold mb-2">123</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-primary p-2">
@@ -59,12 +46,14 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Card 2 -->
             <div class="col-sm-6">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-2">Total Admin</p>
-                            <h4 class="mb-0 fw-semibold mb-2"><?= getCount('admin') ?></h4>
+                            <h4 class="mb-0 fw-semibold mb-2">5</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-warning p-2">
@@ -74,12 +63,14 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Card 3 -->
             <div class="col-sm-4">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-2">Total Feedback</p>
-                            <h4 class="mb-0 fw-semibold mb-2"> <?= getCount('feedback') ?></h4>
+                            <h4 class="mb-0 fw-semibold mb-2">45</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-secondary p-2">
@@ -89,32 +80,34 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Card 4 -->
             <div class="col-sm-4">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-2">Total User</p>
-                            <h4 class="mb-0 fw-semibold mb-2"><?= getCount('users') ?></h4>
+                            <h4 class="mb-0 fw-semibold mb-2">200</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-success p-2">
                                 <i class='bx bxs-user-account fs-20 op-7'></i>
-
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Card 5 -->
             <div class="col-sm-4">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-2">Total Visitor</p>
-                            <h4 class="mb-0 fw-semibold mb-2"><?= $visits ?></h4>
+                            <h4 class="mb-0 fw-semibold mb-2">5000</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-danger p-2">
-                                <!-- <i class='bx bx-user-pin '></i> -->
                                 <i class="bi bi-people-fill fs-20 op-7"></i>
                             </span>
                         </div>
@@ -127,7 +120,5 @@
     </div>
 </div>
 <!-- End::app-content -->
-
-</div>
 
 <?php include('includes/footer.php'); ?>

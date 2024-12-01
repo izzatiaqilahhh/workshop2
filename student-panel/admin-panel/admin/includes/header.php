@@ -1,11 +1,3 @@
-<?php
-
-require '../config/function.php';
-
-include('authentication.php');
-
-?>
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
@@ -18,9 +10,8 @@ include('authentication.php');
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-
     <!-- Favicon -->
-    <link rel="icon" href="../assets/images/brand-logos/logo.png" type="image/x-icon">
+    <link rel="icon" href="images/logo.png" type="images/x-icon">
 
     <!-- Choices JS -->
     <script src="../assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
@@ -110,7 +101,7 @@ include('authentication.php');
                 <div class="header-element">
                     <div class="horizontal-logo">
                         <a href="#" class=" fw-bolder text-black me-2  fs-20">
-                            GreSIS
+                            E-Hostel Complaint
                         </a>
                     </div>
                 </div>
@@ -170,7 +161,7 @@ include('authentication.php');
         <!-- Start::main-sidebar-header -->
         <div class="main-sidebar-header">
             <a href="#" class=" fw-bolder text-white fs-16">
-                GreSIS
+                E-HC
             </a>
         </div>
         <!-- End::main-sidebar-header -->
