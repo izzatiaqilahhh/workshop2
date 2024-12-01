@@ -1,11 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
+
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <title>E-Hostel Complaint - Dashboard</title>
 
     <link rel="icon" href="images/logo.png" type="images/x-icon">
@@ -53,11 +56,11 @@
             </div>
         </div>
     </header>
-    <!-- /App Header -->
 
-    <!-- Start::App Content -->
+    <!-- App Content -->
     <div class="main-content app-content">
         <div class="container-fluid">
+
             <!-- Page Header -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb py-sm-4 py-md-0">
                 <h1 class="page-title fw-semibold fs-18 mb-0">Dashboard</h1>
@@ -70,10 +73,10 @@
                     </nav>
                 </div>
             </div>
-            <!-- /Page Header -->
 
-            <!-- Start::Dashboard Modules Section -->
+            <!-- Dashboard Modules Section -->
             <div class="row mt-4">
+
                 <!-- My Profile Section -->
                 <div class="col-md-4">
                     <div class="card custom-card">
@@ -107,11 +110,8 @@
                     </div>
                 </div>
             </div>
-            <!-- End::Dashboard Modules Section -->
-
         </div>
     </div>
-    <!-- End::App Content -->
 
     <!-- Bootstrap JS -->
     <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>

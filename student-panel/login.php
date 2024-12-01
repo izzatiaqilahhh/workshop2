@@ -1,11 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-vertical-style="overlay" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close">
 
 <head>
+
   <!-- Meta Data -->
   <meta charset="UTF-8">
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
   <title>E-Hostel Complaint - Log In</title>
 
   <link rel="icon" href="images/logo.png" type="images/x-icon">
@@ -34,7 +37,6 @@
       </div>
     </div>
   </header>
-  <!-- /App Header -->
 
   <div class="container">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
@@ -59,7 +61,7 @@
                   </div>
                 </div>
                 <div class="col-xl-12 d-grid mt-2">
-                  <button type="button" class="btn btn-lg btn-primary-gradient">Log In</button>
+                  <button type="button" name="loginBtn" class="btn btn-lg btn-primary-gradient">Log In</button>
                 </div>
               </div>
               <div class="text-center">
