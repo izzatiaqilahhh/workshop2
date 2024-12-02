@@ -51,12 +51,12 @@
               <div class="row gy-3">
                 <div class="col-xl-12">
                   <label for="signin-username" class="form-label text-default">Email Address</label>
-                  <input type="email" class="form-control form-control-lg" id="signin-username" placeholder="Enter your email address" required>
+                  <input type="email" class="form-control form-control-lg" id="signin-username" placeholder="Email Address" required>
                 </div>
                 <div class="col-xl-12 mb-2">
                   <label for="signin-password" class="form-label text-default d-block">Password</label>
                   <div class="input-group">
-                    <input type="password" class="form-control form-control-lg" id="signin-password" placeholder="Enter your password" required>
+                    <input type="password" class="form-control form-control-lg" id="signin-password" placeholder="Password" required>
                     <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
                   </div>
                 </div>

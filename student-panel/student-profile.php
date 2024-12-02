@@ -95,27 +95,27 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label>Full Name</label>
-                                    <input type="text" class="form-control" placeholder="Enter your full name">
+                                    <input type="text" class="form-control" placeholder="Full Name">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Matric Number</label>
-                                    <input type="text" class="form-control" placeholder="Enter your matric number">
+                                    <input type="text" class="form-control" placeholder="Matric Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Identification Card Number</label>
-                                    <input type="text" class="form-control" placeholder="Enter your IC number">
+                                    <input type="text" class="form-control" placeholder="Identification Card Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Phone Number</label>
-                                    <input type="text" class="form-control" placeholder="Enter your phone number">
+                                    <input type="text" class="form-control" placeholder="Phone Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Faculty</label>
-                                    <input type="text" class="form-control" placeholder="Enter your faculty">
+                                    <input type="text" class="form-control" placeholder="Faculty">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Course</label>
-                                    <input type="text" class="form-control" placeholder="Enter your course">
+                                    <input type="text" class="form-control" placeholder="Course">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Year of Study</label>

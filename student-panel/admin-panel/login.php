@@ -40,6 +40,9 @@ include('includes/header.php');
                         <div class="text-center">
                             <p class="fs-12 text-muted mt-3">Don't have an account yet? <a href="register.php" class="text-primary text-decoration-underline">Register Here</a></p>
                         </div>
+                        <div class="text-center">
+                            <p class="fs-12 text-muted mt-3">Forgot Password? <a href="forgot-password.php" class="text-primary text-decoration-underline">Reset Password Here</a></p>
+                        </div>
                     </div>
                 </div>
             </form>

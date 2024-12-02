@@ -17,6 +17,10 @@ include('includes/header.php');
                                 <input type="text" class="form-control form-control-lg" id="signup-fullname" placeholder="Full Name" name="name">
                             </div>
                             <div class="col-xl-12">
+                                <label for="signup-companyname" class="form-label text-default">Company Name</label>
+                                <input type="text" class="form-control form-control-lg" id="signup-companyname" placeholder="Staff Number" name="staffno">
+                            </div>
+                            <div class="col-xl-12">
                                 <label for="signup-staffnumber" class="form-label text-default">Staff Number</label>
                                 <input type="text" class="form-control form-control-lg" id="signup-staffnumber" placeholder="Staff Number" name="staffno">
                             </div>
@@ -27,10 +31,6 @@ include('includes/header.php');
                             <div class="col-xl-12">
                                 <label for="signup-phonenumber" class="form-label text-default">Phone Number</label>
                                 <input type="text" class="form-control form-control-lg" id="signup-phonenumber" placeholder="Phone Number" name="phone">
-                            </div>
-                            <div class="col-xl-12">
-                                <label for="signup-companyname" class="form-label text-default">Company Name</label>
-                                <input type="text" class="form-control form-control-lg" id="signup-companyname" placeholder="Staff Number" name="staffno">
                             </div>
                             <div class="col-xl-12">
                                 <label for="signup-specialization" class="form-label text-default">Specialization</label>

@@ -45,11 +45,11 @@
           <div class="card custom-card" style="background-color:rgba(255,255,255,0.8);">
             <div class="card-body p-5">
               <p class="h5 fw-semibold mb-2 text-center">Forgot Password</p>
-              <p class="mb-4 text-muted op-7 fw-normal text-center">Enter your registered email to reset your password.</p>
+              <p class="mb-4 text-muted op-7 fw-normal text-center">Enter your registered email address to reset your password.</p>
               <div class="row gy-3">
                 <div class="col-xl-12">
                   <label for="forgot-email" class="form-label text-default">Email Address</label>
-                  <input type="email" class="form-control form-control-lg" id="forgot-email" placeholder="Enter your email" required>
+                  <input type="email" class="form-control form-control-lg" id="forgot-email" placeholder="Email Address" required>
                 </div>
                 <div class="col-xl-12 d-grid mt-3">
                   <button type="submit" class="btn btn-lg btn-primary-gradient">Send Reset Link</button>
