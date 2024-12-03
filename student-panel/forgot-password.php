@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>E-Hostel Complaint - Forgot Password</title>
+  <title>E-Hostel Room Complaint - Forgot Password</title>
 
   <link rel="icon" href="images/logo.png" type="images/x-icon">
 
@@ -29,7 +29,7 @@
         <div class="header-element">
           <div class="horizontal-logo">
             <a href="index.php" class="text-black fw-bolder fs-20">
-              E-Hostel Complaint
+              E-Hostel Room Complaint
             </a>
           </div>
         </div>

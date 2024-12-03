@@ -9,7 +9,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>E-Hostel Complaint - Student Profile</title>
+    <title>E-Hostel Room Complaint - My Profile</title>
     
     <link rel="icon" href="images/logo.png" type="images/x-icon">
 
@@ -32,7 +32,7 @@
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="student-dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Complaint</a>
+                        <a href="student-dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint</a>
                     </div>
                 </div>
             </div>

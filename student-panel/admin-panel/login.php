@@ -2,7 +2,7 @@
 include('includes/header.php');
 ?>
 
-<title>E-Hostel Complaint - Staff Log In</title>
+<title>E-Hostel Room Complaint - Log In</title>
 
 <div class="container">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
@@ -10,18 +10,8 @@ include('includes/header.php');
                 <div class="card custom-card">
                     <div class="card-body p-5">
                         <p class="h5 fw-semibold mb-2 text-center">Log In</p>
-                        <p class="mb-4 text-muted op-7 fw-normal text-center">E-Hostel Complaint Staff Panel</p>
+                        <p class="mb-4 text-muted op-7 fw-normal text-center">E-Hostel Room Complaint Admin Panel</p>
                         <div class="row gy-3">
-
-                        <!-- User Type Selection -->
-                        <div class="col-xl-12">
-                                <label for="user-type" class="form-label text-default">Select Staff Type</label>
-                                <select class="form-control form-control-lg" id="user-type" name="user_type" required>
-                                    <option value="" disabled selected>Select Staff Type</option>
-                                    <option value="hostel_staff">Hostel Staff</option>
-                                    <option value="company_staff">Repair Company Staff</option>
-                                </select>
-                            </div>
                             <div class="col-xl-12">
                                 <label for="signin-username" class="form-label text-default">Email Address</label>
                                 <input type="email" class="form-control form-control-lg" id="signin-username" placeholder="Email Address" name="email" required>
@@ -36,9 +26,6 @@ include('includes/header.php');
                             <div class="col-xl-12 d-grid mt-2">
                                 <button type="submit" name="loginBtn" class="btn btn-lg btn-primary-gradient">Log In</button>
                             </div>
-                        </div>
-                        <div class="text-center">
-                            <p class="fs-12 text-muted mt-3">Don't have an account yet? <a href="register.php" class="text-primary text-decoration-underline">Register Here</a></p>
                         </div>
                         <div class="text-center">
                             <p class="fs-12 text-muted mt-3">Forgot Password? <a href="forgot-password.php" class="text-primary text-decoration-underline">Reset Password Here</a></p>

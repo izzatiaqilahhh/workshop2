@@ -9,7 +9,7 @@
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>E-Hostel Complaint - Log In</title>
+  <title>E-Hostel Room Complaint - Log In</title>
 
   <link rel="icon" href="images/logo.png" type="images/x-icon">
 
@@ -30,7 +30,7 @@
         <div class="header-element">
           <div class="horizontal-logo">
             <a href="index.php" class="text-black fw-bolder fs-20">
-              E-Hostel Complaint
+              E-Hostel Room Complaint
             </a>
           </div>
         </div>
@@ -47,7 +47,7 @@
           <div class="card custom-card" style="background-color:rgba(255,255,255,0.8);">
             <div class="card-body p-5">
               <p class="h5 fw-semibold mb-2 text-center text-default">Log In</p>
-              <p class="mb-4 text-muted op-7 fw-normal text-center">Welcome to E-Hostel Complaint!</p>
+              <p class="mb-4 text-muted op-7 fw-normal text-center">E-Hostel Room Complaint Student Panel</p>
               <div class="row gy-3">
                 <div class="col-xl-12">
                   <label for="signin-username" class="form-label text-default">Email Address</label>
