@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
@@ -24,6 +23,7 @@
 </head>
 
 <body>
+
     <!-- App Header -->
     <header class="app-header">
         <div class="main-header-container container-fluid">

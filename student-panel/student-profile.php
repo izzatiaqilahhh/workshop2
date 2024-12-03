@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
@@ -146,8 +145,8 @@
                         <form>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label>Enter Password</label>
-                                    <input type="text" class="form-control" placeholder="Enter Password">
+                                    <label>Password</label>
+                                    <input type="text" class="form-control" placeholder="Password">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Retype Password</label>

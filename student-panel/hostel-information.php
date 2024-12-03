@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
@@ -9,7 +8,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>E-Hostel Complaint - Hostel Information</title>
+    <title>E-Hostel Room Complaint - Hostel Room Information</title>
 
     <link rel="icon" href="images/logo.png" type="images/x-icon">
 
@@ -31,7 +30,7 @@
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="student-dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Complaint</a>
+                        <a href="student-dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint</a>
                     </div>
                 </div>
             </div>
@@ -64,12 +63,12 @@
 
             <!-- Page Header -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb py-sm-4 py-md-0">
-                <h1 class="page-title fw-semibold fs-18 mb-0">Hostel Information</h1>
+                <h1 class="page-title fw-semibold fs-18 mb-0">Hostel Room Information</h1>
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
                             <li class="breadcrumb-item"><a href="#">Nur Izzati Aqilah Binti Rahmad</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Hostel Information</li>
+                            <li class="breadcrumb-item active" aria-current="page">Hostel Room Information</li>
                         </ol>
                     </nav>
                 </div>
