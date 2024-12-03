@@ -104,7 +104,7 @@
                         <option value="">Select Complaint Type</option>
                         <option value="facility">Facility Maintenance Issues</option>
                         <option value="cleanliness">Cleanliness and Hygiene Complaints</option>
-                        <option value="security">Security Concerns</option>
+                        <option value="security">Security Issues</option>
                         <option value="internet">Internet Connectivity Issues</option>
                         <option value="roommate">Roommate or Neighbor Issues</option>
                         <option value="general">General Complaints</option>
