@@ -96,7 +96,7 @@
                             <table class="table">
                                 <tr>
                                     <th>Room Number</th>
-                                    <td>SQ-Q-1-1-A</td>
+                                    <td>SQ-K-8-2-B</td>
                                 </tr>
                                 <tr>
                                     <th>Room Type</th>
@@ -108,7 +108,7 @@
                                 </tr>
                                 <tr>
                                     <th>Facilities</th>
-                                    <td>Air Conditioning, Bed, Wardrobe, Study Desk</td>
+                                    <td>Air Conditioning, Bed, Wardrobe, Study Desk, Chair</td>
                                 </tr>
                                 <tr>
                                     <th>Reported Issues</th>
