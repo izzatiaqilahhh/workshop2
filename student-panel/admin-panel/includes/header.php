@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Favicon -->
-    <link rel="icon" href="images/logo.png" type="images/x-icon">
+    <link rel="icon" href="../images/logo.png" type="images/x-icon">
 
     <!-- Main Theme Js -->
     <script src="assets/js/authentication-main.js"></script>

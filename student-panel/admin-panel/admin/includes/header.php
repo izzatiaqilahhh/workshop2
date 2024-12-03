@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <!-- Favicon -->
-    <link rel="icon" href="images/logo.png" type="images/x-icon">
+    <link rel="icon" href="../images/logo.png" type="images/x-icon">
 
     <!-- Choices JS -->
     <script src="../assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
