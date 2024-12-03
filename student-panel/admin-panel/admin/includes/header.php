@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <!-- Favicon -->
-    <link rel="icon" href="../images/logo.png" type="images/x-icon">
+    <link rel="icon" href="../../images/logo.png" type="images/x-icon">
 
     <!-- Choices JS -->
     <script src="../assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
@@ -64,7 +64,6 @@
 
             /* Ensure all content fits within the mobile dimensions */
 
-
             .hidden-print {
                 display: none !important;
             }
@@ -88,42 +87,42 @@
 <!-- Loader -->
 
 <div class="page">
-    <!-- app-header -->
+
+    <!-- App Header -->
     <header class="app-header">
 
-        <!-- Start::main-header-container -->
+        <!-- Main Header Container -->
         <div class="main-header-container container-fluid">
 
-            <!-- Start::header-content-left -->
+            <!-- Header Content Left -->
             <div class="header-content-left">
 
-                <!-- Start::header-element -->
+                <!-- Header Element -->
                 <div class="header-element">
                     <div class="horizontal-logo">
                         <a href="#" class=" fw-bolder text-black me-2  fs-20">
-                            E-Hostel Complaint
+                            E-Hostel Room Complaint
                         </a>
                     </div>
                 </div>
-                <!-- End::header-element -->
 
-                <!-- Start::header-element -->
+                <!-- Header Element -->
                 <div class="header-element">
-                    <!-- Start::header-link -->
+
+                    <!-- Header Link -->
                     <a aria-label="Hide Sidebar" class="sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle" data-bs-toggle="sidebar" href="javascript:void(0);"><span></span></a>
-                    <!-- End::header-link -->
+                    
                 </div>
-                <!-- End::header-element -->
 
             </div>
-            <!-- End::header-content-left -->
 
-            <!-- Start::header-content-right -->
+            <!-- Header Content Right -->
             <div class="header-content-right">
 
-                <!-- Start::header-element -->
+                <!-- Header Element -->
                 <div class="header-element">
-                    <!-- Start::header-link|dropdown-toggle -->
+
+                    <!-- Header Link|Dropdown Toggle -->
                     <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         <div class="d-flex align-items-center">
                             <div class="me-sm-2 me-0">
@@ -133,38 +132,33 @@
                             </div>
                         </div>
                     </a>
-                    <!-- End::header-link|dropdown-toggle -->
+                    
                     <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
-                        <li><a class="dropdown-item d-flex" href="profile-admin.php?id=<?= $_SESSION['loggedInAdmin']['id'] ?>"><i class="ti ti-user-circle fs-18 me-2 op-7"></i>Profile</a></li>
-                        <li><a class="dropdown-item d-flex" href="logout.php"><i class="ti ti-logout fs-18 me-2 op-7"></i>Log Out</a></li>
+                        <li><a class="dropdown-item d-flex" href="profile-admin.php"><i class="ti ti-user-circle fs-18 me-2 op-7"></i>Profile</a></li>
+                        <li><a class="dropdown-item d-flex" href=""><i class="ti ti-logout fs-18 me-2 op-7"></i>Log Out</a></li>
                     </ul>
                 </div>
-                <!-- End::header-element -->
 
             </div>
-            <!-- End::header-content-right -->
 
         </div>
-        <!-- End::main-header-container -->
 
     </header>
-    <!-- /app-header -->
 
-    <!-- Start::app-sidebar -->
+    <!-- App Sidebar -->
     <aside class="app-sidebar sticky hidden-print" id="sidebar">
 
-        <!-- Start::main-sidebar-header -->
+        <!-- Main Sidebar Header -->
         <div class="main-sidebar-header">
             <a href="#" class=" fw-bolder text-white fs-16">
-                E-HC
+                E-HRC
             </a>
         </div>
-        <!-- End::main-sidebar-header -->
 
-        <!-- Start::main-sidebar -->
+        <!-- Main Sidebar -->
         <div class="main-sidebar" id="sidebar-scroll">
 
-            <!-- Start::nav -->
+            <!-- Nav -->
             <nav class="main-menu-container nav nav-pills flex-column sub-open">
                 <div class="slide-left" id="slide-left">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
@@ -172,87 +166,73 @@
                     </svg>
                 </div>
                 <ul class="main-menu">
-                    <!-- Start::slide__category -->
-                    <li class="slide__category"><span class="category-name">Main</span></li>
-                    <!-- End::slide__category -->
 
-                    <!-- Start::slide -->
+                    <!-- Slide Category -->
+                    <li class="slide__category"><span class="category-name">Main</span></li>
+
+                    <!-- Slide -->
                     <li class="slide ">
-                        <a href="index.php" class="side-menu__item">
+                        <a href="admin-dashboard.php" class="side-menu__item">
                             <i class="bx bx-home side-menu__icon"></i>
                             <span class="side-menu__label">Dashboard</span>
-
                         </a>
                     </li>
-                    <!-- End::slide -->
 
-                    <!-- Start::slide__category -->
+                    <!-- Slide Category -->
                     <li class="slide__category"><span class="category-name">Management</span></li>
-                    <!-- End::slide__category -->
 
-                    <!-- Start::slide -->
+                    <!-- Slide -->
                     <li class="slide">
-                        <a href="view-item.php" class="side-menu__item">
-
-                            <i class='bx bx-food-menu side-menu__icon'></i>
-                            <span class="side-menu__label">Item</span>
+                        <a href="view-student.php" class="side-menu__item">
+                            <i class='bx bxs-user-account  side-menu__icon'></i>
+                            <span class="side-menu__label">Student</span>
                         </a>
                     </li>
-                    <!-- End::slide -->
 
-                    <!-- Start::slide -->
+                    <!-- Slide -->
                     <li class="slide">
-                        <a href="view-feedback.php" class="side-menu__item">
+                        <a href="view-complaint.php" class="side-menu__item">
                             <i class='bx bx-message-dots side-menu__icon'></i>
-                            <span class="side-menu__label">Feedback</span>
+                            <span class="side-menu__label">Complaint</span>
                         </a>
                     </li>
-                    <!-- End::slide -->
 
-                    <!-- Start::slide -->
+                    <!-- Slide -->
                     <li class="slide">
                         <a href="view-users.php" class="side-menu__item">
-
-                            <i class='bx bxs-user-account  side-menu__icon'></i>
-                            <span class="side-menu__label">Users</span>
+                            <i class='bx bx-food-menu side-menu__icon'></i>
+                            <span class="side-menu__label">Repair Company</span>
                         </a>
                     </li>
-                    <!-- End::slide -->
 
-                    <!-- Start::slide -->
+                    <!-- Slide -->
                     <li class="slide">
                         <a href="view-admin.php" class="side-menu__item">
                             <i class='bx bx-user-pin side-menu__icon'></i>
                             <span class="side-menu__label">Admin</span>
                         </a>
                     </li>
-                    <!-- End::slide -->
 
-                    <!-- Start::slide__category -->
+                    <!-- Slide Category -->
                     <li class="slide__category"><span class="category-name">System</span></li>
-                    <!-- End::slide__category -->
 
-                    <!-- Start::slide -->
+                    <!-- Slide -->
                     <li class="slide">
                         <a href="view-users.php" class="side-menu__item" data-bs-toggle="offcanvas" data-bs-target="#switcher-canvas">
                             <i class="bx bx-cog side-menu__icon"></i>
                             <span class="side-menu__label">Setting</span>
                         </a>
                     </li>
-                    <!-- End::slide -->
 
                 </ul>
                 <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
                         <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
                     </svg></div>
             </nav>
-            <!-- End::nav -->
 
         </div>
-        <!-- End::main-sidebar -->
 
     </aside>
-    <!-- End::app-sidebar -->
 
     <!-- Start Switcher -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="switcher-canvas" aria-labelledby="offcanvasRightLabel">
@@ -656,4 +636,3 @@
             </div>
         </div>
     </div>
-    <!-- End Switcher -->

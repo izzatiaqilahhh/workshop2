@@ -1,7 +1,8 @@
 <?php include('includes/header.php'); ?>
 
-<title>E-Hostel Complaint - Hostel Staff Dashboard</title>
-<!-- Start::app-content -->
+<title>E-Hostel Room Complaint - Dashboard</title>
+
+<!-- App Content -->
 <div class="main-content app-content">
     <div class="container">
 
@@ -16,9 +17,8 @@
                 </nav>
             </div>
         </div>
-        <!-- Page Header Close -->
 
-        <!-- Start::row-1 -->
+        <!-- Row 1 -->
         <div class="row print">
             <div class="d-flex justify-content-end my-3 hidden-print">
                 <button class="btn btn-primary btn-sm text-center" onclick="printPage()">
@@ -35,12 +35,12 @@
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-2">Total Item</p>
+                            <p class="mb-2">Total Student</p>
                             <h4 class="mb-0 fw-semibold mb-2">123</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-primary p-2">
-                                <i class="ti ti-file-check fs-20 op-7"></i>
+                                <i class="bx bxs-user-account  side-menu__icon"></i>
                             </span>
                         </div>
                     </div>
@@ -52,12 +52,12 @@
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-2">Total Admin</p>
+                            <p class="mb-2">Total Complaint</p>
                             <h4 class="mb-0 fw-semibold mb-2">5</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-warning p-2">
-                                <i class='bx bx-user-pin fs-20 op-7'></i>
+                                <i class='bx bx-message-dots side-menu__icon'></i>
                             </span>
                         </div>
                     </div>
@@ -69,12 +69,12 @@
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-2">Total Feedback</p>
+                            <p class="mb-2">Total Repair Company</p>
                             <h4 class="mb-0 fw-semibold mb-2">45</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-secondary p-2">
-                                <i class='bx bx-message-dots fs-20 op-7'></i>
+                                <i class='bx bx-food-menu side-menu__icon'></i>
                             </span>
                         </div>
                     </div>
@@ -86,39 +86,21 @@
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-2">Total User</p>
+                            <p class="mb-2">Total Admin</p>
                             <h4 class="mb-0 fw-semibold mb-2">200</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-success p-2">
-                                <i class='bx bxs-user-account fs-20 op-7'></i>
+                                <i class='bx bx-user-pin side-menu__icon'></i>
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 5 -->
-            <div class="col-sm-4">
-                <div class="card custom-card">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="mb-2">Total Visitor</p>
-                            <h4 class="mb-0 fw-semibold mb-2">5000</h4>
-                        </div>
-                        <div>
-                            <span class="avatar avatar-md bg-danger p-2">
-                                <i class="bi bi-people-fill fs-20 op-7"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-        <!--End::row-1 -->
 
     </div>
 </div>
-<!-- End::app-content -->
 
 <?php include('includes/footer.php'); ?>

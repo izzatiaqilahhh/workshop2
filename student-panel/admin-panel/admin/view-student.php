@@ -35,10 +35,14 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Student Number</th>
                         <th>Student Name</th>
-                        <th>Email Address</th>
+                        <th>Matric Number</th>
+                        <th>Identification Card Number</th>
                         <th>Phone Number</th>
+                        <th>Faculty</th>
+                        <th>Course</th>
+                        <th>Year of Study</th>
+                        <th>Room Number</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,9 +52,13 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         <tr>
-                            <td colspan="7">No record found.</td>
+                            <td colspan="9">No record found.</td>
                         </tr>
                 </tbody>
             </table>
