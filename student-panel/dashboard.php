@@ -56,6 +56,7 @@
             </div>
         </div>
     </header>
+    <!-- App Header -->
 
     <!-- App Content -->
     <div class="main-content app-content">
@@ -73,9 +74,11 @@
                     </nav>
                 </div>
             </div>
+            <!-- Page Header -->
 
             <!-- Dashboard Modules Section -->
-            <div class="row mt-4">
+             <div class="row mt-4">
+                <!-- Dashboard Modules Section -->
 
                 <!-- My Profile Section -->
                 <div class="col-md-4">
@@ -83,10 +86,11 @@
                         <div class="card-body">
                             <h5 class="card-title">My Profile</h5>
                             <p class="card-text">View and edit your personal details.</p>
-                            <a href="student-profile.php" class="btn btn-primary">Go to Profile</a>
+                            <a href="profile.php" class="btn btn-primary">Go to Profile</a>
                         </div>
                     </div>
                 </div>
+                <!-- My Profile Section -->
 
                 <!-- My Complaints Section -->
                 <div class="col-md-4">
@@ -98,6 +102,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- My Complaints Section -->
 
                 <!-- Room Information Section -->
                 <div class="col-md-4">
@@ -110,8 +115,11 @@
                     </div>
                 </div>
             </div>
+            <!-- Room Information Section -->
+
         </div>
     </div>
+    <!-- App Content -->
 
     <!-- Bootstrap JS -->
     <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>

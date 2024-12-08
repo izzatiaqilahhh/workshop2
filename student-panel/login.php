@@ -36,6 +36,7 @@
       </div>
     </div>
   </header>
+  <!-- App Header -->
 
   <div class="container">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
@@ -69,9 +70,11 @@
             </div>
           </div>
         </form>
+        <!-- Login Form -->
 
   <!-- Bootstrap JS -->
   <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
 </body>
 
 </html>

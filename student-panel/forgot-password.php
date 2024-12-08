@@ -2,12 +2,13 @@
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-vertical-style="overlay" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close">
 
 <head>
+
   <!-- Meta Data -->
   <meta charset="UTF-8">
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>E-Hostel Room Complaint - Forgot Password</title>
+  <title>E-Hostel Room Complaint System - Forgot Password</title>
 
   <link rel="icon" href="images/logo.png" type="images/x-icon">
 
@@ -30,14 +31,16 @@
         <div class="header-element">
           <div class="horizontal-logo">
             <a href="index.php" class="text-black fw-bolder fs-20">
-              E-Hostel Room Complaint
+              E-Hostel Room Complaint System
             </a>
           </div>
         </div>
       </div>
     </div>
   </header>
+  <!-- App Header -->
 
+  <!-- Forgot Password Form -->
   <div class="container-lg py-5">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
       <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12 my-5">
@@ -64,6 +67,7 @@
       </div>
     </div>
   </div>
+  <!-- Forgot Password Form -->
 
   <!-- Bootstrap JS -->
   <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
