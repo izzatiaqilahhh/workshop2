@@ -1,6 +1,6 @@
 <?php include('includes/header.php'); ?>
 
-<title>E-Hostel Room Complaint - Dashboard</title>
+<title>E-Hostel Room Complaint System - Dashboard</title>
 
 <!-- App Content -->
 <div class="main-content app-content">
@@ -69,7 +69,7 @@
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-2">Total Repair Company</p>
+                            <p class="mb-2">Total Repair Staff</p>
                             <h4 class="mb-0 fw-semibold mb-2">45</h4>
                         </div>
                         <div>

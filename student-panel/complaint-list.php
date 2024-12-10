@@ -29,7 +29,7 @@
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="user-homepage.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
+                        <a href="dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
                     </div>
                 </div>
             </div>
@@ -184,7 +184,6 @@
                                             <th>Issue Type</th>
                                             <th>Description</th>
                                             <th>Date Filled</th>
-                                            <th>Last Updated</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
@@ -193,11 +192,10 @@
                                         <tr>
                                             <td>1</td>
                                             <td>123456</td>
-                                            <td>Room Issues</td>
-                                            <td>Plumbing</td>
-                                            <td>Leaking tap in bathroom</td>
+                                            <td>Security Issues</td>
+                                            <td>Broken Locks</td>
+                                            <td>My door lock was broken</td>
                                             <td>2024-04-15</td>
-                                            <td>2024-04-16</td>
                                             <td>Pending</td>
                                             <td>
                                                 <a href="#" class="btn btn-info btn-sm">View</a>
@@ -224,8 +222,8 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Complaint Type</th>
                                         <th>Complaint ID</th>
+                                        <th>Complaint Type</th>
                                         <th>Issue Type</th>
                                         <th>Description</th>
                                         <th>Status</th>

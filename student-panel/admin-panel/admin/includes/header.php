@@ -151,7 +151,7 @@
         <!-- Main Sidebar Header -->
         <div class="main-sidebar-header">
             <a href="#" class=" fw-bolder text-white fs-16">
-                E-HRC
+                E-HRCS
             </a>
         </div>
 
@@ -172,7 +172,7 @@
 
                     <!-- Slide -->
                     <li class="slide ">
-                        <a href="admin-dashboard.php" class="side-menu__item">
+                        <a href="dashboard.php" class="side-menu__item">
                             <i class="bx bx-home side-menu__icon"></i>
                             <span class="side-menu__label">Dashboard</span>
                         </a>
@@ -199,9 +199,9 @@
 
                     <!-- Slide -->
                     <li class="slide">
-                        <a href="view-users.php" class="side-menu__item">
+                        <a href="view-repair-staff.php" class="side-menu__item">
                             <i class='bx bx-food-menu side-menu__icon'></i>
-                            <span class="side-menu__label">Repair Company</span>
+                            <span class="side-menu__label">Repair Staff</span>
                         </a>
                     </li>
 

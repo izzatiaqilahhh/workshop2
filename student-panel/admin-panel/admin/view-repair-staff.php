@@ -1,6 +1,6 @@
 <?php include('includes/header.php'); ?>
 
-<title>E-Hostel Room Complaint System - Student Management</title>
+<title>E-Hostel Room Complaint System - Repair Staff Management</title>
 
 <script src="../assets/js/jquery-3.7.1.min.js"></script>
 
@@ -14,11 +14,11 @@
 
         <!-- Page Header -->
         <div class="d-md-flex d-block align-items-center justify-content-between mb-2 my-4 page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-22 mb-0">Student Management</h1>
+            <h1 class="page-title fw-semibold fs-22 mb-0">Repair Staff Management</h1>
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="dashboard.php">Student Management</a></li>
+                        <li class="breadcrumb-item"><a href="dashboard.php">Repair Staff Management</a></li>
                     </ol>
                 </nav>
             </div>
@@ -30,8 +30,8 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Student ID</th>
-                        <th>Student Name</th>
+                        <th>Staff ID</th>
+                        <th>Staff Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -39,9 +39,9 @@
                     <tr>
                         <td>1</td>
                         <td>123456</td>
-                        <td>Nur Izzati Aqilah Binti Rahmad</td>
+                        <td>Muhammad Farhan Bin Mas' Aedi</td>
                         <td>
-                            <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewstudentdetails">View</button>
+                            <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewstaffdetails">View</button>
                         </td>
                     </tr>
                 </tbody>
@@ -51,11 +51,11 @@
 </div>
 
 <!-- Modal 1 -->
-<div class="modal fade" id="viewstudentdetails" tabindex="-1" aria-labelledby="viewstudentdetailsLabel" aria-hidden="true">
+<div class="modal fade" id="viewstaffdetails" tabindex="-1" aria-labelledby="viewstaffdetailsLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title" style="color: black;">Student Details</div>
+                <div class="modal-title" style="color: black;">Staff Details</div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -63,35 +63,23 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label>Full Name</label>
-                            <input type="text" class="form-control" value="Nur Izzati Aqilah Binti Rahmad" readonly>
+                            <input type="text" class="form-control" value="Muhammad Farhan Bin Mas' Aedi" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Matric Number</label>
-                            <input type="text" class="form-control" value="B032320078" readonly>
+                            <label>Staff Number</label>
+                            <input type="text" class="form-control" value="A123456" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Identification Card Number</label>
-                            <input type="text" class="form-control" value="030119-01-0108" readonly>
+                            <label>Company Name</label>
+                            <input type="text" class="form-control" value="Henry Brunch Maintenance" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Phone Number</label>
-                            <input type="text" class="form-control" value="019-7327658" readonly>
+                            <input type="text" class="form-control" value="011-23456789" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Faculty</label>
-                            <input type="text" class="form-control" value="Faculty of Information and Communication Technology" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Course</label>
-                            <input type="text" class="form-control" value="Bachelor of Science Computer (Database Management) with Honours" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Year of Study</label>
-                            <input type="text" class="form-control" value="2" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Room Number</label>
-                            <input type="text" class="form-control" value="SL-L-1-1" readonly>
+                            <label>Specializiation</label>
+                            <input type="text" class="form-control" value="Assistant Maintenance" readonly>
                         </div>
                     </div>
                 </form>
