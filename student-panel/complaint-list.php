@@ -2,13 +2,12 @@
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
-
     <!-- Meta Data -->
     <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>E-Hostel Room Complaint System - My Complaints</title>
-    <link rel="icon" href="images/logo.png" type="images/x-icon">
+    <link rel="icon" href="images/logo.png" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
     <link id="style" href="admin-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -18,11 +17,9 @@
 
     <!-- Icons CSS -->
     <link href="admin-panel/assets/css/icons.min.css" rel="stylesheet">
-
 </head>
 
 <body>
-
     <!-- App Header -->
     <header class="app-header">
         <div class="main-header-container container-fluid">
@@ -33,8 +30,6 @@
                     </div>
                 </div>
             </div>
-
-            
             <div class="header-content-right">
                 <div class="header-element">
                     <a href="#" class="header-link dropdown-toggle" id="mainHeaderProfile" data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,7 +45,7 @@
                             </div>
                         </div>
                     </a>
-                    <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
+                    <ul class="dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
                         <li><a class="dropdown-item d-flex" href="#"><i class="ti ti-logout fs-18 me-2 op-7"></i>Logout</a></li>
                     </ul>
                 </div>
@@ -62,7 +57,6 @@
     <!-- App Content -->
     <div class="main-content app-content">
         <div class="container-fluid">
-
             <!-- Page Header -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb py-sm-4 py-md-0">
                 <h1 class="page-title fw-semibold fs-18 mb-0">My Complaints</h1>
@@ -106,116 +100,59 @@
                                         <option value="general">General Complaints</option>
                                     </select>
                                 </div>
-                                
                                 <div class="mb-3">
                                     <label for="issue-type">Issue Type</label>
                                     <select class="form-control" id="issue-type" required>
                                         <option value="">Select Issue Type</option>
                                     </select>
                                 </div>
-                                
                                 <script>
-                                
-                                // Define issues related to each category
-                                const issues = {
-                                    facility: ["Plumbing", "Electrical", "Air Conditioning", "Furniture", "Broken Doors/Windows", "Others (Describe on Complaint Description field)"],
-                                    cleanliness: ["Dirty Rooms", "Overflowing Trash Bins", "Pest Infestation", "Dirty Bathrooms", "Others (Describe on Complaint Description field)"],
-                                    security: ["Broken Locks", "Unauthorized Access", "Theft", "Others (Describe on Complaint Description field)"],
-                                    internet: ["Slow Wi-Fi", "No Connection", "Others (Describe on Complaint Description field)"],
-                                    roommate: ["Noise Disturbances", "Conflicts", "Smoking or Prohibited Activities", "Others (Describe on Complaint Description field)"],
-                                    general: ["Unresponsive Management", "Delayed Issue Resolution", "Others (Describe on Complaint Description field)"]
-                                };
-                                
-                                // Filter issues based on the selected complaint type
-                                function filterIssueType() {
-                                    const complaintType = document.getElementById("complaint-type").value;
-                                    const issueType = document.getElementById("issue-type");
-                                    
-                                    // Clear existing options
-                                    issueType.innerHTML = '<option value="">Select Issue Type</option>';
-                                    
-                                    // Add options specific to the selected complaint type
-                                    if (issues[complaintType]) {
-                                        issues[complaintType].forEach(issue => {
-                                            const option = document.createElement("option");
-                                            option.value = issue.toLowerCase().replace(/\s+/g, "-");
-                                            option.textContent = issue;
-                                            issueType.appendChild(option);
-                                        });
+                                    const issues = {
+                                        facility: ["Plumbing", "Electrical", "Air Conditioning", "Furniture", "Broken Doors/Windows", "Others (Describe on Complaint Description field)"],
+                                        cleanliness: ["Dirty Rooms", "Overflowing Trash Bins", "Pest Infestation", "Dirty Bathrooms", "Others (Describe on Complaint Description field)"],
+                                        security: ["Broken Locks", "Unauthorized Access", "Theft", "Others (Describe on Complaint Description field)"],
+                                        internet: ["Slow Wi-Fi", "No Connection", "Others (Describe on Complaint Description field)"],
+                                        roommate: ["Noise Disturbances", "Conflicts", "Smoking or Prohibited Activities", "Others (Describe on Complaint Description field)"],
+                                        general: ["Unresponsive Management", "Delayed Issue Resolution", "Others (Describe on Complaint Description field)"]
+                                    };
+
+                                    function filterIssueType() {
+                                        const complaintType = document.getElementById("complaint-type").value;
+                                        const issueType = document.getElementById("issue-type");
+                                        issueType.innerHTML = '<option value="">Select Issue Type</option>';
+                                        if (issues[complaintType]) {
+                                            issues[complaintType].forEach(issue => {
+                                                const option = document.createElement("option");
+                                                option.value = issue.toLowerCase().replace(/\s+/g, "-");
+                                                option.textContent = issue;
+                                                issueType.appendChild(option);
+                                            });
+                                        }
                                     }
-                                    }
-                                    </script>
-                                    
-                                    <div class="mb-3">
-                                        <label for="complaint-description">Complaint Description</label>
-                                        <textarea class="form-control" id="complaint-description" rows="4" placeholder="Describe your complaint here..." required></textarea>
-                                    </div>
-                                    
-                                    <!-- Image Upload Field -->
-                                     <div class="mb-3">
-                                        <label for="complaint-image">Upload Image</label>
-                                        <input type="file" class="form-control" id="complaint-image" name="complaint-image" accept="image/*">
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <button type="submit" class="btn btn-primary">Submit Complaint</button>
-                                    </div>
-                                </form>
-                            </div>
+                                </script>
+                                <div class="mb-3">
+                                    <label for="complaint-description">Complaint Description</label>
+                                    <textarea class="form-control" id="complaint-description" rows="4" placeholder="Describe your complaint here..." required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="complaint-image">Upload Image</label>
+                                    <input type="file" class="form-control" id="complaint-image" name="complaint-image" accept="image/*">
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary">Submit Complaint</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <!-- Complaint Form Section -->
-                 
-                <!-- Complaints Table Section -->
-                 <div class="row mt-4">
-                    <div class="col-md-12">
-                        <div class="card custom-card">
-                            <div class="card-header">
-                                <div class="card-title">My Existing Complaints</div>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Complaint ID</th>
-                                            <th>Complaint Type</th>
-                                            <th>Issue Type</th>
-                                            <th>Description</th>
-                                            <th>Date Filled</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>123456</td>
-                                            <td>Security Issues</td>
-                                            <td>Broken Locks</td>
-                                            <td>My door lock was broken</td>
-                                            <td>2024-04-15</td>
-                                            <td>Pending</td>
-                                            <td>
-                                                <a href="#" class="btn btn-info btn-sm">View</a>
-                                                <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                                                <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Complaints Table Section -->
-                 
-                <!-- Complaints Table Section -->
-                 <div class="col-md-12">
+            </div>
+
+            <!-- Complaints Table Section -->
+            <div class="row mt-4">
+                <div class="col-md-12">
                     <div class="card custom-card">
                         <div class="card-header">
-                            <div class="card-title">Complaint Issue History</div>
+                            <div class="card-title">My Existing Complaints</div>
                         </div>
                         <div class="card-body">
                             <table class="table table-striped">
@@ -226,30 +163,71 @@
                                         <th>Complaint Type</th>
                                         <th>Issue Type</th>
                                         <th>Description</th>
+                                        <th>Date Filled</th>
                                         <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>1</td>
                                         <td>123456</td>
-                                        <td>Room Issues</td>
-                                        <td>Plumbing</td>
-                                        <td>Leaking tap in the bathroom</td>
-                                        <td>Resolved</td>
+                                        <td>Security Issues</td>
+                                        <td>Broken Locks</td>
+                                        <td>My door lock was broken</td>
+                                        <td>2024-04-15</td>
+                                        <td>Pending</td>
+                                        <td>
+                                            <button 
+                                                type="button" 
+                                                class="btn btn-info btn-sm" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#complaintModal" 
+                                                onclick="populateModal('123456', 'My door lock was broken', 'images/door-lock.jpg')">
+                                                View
+                                            </button>
+                                            <a href="#" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <!-- Complaints Table Section -->
-
             </div>
 
+            <!-- Modal Section -->
+            <div class="modal fade" id="complaintModal" tabindex="-1" aria-labelledby="complaintModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="complaintModalLabel">Complaint Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <img id="complaintImage" src="" alt="Complaint Image" class="img-fluid mb-3" />
+                            </div>
+                            <p id="complaintDescription"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- App Content -->
+
+    <script>
+        function populateModal(complaintID, description, imagePath) {
+            document.getElementById('complaintImage').src = imagePath;
+            document.getElementById('complaintDescription').textContent = description;
+            document.getElementById('complaintModalLabel').textContent = `Complaint ID: ${complaintID}`;
+        }
+    </script>
 
     <!-- Bootstrap JS -->
     <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
