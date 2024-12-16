@@ -46,6 +46,7 @@
                         <td>019-7327658</td>
                         <td>
                             <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewcomplaindetails">View</button>
+                            <button class="btn btn-success btn-assign" data-bs-toggle="modal" data-bs-target="#assigncomplaintmodal">Assign Complaint</button>
                         </td>
                     </tr>
                 </tbody>
@@ -87,6 +88,45 @@
         </div>
     </div>
 </div>
+
+<!-- Modal 2: Assign Complaint -->
+<div class="modal fade" id="assigncomplaintmodal" tabindex="-1" aria-labelledby="assigncomplaintmodalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assigncomplaintmodalLabel" style="color: black;">Assign Complaint</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Complaint ID</label>
+                            <input type="text" class="form-control" value="123456" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Assign To</label>
+                            <select class="form-control">
+                                <option value="">Select Staff</option>
+                                <option value="staff1">Staff Member 1</option>
+                                <option value="staff2">Staff Member 2</option>
+                                <option value="staff3">Staff Member 3</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label>Remarks</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="button" class="btn btn-primary">Assign</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     $(document).ready(function() {
