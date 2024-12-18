@@ -1,28 +1,3 @@
-
-<?php
-session_start(); // Start a session to store user data
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Capture the username and password from the form
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // Example: Hardcoded valid username and password (you should replace this with your database query)
-    $valid_username = "student"; // Replace with your database lookup
-    $valid_password = "password"; // Replace with your database lookup
-
-    if ($username === $valid_username && $password === $valid_password) {
-        // Successful login, redirect to the dashboard or homepage
-        $_SESSION['user_username'] = $username; // Store username in session
-        header('Location: dashboard.php'); // Redirect to the dashboard page
-        exit();
-    } else {
-        // Incorrect credentials, show an error message
-        $error_message = "Invalid username or password!";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-vertical-style="overlay" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close">
 
