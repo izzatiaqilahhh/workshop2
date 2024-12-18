@@ -6,7 +6,7 @@ $password = '';      // Your MySQL password
 $database = 'hostelcomplaint'; // Replace with your database name
 
 // Create a connection
-$conn = mysqli($host, $user, $password, $database);
+$conn =  new mysqli($host, $user, $password, $database);
 
 // Check the connection
 if ($conn->connect_error) {
