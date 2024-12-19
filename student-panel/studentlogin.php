@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['username'] = $username; // You can get this from the database
 
         // Redirect to dashboard.php after successful login
-        header("Location: dashboard.php");
+        header("Location: studentdashboard.php");
         exit(); // Ensure no further code runs after redirection
     } else {
         $error_message = "Invalid username or password.";

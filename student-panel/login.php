@@ -43,7 +43,7 @@
       <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
 
         <!-- Login Form -->
-        <form action="studentlogin.php" method="POST">
+        <form action="studentdashboard.php" method="POST">
           <div class="card custom-card" style="background-color:rgba(255,255,255,0.8);">
             <div class="card-body p-5">
               <p class="h5 fw-semibold mb-2 text-center text-default">Log In</p>
