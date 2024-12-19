@@ -2,9 +2,6 @@
 // Start the session
 session_start();
 
-// Include database connection
-require_once 'teahconnect.php';
-
 // Reopen the connection for use
 $conn = new mysqli($host, $user, $password, $dbname);
 
@@ -37,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['password'] = $row['password'];
 
             // Redirect to student dashboard
-            header("Location: studentdashboard.php");
+            header("Location: dashboard.php");
             exit();
         } else {
             $error = "Invalid username or password.";
@@ -47,28 +44,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In</title>
-    <link rel="stylesheet" href="admin-panel/assets/libs/bootstrap/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <?php if (isset($error)): ?>
-                    <div class="alert alert-danger" role="alert">
-                        <?= $error ?>
-                    </div>
-                <?php endif; ?>
-                <a href="login.php" class="btn btn-secondary mb-3">Go Back</a>
-            </div>
-        </div>
-    </div>
-    <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
