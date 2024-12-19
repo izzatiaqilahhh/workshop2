@@ -1,61 +1,68 @@
 <?php
+// Start the session
 session_start();
 
-// Include the database connection file
-include('teahconnect.php');
+// Include database connection
+require_once 'teahconnect.php';
 
-if (isset($_POST['loginBtn'])) {
-    // Sanitize and retrieve user inputs
-    $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-    $password = $_POST['password'];
+// Reopen the connection for use
+$conn = new mysqli($host, $user, $password, $dbname);
 
-    // Create a database connection
-    $conn = new mysqli($host, $user, $password, $database, $port);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $inputUsername = $conn->real_escape_string($_POST['username']);
+    $inputPassword = $conn->real_escape_string($_POST['password']);
 
-    // Prepare the SQL query to fetch the user data based on username
-    $sql = "SELECT * FROM Student WHERE Username = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // SQL query to fetch user details
+    $sql = "SELECT * FROM student WHERE username = '$inputUsername'";
+    $result = $conn->query($sql);
 
-    // Check if the username exists in the database
     if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
+        $row = $result->fetch_assoc();
+        // Verify password
+        if (password_verify($inputPassword, $row['password'])) {
+            // Save user info in the session
+            $_SESSION['username'] = $row['username'];
+            $_SESSION['student_id'] = $row['id'];
 
-        // Verify the password
-        if (password_verify($password, $user['Password'])) {
-            // Regenerate session ID
-            session_regenerate_id(true);
-
-            // Create session variables
-            $_SESSION['user_id'] = $user['Matric_No'];
-            $_SESSION['user_name'] = $user['Name'];
-
-            // Redirect to the student dashboard
+            // Redirect to student dashboard
             header("Location: dashboard.php");
             exit();
         } else {
-            $error_message = "Incorrect password!";
+            $error = "Invalid username or password.";
         }
     } else {
-        $error_message = "No user found with that username!";
+        $error = "Invalid username or password.";
     }
-
-    // Close statement and connection
-    $stmt->close();
-    $conn->close();
 }
 ?>
 
-<!-- Display Error Message -->
-<?php if (isset($error_message)) { ?>
-    <div class="alert alert-danger text-center">
-        <?php echo htmlspecialchars($error_message); ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link rel="stylesheet" href="admin-panel/assets/libs/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <?php if (isset($error)): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?= $error ?>
+                    </div>
+                <?php endif; ?>
+                <a href="index.php" class="btn btn-secondary mb-3">Go Back</a>
+            </div>
+        </div>
     </div>
-<?php } ?>
+    <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
