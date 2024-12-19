@@ -15,8 +15,8 @@ if ($conn->connect_error) {
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $inputUsername = $conn->real_escape_string($_POST['username']);
-    $inputPassword = $conn->real_escape_string($_POST['password']);
+    $inputUsername = trim($conn->real_escape_string($_POST['username']));
+    $inputPassword = trim($conn->real_escape_string($_POST['password']));
 
     // SQL query to fetch user details
     $sql = "SELECT * FROM student WHERE username = '$inputUsername'";
@@ -24,6 +24,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
+        
+        // Debugging: Check what the database returns
+        echo "<pre>";
+        var_dump($row); // This will print the entire fetched row
+        echo "</pre>";
+
         // Verify password
         if (password_verify($inputPassword, $row['password'])) {
             // Save user info in the session
@@ -59,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?= $error ?>
                     </div>
                 <?php endif; ?>
-                <a href="index.php" class="btn btn-secondary mb-3">Go Back</a>
+                <a href="login.php" class="btn btn-secondary mb-3">Go Back</a>
             </div>
         </div>
     </div>
