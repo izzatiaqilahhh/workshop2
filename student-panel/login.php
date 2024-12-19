@@ -50,8 +50,8 @@
               <p class="mb-4 text-muted op-7 fw-normal text-center">Student Panel</p>
               <div class="row gy-3">
                 <div class="col-xl-12">
-                  <label for="signin-username" class="form-label text-default">Email Address</label>
-                  <input type="email" class="form-control form-control-lg" id="signin-username" placeholder="Email Address" required>
+                  <label for="signin-username" class="form-label text-default">Username</label>
+                  <input type="text" class="form-control form-control-lg" id="signin-username" placeholder="Username" required>
                 </div>
                 <div class="col-xl-12 mb-2">
                   <label for="signin-password" class="form-label text-default d-block">Password</label>
