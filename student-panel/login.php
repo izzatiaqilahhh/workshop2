@@ -20,25 +20,7 @@
 
   <!-- Icons CSS -->
   <link href="admin-panel/assets/css/icons.min.css" rel="stylesheet">
-
-  <!-- JavaScript for toggling password visibility -->
-  <script>
-    function createpassword(inputId, button) {
-      var passwordInput = document.getElementById(inputId);
-      var passwordType = passwordInput.type;
-
-      if (passwordType === "password") {
-        passwordInput.type = "text";
-        button.innerHTML = "<i class='ri-eye-line align-middle'></i>";
-      } else {
-        passwordInput.type = "password";
-        button.innerHTML = "<i class='ri-eye-off-line align-middle'></i>";
-      }
-    }
-  </script>
 </head>
-
-<body>
 
   <!-- App Header -->
   <header class="app-header" style="background-color:rgba(0,0,0,0.0); border:0">
@@ -61,42 +43,38 @@
       <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
 
         <!-- Login Form -->
-        <form action="login.php" method="POST">
-          <div class="card custom-card" style="background-color:rgba(255,255,255,0.8);">
-            <div class="card-body p-5">
-              <p class="h5 fw-semibold mb-2 text-center text-default">Log In</p>
-              <p class="mb-4 text-muted op-7 fw-normal text-center">Student Panel</p>
-              <div class="row gy-3">
+        <form action="studentlogin.php" method="POST">
+    <div class="card custom-card" style="background-color:rgba(255,255,255,0.8);">
+        <div class="card-body p-5">
+            <p class="h5 fw-semibold mb-2 text-center text-default">Log In</p>
+            <p class="mb-4 text-muted op-7 fw-normal text-center">Student Panel</p>
+            <div class="row gy-3">
                 <div class="col-xl-12">
-                  <label for="signin-username" class="form-label text-default">Email Address</label>
-                  <input type="email" class="form-control form-control-lg" id="signin-username" name="email" placeholder="Email Address" required>
+                    <label for="signin-username" class="form-label text-default">Username</label>
+                    <input type="text" class="form-control form-control-lg" id="signin-username" name="username" placeholder="Username" required>
                 </div>
                 <div class="col-xl-12 mb-2">
-                  <label for="signin-password" class="form-label text-default d-block">Password</label>
-                  <div class="input-group">
-                    <input type="password" class="form-control form-control-lg" id="signin-password" name="password" placeholder="Password" required>
-                    <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
-                  </div>
+                    <label for="signin-password" class="form-label text-default d-block">Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control form-control-lg" id="signin-password" name="password" placeholder="Password" required>
+                        <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
+                    </div>
                 </div>
                 <div class="col-xl-12 d-grid mt-2">
-                  <button type="submit" name="loginBtn" class="btn btn-lg btn-primary-gradient">Log In</button>
+                    <button type="submit" name="loginBtn" class="btn btn-lg btn-primary-gradient">Log In</button>
                 </div>
-              </div>
-              <div class="text-center">
-                <p class="fs-12 text-muted mt-3">Forgot Password? <a href="forgot-password.php" class="text-primary text-decoration-underline">Reset Password Here</a></p>
-              </div>
             </div>
-          </div>
-        </form>
-        <!-- Login Form -->
-
-      </div>
+            <div class="text-center">
+                <p class="fs-12 text-muted mt-3">Forgot Password? <a href="forgot-password.php" class="text-primary text-decoration-underline">Reset Password Here</a></p>
+            </div>
+        </div>
     </div>
-  </div>
+</form>
+        <!-- Login Form -->
 
   <!-- Bootstrap JS -->
   <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+  
 </body>
 
 </html>
