@@ -1,46 +1,26 @@
 <?php
-// Start the session
 session_start();
 
-// Reopen the connection for use
-$conn = new mysqli($host, $user, $password, $dbname);
+include('teahconnect.php');
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Dummy login credentials for demonstration (replace with database query)
+$valid_username = 'username'; // Replace with database query
+$valid_password = 'password'; // Replace with database query
 
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $inputUsername = trim($conn->real_escape_string($_POST['username']));
-    $inputPassword = trim($conn->real_escape_string($_POST['password']));
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    // SQL query to fetch user details
-    $sql = "SELECT * FROM student WHERE username = '$inputUsername'";
-    $result = $conn->query($sql);
+    // Check if the username and password match the valid ones
+    if ($username === $valid_username && $password === $valid_password) {
+        // Start the session and store the user data
+        $_SESSION['username'] = $username; // You can get this from the database
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        
-        // Debugging: Check what the database returns
-        echo "<pre>";
-        var_dump($row); // This will print the entire fetched row
-        echo "</pre>";
-
-        // Verify password
-        if (password_verify($inputPassword, $row['password'])) {
-            // Save user info in the session
-            $_SESSION['username'] = $row['username'];
-            $_SESSION['password'] = $row['password'];
-
-            // Redirect to student dashboard
-            header("Location: dashboard.php");
-            exit();
-        } else {
-            $error = "Invalid username or password.";
-        }
+        // Redirect to dashboard.php after successful login
+        header("Location: dashboard.php");
+        exit(); // Ensure no further code runs after redirection
     } else {
-        $error = "Invalid username or password.";
+        $error_message = "Invalid username or password.";
     }
 }
 ?>
