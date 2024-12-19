@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($inputPassword, $row['password'])) {
             // Save user info in the session
             $_SESSION['username'] = $row['username'];
-            $_SESSION['student_id'] = $row['id'];
+            $_SESSION['password'] = $row['password'];
 
             // Redirect to student dashboard
             header("Location: dashboard.php");
