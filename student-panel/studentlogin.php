@@ -18,7 +18,7 @@ if (isset($_POST['loginBtn'])) {
     }
 
     // Prepare the SQL query to fetch user data
-    $sql = "SELECT * FROM Student WHERE Username = ?";
+    $sql = "SELECT * FROM student WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -29,7 +29,7 @@ if (isset($_POST['loginBtn'])) {
         $user = $result->fetch_assoc();
 
         // Check if the password is correct
-        if (password_verify($password, $user['Password'])) {
+        if (password_verify($password, $user['password'])) {
             // Regenerate session ID
             session_regenerate_id(true);
 
