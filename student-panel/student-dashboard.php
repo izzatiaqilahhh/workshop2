@@ -8,7 +8,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>E-Hostel Room Complaint System - Dashboard</title>
+    <title>E-Hostel Room Complaint System - Student Dashboard</title>
 
     <link rel="icon" href="images/logo.png" type="images/x-icon">
 
@@ -86,7 +86,7 @@
                         <div class="card-body">
                             <h5 class="card-title">My Profile</h5>
                             <p class="card-text">View and edit your personal details.</p>
-                            <a href="profile.php" class="btn btn-primary">Go to Profile</a>
+                            <a href="student-profile.php" class="btn btn-primary">Go to Profile</a>
                         </div>
                     </div>
                 </div>
