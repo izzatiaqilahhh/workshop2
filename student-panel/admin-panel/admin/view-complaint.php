@@ -2,13 +2,16 @@
 
 <title>E-Hostel Room Complaint System - Complaint Management</title>
 
-<script src="../assets/js/jquery-3.7.1.min.js"></script>
-
 <!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
+
+<!-- DataTables Buttons CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
 
-<!-- App Content -->
+<!-- DataTables Responsive CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
+
+<!-- Start::app-content -->
 <div class="main-content app-content">
     <div class="container">
 
@@ -18,44 +21,50 @@
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="dashboard.php">Complaint Management</a></li>
+                        <li class="breadcrumb-item"><a href="view-complaint.php">Complaint Management</a></li>
                     </ol>
                 </nav>
             </div>
         </div>
+        <!-- Page Header Close -->
 
-        <!-- Row 1 -->
+        <!-- Start::row-1 -->
         <div class="row mb-4">
             <table class="table table-bordered display">
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Complaint ID</th>
+                        <th>Complaint Number</th>
                         <th>Student Name</th>
                         <th>Matric Number</th>
                         <th>Phone Number</th>
+                        <th>Room Number</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                   
                     <tr>
-                        <td>1</td>
-                        <td>123456</td>
-                        <td>Nur Izzati Aqilah Binti Rahmad</td>
-                        <td>B032320078</td>
-                        <td>019-7327658</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td>
                             <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewcomplaindetails">View</button>
-                            <button class="btn btn-success btn-assign" data-bs-toggle="modal" data-bs-target="#assigncomplaintmodal">Assign Complaint</button>
+                            <button class="btn btn-success btn-assign" data-bs-toggle="modal" data-bs-target="#assigncomplaintmodal">Assign</button>
                         </td>
                     </tr>
+                    
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<!-- End::row-1 -->
 
-<!-- Modal 1 -->
+<!-- Modal: View Complaint Details -->
 <div class="modal fade" id="viewcomplaindetails" tabindex="-1" aria-labelledby="viewcomplaintdetailsLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -66,10 +75,13 @@
             <div class="modal-body">
                 <form>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label>Room Number</label>
-                            <input type="text" class="form-control" value="SL-L-1-1" readonly>
+
+                        <!-- New Field for Complaint Image -->
+                        <div class="col-md-12 mb-3">
+                            <label>Complaint Image</label>
+                            <img src="<?php echo '../uploads/' . $complaint_image; ?>" alt="Complaint Image" class="img-fluid" style="max-width: 100%; height: auto; border: 1px solid #ddd;">
                         </div>
+
                         <div class="col-md-6 mb-3">
                             <label>Complaint Type</label>
                             <input type="text" class="form-control" value="Security Issues" readonly>
@@ -80,7 +92,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Complaint Description</label>
-                            <input type="text" class="form-control" value="My doow locks was broken." readonly>
+                            <input type="text" class="form-control" value="My door locks was broken." readonly>
                         </div>
                     </div>
                 </form>
@@ -89,7 +101,7 @@
     </div>
 </div>
 
-<!-- Modal 2: Assign Complaint -->
+<!-- Modal: Assign Complaint -->
 <div class="modal fade" id="assigncomplaintmodal" tabindex="-1" aria-labelledby="assigncomplaintmodalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -119,7 +131,7 @@
                         </div>
                     </div>
                     <div class="text-end">
-                        <button type="button" class="btn btn-primary">Assign</button>
+                        <button type="submit" class="btn btn-primary">Assign</button>
                     </div>
                 </form>
             </div>
@@ -127,11 +139,19 @@
     </div>
 </div>
 
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
 <script>
     $(document).ready(function() {
         $('.table').DataTable({
-            responsive: true
+            responsive: true,
+            dom: 'Bfrtip',
+            buttons: [
+                { extend: 'copyHtml5', exportOptions: { columns: [0, ':visible'] } },
+                { extend: 'excelHtml5', exportOptions: { columns: ':visible' } },
+                { extend: 'pdfHtml5', exportOptions: { columns: [0, 1, 2, 5] } },
+                'colvis'
+            ]
         });
     });
 </script>

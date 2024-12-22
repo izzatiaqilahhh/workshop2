@@ -18,7 +18,7 @@
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="dashboard.php">Complaint Management</a></li>
+                        <li class="breadcrumb-item"><a href="view-complaint.php">Complaint Management</a></li>
                     </ol>
                 </nav>
             </div>
@@ -46,7 +46,7 @@
                         <td>019-7327658</td>
                         <td>
                             <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewcomplaindetails">View</button>
-                            <button class="btn btn-success btn-assign" data-bs-toggle="modal" data-bs-target="#assigncomplaintmodal">Assign Complaint</button>
+                            <button class="btn btn-success btn-assign" data-bs-toggle="modal" data-bs-target="#assigncomplaintmodal">Assign</button>
                         </td>
                     </tr>
                 </tbody>

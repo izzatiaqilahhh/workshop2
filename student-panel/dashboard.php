@@ -2,15 +2,14 @@
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
-
     <!-- Meta Data -->
     <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>E-Hostel Room Complaint System - Student Dashboard</title>
 
-    <link rel="icon" href="images/logo.png" type="images/x-icon">
+    <link rel="icon" href="images/logo.png" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
     <link id="style" href="admin-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -77,23 +76,21 @@
             <!-- Page Header -->
 
             <!-- Dashboard Modules Section -->
-             <div class="row mt-4">
-                <!-- Dashboard Modules Section -->
-
+            <div class="row mt-4">
                 <!-- My Profile Section -->
-                <div class="col-md-4">
+                <div class="col-sm-12 col-md-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <h5 class="card-title">My Profile</h5>
                             <p class="card-text">View and edit your personal details.</p>
-                            <a href="student-profile.php" class="btn btn-primary">Go to Profile</a>
+                            <a href="profile.php" class="btn btn-primary">Go to Profile</a>
                         </div>
                     </div>
                 </div>
                 <!-- My Profile Section -->
 
                 <!-- My Complaints Section -->
-                <div class="col-md-4">
+                <div class="col-sm-12 col-md-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <h5 class="card-title">My Complaints</h5>
@@ -105,7 +102,7 @@
                 <!-- My Complaints Section -->
 
                 <!-- Room Information Section -->
-                <div class="col-md-4">
+                <div class="col-sm-12 col-md-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <h5 class="card-title">Hostel Information</h5>
@@ -115,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Room Information Section -->
+            <!-- Dashboard Modules Section -->
 
         </div>
     </div>

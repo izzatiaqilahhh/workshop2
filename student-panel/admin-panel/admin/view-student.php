@@ -2,13 +2,16 @@
 
 <title>E-Hostel Room Complaint System - Student Management</title>
 
-<script src="../assets/js/jquery-3.7.1.min.js"></script>
-
 <!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
+
+<!-- DataTables Buttons CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
 
-<!-- App Content -->
+<!-- DataTables Responsive CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
+
+<!-- Start::app-content -->
 <div class="main-content app-content">
     <div class="container">
 
@@ -18,39 +21,46 @@
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="dashboard.php">Student Management</a></li>
+                        <li class="breadcrumb-item"><a href="view-student.php">Student Management</a></li>
                     </ol>
                 </nav>
             </div>
         </div>
 
-        <!-- Row 1 -->
+        <!-- Start::row-1 -->
         <div class="row mb-4">
             <table class="table table-bordered display">
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Student ID</th>
+                        <th>Matric Number</th>
                         <th>Student Name</th>
+                        <th>Identification Card Number</th>
+                        <th>Phone Number</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    
                     <tr>
-                        <td>1</td>
-                        <td>123456</td>
-                        <td>Nur Izzati Aqilah Binti Rahmad</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td>
-                            <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewstudentdetails">View</button>
+                            <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewstudentdetails" data-id="<?= $student['student_id'] ?>">View</button>
                         </td>
                     </tr>
+                   
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<!-- End::row-1 -->
 
-<!-- Modal 1 -->
+<!-- Modal: View Student Details -->
 <div class="modal fade" id="viewstudentdetails" tabindex="-1" aria-labelledby="viewstudentdetailsLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -62,36 +72,24 @@
                 <form>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label>Full Name</label>
-                            <input type="text" class="form-control" value="Nur Izzati Aqilah Binti Rahmad" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Matric Number</label>
-                            <input type="text" class="form-control" value="B032320078" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Identification Card Number</label>
-                            <input type="text" class="form-control" value="030119-01-0108" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Phone Number</label>
-                            <input type="text" class="form-control" value="019-7327658" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
                             <label>Faculty</label>
-                            <input type="text" class="form-control" value="Faculty of Information and Communication Technology" readonly>
+                            <input type="text" class="form-control" id="faculty" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Course</label>
-                            <input type="text" class="form-control" value="Bachelor of Science Computer (Database Management) with Honours" readonly>
+                            <input type="text" class="form-control" id="course" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Gender</label>
+                            <input type="text" class="form-control" id="gender" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Year of Study</label>
-                            <input type="text" class="form-control" value="2" readonly>
+                            <input type="text" class="form-control" id="year_of_study" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Room Number</label>
-                            <input type="text" class="form-control" value="SL-L-1-1" readonly>
+                            <input type="text" class="form-control" id="room_number" readonly>
                         </div>
                     </div>
                 </form>
@@ -100,10 +98,49 @@
     </div>
 </div>
 
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
 <script>
     $(document).ready(function() {
         $('.table').DataTable({
-            responsive: true
+            responsive: true,
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 5]
+                    }
+                },
+                'colvis'
+            ]
+        });
+
+        $('.btn-view').click(function() {
+            var studentId = $(this).data('id');
+            // Use AJAX to get student details by ID and populate the modal fields
+            $.ajax({
+                url: 'get_student_details.php',
+                method: 'POST',
+                data: { id: studentId },
+                success: function(response) {
+                    $('#student_name').val(response.student_name);
+                    $('#matric_number').val(response.matric_number);
+                    // Set other fields similarly
+                }
+            });
         });
     });
 </script>

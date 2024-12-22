@@ -31,31 +31,61 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Staff Name</label>
-                                        <input type="text" name="name" value="" required class="form-control">
+                                        <input type="text" name="name" placeholder="Staff Name" required class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Staff Number</label>
-                                        <input type="text" name="staffno" value="" required class="form-control">
+                                        <input type="text" name="staffno" placeholder="Staff Number" required class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Email Address</label>
-                                        <input type="email" name="email" value="" required class="form-control">
+                                        <input type="email" name="email" placeholder="Email Address" required class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Phone Number</label>
-                                        <input type="text" name="phone" value="" required class="form-control">
+                                        <input type="text" name="phone" placeholder="Phone Number" required class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Specialization</label>
+                                        <input type="text" name="specialization" placeholder="Specialization" required class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Position</label>
-                                        <input type="text" name="position" value="" required class="form-control">
+                                        <input type="text" name="position" placeholder="Position" required class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Company Name</label>
+                                        <input type="text" name="name" placeholder="Company Name" required class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Company Number</label>
+                                        <input type="text" name="companyno" placeholder="Company Number" required class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Company Office Number</label>
+                                        <input type="text" name="officeno" placeholder="Company Office Number" required class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Field</label>
+                                        <input type="text" name="field" placeholder="Field" required class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -82,13 +112,13 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                  <label>Password</label>
-                                <input type="password" name="password" required class="form-control">
+                                <input type="password" name="password" placeholder="Password" required class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label>Confirm Password</label>
-                                <input type="password" name="cpassword" required class="form-control">
+                                <label>Retype Password</label>
+                                <input type="password" name="cpassword" placeholder="Retype Password" required class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">

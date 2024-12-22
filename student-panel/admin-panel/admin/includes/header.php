@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
-<!-- New Codes Start -->
-
 <head>
-
+    
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
@@ -13,17 +11,8 @@
     <!-- Favicon -->
     <link rel="icon" href="../../images/logo.png" type="images/x-icon">
 
-    <!-- Choices JS -->
-    <script src="../assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
-
-    <!-- Main Theme Js -->
-    <script src="../assets/js/main.js"></script>
-
     <!-- Bootstrap Css -->
     <link id="style" href="../assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Style Css -->
-    <link href="../assets/css/styles.min.css" rel="stylesheet">
 
     <!-- Icons Css -->
     <link href="../assets/css/icons.css" rel="stylesheet">
@@ -41,28 +30,33 @@
     <!-- Choices Css -->
     <link rel="stylesheet" href="../assets/libs/choices.js/public/assets/styles/choices.min.css">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
 
+    <!-- Style Css -->
+    <link href="../assets/css/styles.min.css" rel="stylesheet">
+
+    <!-- Choices JS -->
+    <script src="../assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    <!-- Main Theme JS -->
+    <script src="../assets/js/main.js"></script>
+
+    <!-- jQuery and Other Libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    
     <style>
         @media print {
-
-            /* Set the size of the page to mimic a mobile device */
             @page {
                 width: 100%;
                 height: auto;
                 margin: 0;
                 padding: 0;
-                /* Remove default margins */
             }
-
-            /* Adjust the body to fit the mobile aspect ratio */
-
-            /* Ensure all content fits within the mobile dimensions */
 
             .hidden-print {
                 display: none !important;
@@ -73,12 +67,11 @@
                 height: auto;
                 box-sizing: border-box;
                 padding: 16px;
-
             }
         }
     </style>
-
 </head>
+<body>
 
 <!-- Loader -->
 <div id="loader">
@@ -101,7 +94,7 @@
                 <div class="header-element">
                     <div class="horizontal-logo">
                         <a href="#" class=" fw-bolder text-black me-2  fs-20">
-                            E-Hostel Room Complaint
+                            E-Hostel Room Complaint System
                         </a>
                     </div>
                 </div>
@@ -134,7 +127,7 @@
                     </a>
                     
                     <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
-                        <li><a class="dropdown-item d-flex" href="profile-admin.php"><i class="ti ti-user-circle fs-18 me-2 op-7"></i>Profile</a></li>
+                        <li><a class="dropdown-item d-flex" href="profile.php"><i class="ti ti-user-circle fs-18 me-2 op-7"></i>Profile</a></li>
                         <li><a class="dropdown-item d-flex" href=""><i class="ti ti-logout fs-18 me-2 op-7"></i>Log Out</a></li>
                     </ul>
                 </div>
@@ -181,16 +174,8 @@
                     <!-- Slide Category -->
                     <li class="slide__category"><span class="category-name">Management</span></li>
 
-                    <!-- Slide -->
-                    <li class="slide">
-                        <a href="view-student.php" class="side-menu__item">
-                            <i class='bx bxs-user-account  side-menu__icon'></i>
-                            <span class="side-menu__label">Student</span>
-                        </a>
-                    </li>
-
-                    <!-- Slide -->
-                    <li class="slide">
+                     <!-- Slide -->
+                     <li class="slide">
                         <a href="view-complaint.php" class="side-menu__item">
                             <i class='bx bx-message-dots side-menu__icon'></i>
                             <span class="side-menu__label">Complaint</span>
@@ -202,6 +187,14 @@
                         <a href="view-repair-staff.php" class="side-menu__item">
                             <i class='bx bx-food-menu side-menu__icon'></i>
                             <span class="side-menu__label">Repair Staff</span>
+                        </a>
+                    </li>
+
+                    <!-- Slide -->
+                    <li class="slide">
+                        <a href="view-student.php" class="side-menu__item">
+                            <i class='bx bxs-user-account  side-menu__icon'></i>
+                            <span class="side-menu__label">Student</span>
                         </a>
                     </li>
 
@@ -636,3 +629,6 @@
             </div>
         </div>
     </div>
+
+    </body>
+</html>

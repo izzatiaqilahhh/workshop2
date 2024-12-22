@@ -12,7 +12,7 @@
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
                     </ol>
                 </nav>
             </div>
@@ -30,17 +30,17 @@
                 </button>
             </div>
 
-            <!-- Card 1 -->
-            <div class="col-sm-6">
+             <!-- Card 1 -->
+             <div class="col-sm-6">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-2">Total Student</p>
-                            <h4 class="mb-0 fw-semibold mb-2">123</h4>
+                            <p class="mb-2">Total Complaint</p>
+                            <h4 class="mb-0 fw-semibold mb-2"></h4>
                         </div>
                         <div>
-                            <span class="avatar avatar-md bg-primary p-2">
-                                <i class="bx bxs-user-account  side-menu__icon"></i>
+                            <span class="avatar avatar-md bg-warning p-2">
+                                <i class='bx bx-message-dots side-menu__icon'></i>
                             </span>
                         </div>
                     </div>
@@ -52,25 +52,8 @@
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-2">Total Complaint</p>
-                            <h4 class="mb-0 fw-semibold mb-2">5</h4>
-                        </div>
-                        <div>
-                            <span class="avatar avatar-md bg-warning p-2">
-                                <i class='bx bx-message-dots side-menu__icon'></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="col-sm-4">
-                <div class="card custom-card">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
                             <p class="mb-2">Total Repair Staff</p>
-                            <h4 class="mb-0 fw-semibold mb-2">45</h4>
+                            <h4 class="mb-0 fw-semibold mb-2"></h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-secondary p-2">
@@ -81,13 +64,31 @@
                 </div>
             </div>
 
+             <!-- Card 3 -->
+             <div class="col-sm-6">
+                <div class="card custom-card">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="mb-2">Total Student</p>
+                            <h4 class="mb-0 fw-semibold mb-2"></h4>
+                        </div>
+                        <div>
+                            <span class="avatar avatar-md bg-primary p-2">
+                                <i class="bx bxs-user-account side-menu__icon"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <!-- Card 4 -->
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-2">Total Admin</p>
-                            <h4 class="mb-0 fw-semibold mb-2">200</h4>
+                            <h4 class="mb-0 fw-semibold mb-2"></h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-success p-2">
@@ -97,10 +98,16 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
 </div>
 
 <?php include('includes/footer.php'); ?>
+
+<!-- Print Page JavaScript Function -->
+<script>
+function printPage() {
+    window.print();
+}
+</script>

@@ -134,7 +134,7 @@
                     </a>
                     
                     <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
-                        <li><a class="dropdown-item d-flex" href="profile-admin.php"><i class="ti ti-user-circle fs-18 me-2 op-7"></i>Profile</a></li>
+                        <li><a class="dropdown-item d-flex" href="profile.php"><i class="ti ti-user-circle fs-18 me-2 op-7"></i>Profile</a></li>
                         <li><a class="dropdown-item d-flex" href=""><i class="ti ti-logout fs-18 me-2 op-7"></i>Log Out</a></li>
                     </ul>
                 </div>
@@ -183,14 +183,6 @@
 
                     <!-- Slide -->
                     <li class="slide">
-                        <a href="view-student.php" class="side-menu__item">
-                            <i class='bx bxs-user-account  side-menu__icon'></i>
-                            <span class="side-menu__label">Student</span>
-                        </a>
-                    </li>
-
-                    <!-- Slide -->
-                    <li class="slide">
                         <a href="view-complaint.php" class="side-menu__item">
                             <i class='bx bx-message-dots side-menu__icon'></i>
                             <span class="side-menu__label">Complaint</span>
@@ -202,14 +194,6 @@
                         <a href="view-repair-staff.php" class="side-menu__item">
                             <i class='bx bx-food-menu side-menu__icon'></i>
                             <span class="side-menu__label">Repair Staff</span>
-                        </a>
-                    </li>
-
-                    <!-- Slide -->
-                    <li class="slide">
-                        <a href="view-admin.php" class="side-menu__item">
-                            <i class='bx bx-user-pin side-menu__icon'></i>
-                            <span class="side-menu__label">Admin</span>
                         </a>
                     </li>
 

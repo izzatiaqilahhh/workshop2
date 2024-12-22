@@ -20,9 +20,21 @@
 
   <!-- Icons CSS -->
   <link href="admin-panel/assets/css/icons.min.css" rel="stylesheet">
+
+  <!-- Custom Background Style (move to external CSS if needed) -->
+  <style>
+    body {
+      background-image: url('images/banner1.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+  </style>
+
 </head>
 
-<body style="background-image: url('images/banner1.jpg'); background-repeat: no-repeat; background-size: cover; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);">
+<body>
 
   <!-- App Header -->
   <header class="app-header" style="background-color:rgba(0,0,0,0.0); border:0">
@@ -44,7 +56,7 @@
   <div class="container-lg py-5">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
       <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12 my-5">
-        <form>
+        <form action="reset-password.php" method="POST">
           <div class="card custom-card" style="background-color:rgba(255,255,255,0.8);">
             <div class="card-body p-5">
               <p class="h5 fw-semibold mb-2 text-center">Forgot Password</p>

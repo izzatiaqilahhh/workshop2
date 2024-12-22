@@ -5,7 +5,7 @@
 
     <!-- Meta Data -->
     <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>E-Hostel Room Complaint System - My Profile</title>
@@ -80,7 +80,7 @@
             <!-- Profile Section -->
             <div class="row mt-4">
                 <div class="d-flex my-3">
-                    <a href="student-dashboard.php" class="btn btn-primary btn-sm">
+                    <a href="dashboard.php" class="btn btn-primary btn-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill me-2" viewBox="0 0 16 16">
                             <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
                         </svg>
@@ -92,35 +92,35 @@
                         <div class="card-title">My Details</div>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form method="POST" action="update-profile.php">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label>Full Name</label>
-                                    <input type="text" class="form-control" placeholder="Full Name">
+                                    <label for="fullName">Full Name</label>
+                                    <input type="text" id="fullName" class="form-control" name="fullName" value="Nur Izzati Aqilah Binti Rahmad" placeholder="Full Name">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Matric Number</label>
-                                    <input type="text" class="form-control" placeholder="Matric Number">
+                                    <label for="matricNumber">Matric Number</label>
+                                    <input type="text" id="matricNumber" class="form-control" name="matricNumber" value="B032320078" placeholder="Matric Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Identification Card Number</label>
-                                    <input type="text" class="form-control" placeholder="Identification Card Number">
+                                    <label for="icNumber">Identification Card Number</label>
+                                    <input type="text" id="icNumber" class="form-control" name="icNumber" value="Your IC Number" placeholder="Identification Card Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Phone Number</label>
-                                    <input type="text" class="form-control" placeholder="Phone Number">
+                                    <label for="phoneNumber">Phone Number</label>
+                                    <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" value="0123456789" placeholder="Phone Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Faculty</label>
-                                    <input type="text" class="form-control" placeholder="Faculty">
+                                    <label for="faculty">Faculty</label>
+                                    <input type="text" id="faculty" class="form-control" name="faculty" value="Faculty of Information Technology" placeholder="Faculty">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Course</label>
-                                    <input type="text" class="form-control" placeholder="Course">
+                                    <label for="course">Course</label>
+                                    <input type="text" id="course" class="form-control" name="course" value="Software Engineering" placeholder="Course">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Year of Study</label>
-                                    <select class="form-control">
+                                    <label for="yearOfStudy">Year of Study</label>
+                                    <select id="yearOfStudy" class="form-control" name="yearOfStudy">
                                         <option>Year 1</option>
                                         <option>Year 2</option>
                                         <option>Year 3</option>
@@ -129,7 +129,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="d-flex justify-content-start align-items-center">
-                                    <button type="button" class="btn btn-primary">Save Changes</button>
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
                                     </div>
                                 </div>
                             </div>
@@ -139,36 +139,36 @@
             </div>
             <!-- Profile Section -->
             
-             <!-- Change Password Section -->
-            <div class="card custom-card">
-                    <div class="card-header">
-                        <div class="card-title">Change Password</div>
-                    </div>
-                    <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Password</label>
-                                    <input type="text" class="form-control" placeholder="Password">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Retype Password</label>
-                                    <input type="text" class="form-control" placeholder="Retype Password">
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="d-flex justify-content-start align-items-center">
-                                    <button type="button" class="btn btn-primary">Save Changes</button>
-                                    </div>
+            <!-- Change Password Section -->
+            <div class="card custom-card mt-4">
+                <div class="card-header">
+                    <div class="card-title">Change Password</div>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="update-password.php">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" class="form-control" name="password" placeholder="Password">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="retypePassword">Retype Password</label>
+                                <input type="password" id="retypePassword" class="form-control" name="retypePassword" placeholder="Retype Password">
+                            </div>
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             <!-- Change Password Section -->
 
         </div>
     </div>
-     <!-- App Content -->
+    <!-- App Content -->
 
     <!-- Bootstrap JS -->
     <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
