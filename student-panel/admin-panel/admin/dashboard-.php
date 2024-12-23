@@ -12,7 +12,7 @@
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="dashboard-.php">Dashboard</a></li>
                     </ol>
                 </nav>
             </div>
