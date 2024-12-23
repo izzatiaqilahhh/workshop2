@@ -45,8 +45,8 @@
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1">Nur Izzati Aqilah Binti Rahmad</p>
-                                <span class="op-7 fw-normal d-block fs-11">B032320078@student.utem.edu.my</span>
+                                <p class="fw-semibold mb-0 lh-1"></p>
+                                <span class="op-7 fw-normal d-block fs-11"></span>
                             </div>
                         </div>
                     </a>
@@ -69,7 +69,7 @@
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Nur Izzati Aqilah Binti Rahmad</a></li>
+                            <li class="breadcrumb-item"><a href="#"></a></li>
                             <li class="breadcrumb-item active" aria-current="page">My Profile</li>
                         </ol>
                     </nav>
@@ -96,31 +96,32 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="fullName">Full Name</label>
-                                    <input type="text" id="fullName" class="form-control" name="fullName" value="Nur Izzati Aqilah Binti Rahmad" placeholder="Full Name">
+                                    <input type="text" id="fullName" class="form-control" name="fullName" value="" placeholder="Full Name">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="matricNumber">Matric Number</label>
-                                    <input type="text" id="matricNumber" class="form-control" name="matricNumber" value="B032320078" placeholder="Matric Number">
+                                    <input type="text" id="matricNumber" class="form-control" name="matricNumber" value="" placeholder="Matric Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="icNumber">Identification Card Number</label>
-                                    <input type="text" id="icNumber" class="form-control" name="icNumber" value="Your IC Number" placeholder="Identification Card Number">
+                                    <input type="text" id="icNumber" class="form-control" name="icNumber" value="" placeholder="Identification Card Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="phoneNumber">Phone Number</label>
-                                    <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" value="0123456789" placeholder="Phone Number">
+                                    <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" value="" placeholder="Phone Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="faculty">Faculty</label>
-                                    <input type="text" id="faculty" class="form-control" name="faculty" value="Faculty of Information Technology" placeholder="Faculty">
+                                    <input type="text" id="faculty" class="form-control" name="faculty" value="" placeholder="Faculty">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="course">Course</label>
-                                    <input type="text" id="course" class="form-control" name="course" value="Software Engineering" placeholder="Course">
+                                    <input type="text" id="course" class="form-control" name="course" value="" placeholder="Course">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="yearOfStudy">Year of Study</label>
                                     <select id="yearOfStudy" class="form-control" name="yearOfStudy">
+                                        <option value="" disabled selected>Select Year of Study</option>
                                         <option>Year 1</option>
                                         <option>Year 2</option>
                                         <option>Year 3</option>

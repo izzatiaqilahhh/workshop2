@@ -84,15 +84,15 @@
 
                         <div class="col-md-6 mb-3">
                             <label>Complaint Type</label>
-                            <input type="text" class="form-control" value="Security Issues" readonly>
+                            <input type="text" class="form-control" value="" placeholder="Security Issues" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Issue Type</label>
-                            <input type="text" class="form-control" value="Broken Locks" readonly>
+                            <input type="text" class="form-control" value="" placeholder="Issue Type" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Complaint Description</label>
-                            <input type="text" class="form-control" value="My door locks was broken." readonly>
+                            <input type="text" class="form-control" value="" placeholder="Complaint Description" readonly>
                         </div>
                     </div>
                 </form>
@@ -140,6 +140,15 @@
 </div>
 
 <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+
+<!-- JSZip for Excel export -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- PDFMake for PDF export -->
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.colVis.min.js"></script>
 
 <script>
     $(document).ready(function() {

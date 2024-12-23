@@ -42,8 +42,8 @@
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1">Nur Izzati Aqilah Binti Rahmad</p>
-                                <span class="op-7 fw-normal d-block fs-11">B032320078@student.utem.edu.my</span>
+                                <p class="fw-semibold mb-0 lh-1"></p>
+                                <span class="op-7 fw-normal d-block fs-11"></span>
                             </div>
                         </div>
                     </a>
@@ -65,7 +65,7 @@
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Nur Izzati Aqilah Binti Rahmad</a></li>
+                            <li class="breadcrumb-item"><a href="#"></a></li>
                             <li class="breadcrumb-item active" aria-current="page">Hostel Room Information</li>
                         </ol>
                     </nav>
