@@ -73,23 +73,23 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label>Faculty</label>
-                            <input type="text" class="form-control" id="faculty" readonly>
+                            <input type="text" class="form-control" id="faculty" placeholder="Faculty" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Course</label>
-                            <input type="text" class="form-control" id="course" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Gender</label>
-                            <input type="text" class="form-control" id="gender" readonly>
+                            <input type="text" class="form-control" id="course" placeholder="Course" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Year of Study</label>
-                            <input type="text" class="form-control" id="year_of_study" readonly>
+                            <input type="text" class="form-control" id="year_of_study" placeholder="Year of Study" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Gender</label>
+                            <input type="text" class="form-control" id="gender" placeholder="Gender" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Room Number</label>
-                            <input type="text" class="form-control" id="room_number" readonly>
+                            <input type="text" class="form-control" id="room_number" placeholder="Room Number" readonly>
                         </div>
                     </div>
                 </form>
