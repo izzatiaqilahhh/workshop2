@@ -2,7 +2,7 @@
 session_start();
 
 // Include the database connection file
-include('teahconnect.php');
+include('teahdbconfig.php');
 
 if (isset($_POST['loginBtn'])) {
     // Retrieve user inputs
