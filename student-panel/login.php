@@ -27,7 +27,7 @@
     <div class="header-content-left">
       <div class="header-element">
         <div class="horizontal-logo">
-          <a href="index.php" class="text-black fw-bolder fs-20">
+          <a href="login.php" class="text-black fw-bolder fs-20">
             E-Hostel Room Complaint System
           </a>
         </div>
@@ -46,7 +46,7 @@
         <div class="card custom-card" style="background-color:rgba(255,255,255,0.8);">
           <div class="card-body p-5">
             <p class="h5 fw-semibold mb-2 text-center text-default">Log In</p>
-            <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in to your account.</p>
+            <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your portal user ID passwod.</p>
             <div class="row gy-3">
               <div class="col-xl-12">
                 <label for="signin-username" class="form-label text-default">Username</label>

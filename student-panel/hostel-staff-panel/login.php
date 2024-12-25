@@ -1,6 +1,13 @@
 <?php
-include('includes/header.php');
+session_start();
+if (isset($_SESSION['staff'])) {
+    // Redirect logged-in users to the dashboard
+    header("Location: dashboard.php");
+    exit();
+}
 ?>
+
+<?php include('includes/header.php'); ?>
 
 <title>E-Hostel Room Complaint System - Log In</title>
 
@@ -9,13 +16,20 @@ include('includes/header.php');
         <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
             <div class="card custom-card">
                 <div class="card-body p-5">
+                    <!-- Display error messages -->
+                    <?php
+                    if (isset($_SESSION['error'])) {
+                        echo "<div class='alert alert-danger text-center'>" . $_SESSION['error'] . "</div>";
+                        unset($_SESSION['error']);
+                    }
+                    ?>
                     <p class="h5 fw-semibold mb-2 text-center">Log In</p>
-                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in to your account.</p>
-                    <form action="process_login.php" method="POST"> <!-- Added form tag -->
+                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your user ID and password.</p>
+                    <form action="login-process.php" method="POST">
                         <div class="row gy-3">
                             <div class="col-xl-12">
-                                <label for="signin-username" class="form-label text-default">Email Address</label>
-                                <input type="email" class="form-control form-control-lg" id="signin-username" placeholder="Email Address" name="email" required>
+                                <label for="signin-staffid" class="form-label text-default">Staff Number</label>
+                                <input type="text" class="form-control form-control-lg" id="signin-staffid" placeholder="Staff Number" name="staff_id" required>
                             </div>
                             <div class="col-xl-12 mb-2">
                                 <label for="signin-password" class="form-label text-default d-block">Password</label>
@@ -30,7 +44,7 @@ include('includes/header.php');
                                 <button type="submit" name="loginBtn" class="btn btn-lg btn-primary-gradient">Log In</button>
                             </div>
                         </div>
-                    </form> <!-- Closing form tag -->
+                    </form>
                     <div class="text-center">
                         <p class="fs-12 text-muted mt-3">Forgot Password? <a href="forgot-password.php" class="text-primary text-decoration-underline">Reset Password Here</a></p>
                     </div>

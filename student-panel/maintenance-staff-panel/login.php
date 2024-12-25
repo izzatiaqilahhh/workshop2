@@ -10,13 +10,13 @@ include('includes/header.php');
             <div class="card custom-card">
                 <div class="card-body p-5">
                     <p class="h5 fw-semibold mb-2 text-center">Log In</p>
-                    <p class="mb-4 text-muted op-7 fw-normal text-center">Repair Staff Panel</p>
+                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your user ID and password.</p>
                     <!-- Start of form -->
                     <form method="POST" action="login-process.php">
                         <div class="row gy-3">
                             <div class="col-xl-12">
-                                <label for="signin-username" class="form-label text-default">Email Address</label>
-                                <input type="email" class="form-control form-control-lg" id="signin-username" placeholder="Email Address" name="email" required>
+                                <label for="signin-username" class="form-label text-default">Staff Number</label>
+                                <input type="email" class="form-control form-control-lg" id="signin-username" placeholder="Staff Number" name="staff_id" required>
                             </div>
                             <div class="col-xl-12 mb-2">
                                 <label for="signin-password" class="form-label text-default d-block">Password</label>

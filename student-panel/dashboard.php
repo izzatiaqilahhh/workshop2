@@ -29,7 +29,7 @@
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="user-homepage.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
+                        <a href="dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
                     </div>
                 </div>
             </div>
