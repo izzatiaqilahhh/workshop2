@@ -35,7 +35,6 @@
                         <th>No.</th>
                         <th>Matric Number</th>
                         <th>Student Name</th>
-                        <th>Identification Card Number</th>
                         <th>Phone Number</th>
                         <th>Action</th>
                     </tr>
@@ -43,7 +42,6 @@
                 <tbody>
                     
                     <tr>
-                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>

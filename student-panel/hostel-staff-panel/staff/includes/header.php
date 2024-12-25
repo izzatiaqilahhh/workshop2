@@ -184,9 +184,9 @@
 
                     <!-- Slide -->
                     <li class="slide">
-                        <a href="view-repair-staff.php" class="side-menu__item">
+                        <a href="view-maintenance-staff.php" class="side-menu__item">
                             <i class='bx bx-food-menu side-menu__icon'></i>
-                            <span class="side-menu__label">Repair Staff</span>
+                            <span class="side-menu__label">Maintenance Staff</span>
                         </a>
                     </li>
 
