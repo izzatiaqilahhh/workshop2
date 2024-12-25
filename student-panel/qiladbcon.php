@@ -13,6 +13,11 @@ $conn_string = "host=$host port=$port dbname=$dbname user=$user password=$passwo
 $dbconn = pg_connect($conn_string);
 
 if (!$dbconn) {
-    die("Error: Unable to connect to the database.");
+    echo "Error: Unable to connect to the database.";
+} else {
+    echo "Successfully connected to the database.";
 }
+
+// Close the connection
+pg_close($dbconn);
 ?>
