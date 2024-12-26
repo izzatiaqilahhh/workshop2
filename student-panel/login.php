@@ -12,13 +12,13 @@
   <link rel="icon" href="images/logo.png" type="images/x-icon">
 
   <!-- Bootstrap CSS -->
-  <link id="style" href="admin-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Style CSS -->
-  <link href="admin-panel/assets/css/styles.min.css" rel="stylesheet">
+  <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
 
   <!-- Icons CSS -->
-  <link href="admin-panel/assets/css/icons.min.css" rel="stylesheet">
+  <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
 </head>
 
 <!-- App Header -->
@@ -55,7 +55,7 @@
               <div class="col-xl-12 mb-2">
                 <label for="signin-password" class="form-label text-default d-block">Password</label>
                 <div class="input-group">
-                  <input type="password" class="form-control form-control-lg" id="signin-password" placeholder="Password" required>
+                  <input type="password" class="form-control form-control-lg" id="signin-password" placeholder="Password" name="password" required>
                   <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
                 </div>
               </div>
