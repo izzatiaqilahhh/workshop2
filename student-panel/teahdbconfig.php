@@ -3,7 +3,7 @@
 $host = "127.0.0.1";    // Database server
 $user = "root";         // Database username
 $password = "password"; // Database password
-$dbname = "utemhostelcomplaintsystem"; // Database name
+$dbname = "hostelcomplaint"; // Database name
 
 // Create connection
 $conn = new mysqli($host, $user, $password, $dbname);
