@@ -46,11 +46,11 @@
         <div class="card custom-card" style="background-color:rgba(255,255,255,0.8);">
           <div class="card-body p-5">
             <p class="h5 fw-semibold mb-2 text-center text-default">Log In</p>
-            <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your portal user ID passwod.</p>
+            <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your portal matric number and password.</p>
             <div class="row gy-3">
               <div class="col-xl-12">
-                <label for="signin-username" class="form-label text-default">Username</label>
-                <input type="text" class="form-control form-control-lg" id="signin-username" placeholder="Username" required>
+                <label for="signin-matric" class="form-label text-default">Matric No</label>
+                <input type="text" class="form-control form-control-lg" id="signin-matric" placeholder="Matric No" name="matric_no" required>
               </div>
               <div class="col-xl-12 mb-2">
                 <label for="signin-password" class="form-label text-default d-block">Password</label>
