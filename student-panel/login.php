@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['student'])) {
-    // Redirect logged-in users to the student dashboard
+    // Redirect logged-in users to the dashboard
     header("Location: studentdashboard.php");
     exit();
 }
@@ -9,7 +9,7 @@ if (isset($_SESSION['student'])) {
 
 <?php include('includes/header.php'); ?>
 
-<title>E-Hostel Room Complaint System - Student Log In</title>
+<title>E-Hostel Room Complaint System - Log In</title>
 
 <div class="container">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
@@ -23,13 +23,13 @@ if (isset($_SESSION['student'])) {
                         unset($_SESSION['error']);
                     }
                     ?>
-                    <p class="h5 fw-semibold mb-2 text-center">Student Log In</p>
-                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your matric number and password.</p>
-                    <form action="student-login-process.php" method="POST">
+                    <p class="h5 fw-semibold mb-2 text-center">Log In</p>
+                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your Matric Number and password.</p>
+                    <form action="studentlogin.php" method="POST">
                         <div class="row gy-3">
                             <div class="col-xl-12">
-                                <label for="signin-matric" class="form-label text-default">Matric Number</label>
-                                <input type="text" class="form-control form-control-lg" id="signin-matric" placeholder="Matric Number" name="matric_no" required>
+                                <label for="signin-matricno" class="form-label text-default">Matric Number</label>
+                                <input type="text" class="form-control form-control-lg" id="signin-staffid" placeholder="Staff Number" name="staff_id" required>
                             </div>
                             <div class="col-xl-12 mb-2">
                                 <label for="signin-password" class="form-label text-default d-block">Password</label>

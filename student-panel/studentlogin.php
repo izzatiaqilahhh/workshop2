@@ -1,61 +1,54 @@
 <?php
 session_start();
 
-// Include the database connection file
-include('teahdbconfig.php');
+// Include database connection file
+include('teahdbconfig.php'); // Update this to the actual database connection file
 
+// Check if the login button is clicked
 if (isset($_POST['loginBtn'])) {
-    // Retrieve user inputs
-    $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-    $password = $_POST['password'];
+    // Retrieve and sanitize input
+    $matric_no = isset($_POST['matric_no']) ? filter_var($_POST['matric_no'], FILTER_SANITIZE_STRING) : null;
+    $password = isset($_POST['password']) ? $_POST['password'] : null;
 
-    // Create a database connection
-    $conn = new mysqli($host, $user, $password, $database, $port);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    // Validate input
+    if (empty($matric_no)) {
+        $_SESSION['error'] = "Matric number is required.";
+        header("Location: login.php");
+        exit();
+    }
+    if (empty($password)) {
+        $_SESSION['error'] = "Password is required.";
+        header("Location: login.php");
+        exit();
     }
 
-    // Prepare the SQL query to fetch user data
-    $sql = "SELECT * FROM student WHERE username = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Query to check if the user exists
+    $query = "SELECT * FROM student WHERE matric_no = $1";
+    $result = pg_query_params($dbconn, $query, array($matric_no));
 
-    // Verify username and password
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
+    if ($result && pg_num_rows($result) > 0) {
+        $staff = pg_fetch_assoc($result);
 
-        // Check if the password is correct
+        // Verify the password
         if (password_verify($password, $user['password'])) {
-            // Regenerate session ID
-            session_regenerate_id(true);
+            // Set session variables
+            $_SESSION['matric_no'] = $user['matric_no'];
+            $_SESSION['name'] = $user['name'];
 
-            // Store user details in session
-            $_SESSION['user_id'] = $user['Matric_No'];
-            $_SESSION['user_name'] = $user['Name'];
-
-            // Redirect to the dashboard
+            // Redirect to dashboard
             header("Location: studentdashboard.php");
             exit();
         } else {
-            $error_message = "Incorrect password!";
+            $_SESSION['error'] = "Incorrect password.";
         }
     } else {
-        $error_message = "No user found with that username!";
+        $_SESSION['error'] = "No account found with this matric number.";
     }
-
-    // Close the statement and connection
-    $stmt->close();
-    $conn->close();
+} else {
+    $_SESSION['error'] = "Invalid request.";
 }
-?>
 
-<!-- Display Error Message -->
-<?php if (isset($error_message)) { ?>
-    <div class="alert alert-danger text-center">
-        <?php echo htmlspecialchars($error_message); ?>
-    </div>
-<?php } ?>
+// Redirect back to login page on error
+header("Location: login.php");
+exit();
+?>
