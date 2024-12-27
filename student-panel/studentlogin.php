@@ -1,54 +1,26 @@
 <?php
 session_start();
+include('teahdbconfig.php'); // Make sure to create a database connection file
 
-// Include database connection file
-include('teahdbconfig.php'); // Update this to the actual database connection file
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $matric_no = $_POST['matric_no'];
+    $password = $_POST['password'];
 
-// Check if the login button is clicked
-if (isset($_POST['loginBtn'])) {
-    // Retrieve and sanitize input
-    $matric_no = isset($_POST['matric_no']) ? filter_var($_POST['matric_no'], FILTER_SANITIZE_STRING) : null;
-    $password = isset($_POST['password']) ? $_POST['password'] : null;
+    // You should hash passwords and use prepared statements in a real application
+    $query = "SELECT * FROM student WHERE matric_no = ? AND password = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("ss", $matric_no, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Validate input
-    if (empty($matric_no)) {
-        $_SESSION['error'] = "Matric number is required.";
-        header("Location: login.php");
+    if ($result->num_rows == 1) {
+        $_SESSION['student'] = $matric_no;
+        header("Location: studentdashboard.php");
         exit();
-    }
-    if (empty($password)) {
-        $_SESSION['error'] = "Password is required.";
-        header("Location: login.php");
-        exit();
-    }
-
-    // Query to check if the user exists
-    $query = "SELECT * FROM student WHERE matric_no = $1";
-    $result = pg_query_params($dbconn, $query, array($matric_no));
-
-    if ($result && pg_num_rows($result) > 0) {
-        $staff = pg_fetch_assoc($result);
-
-        // Verify the password
-        if (password_verify($password, $user['password'])) {
-            // Set session variables
-            $_SESSION['matric_no'] = $user['matric_no'];
-            $_SESSION['name'] = $user['name'];
-
-            // Redirect to dashboard
-            header("Location: studentdashboard.php");
-            exit();
-        } else {
-            $_SESSION['error'] = "Incorrect password.";
-        }
     } else {
-        $_SESSION['error'] = "No account found with this matric number.";
+        $_SESSION['error'] = "Invalid Matric Number or Password";
+        header("Location: login.php");
+        exit();
     }
-} else {
-    $_SESSION['error'] = "Invalid request.";
 }
-
-// Redirect back to login page on error
-header("Location: login.php");
-exit();
 ?>
