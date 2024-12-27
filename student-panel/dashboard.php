@@ -1,3 +1,29 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['student'])) {
+    // If not logged in, redirect to the login page
+    header("Location: login.php");
+    exit();
+}
+
+// Include database configuration and functions
+include('teahdbconfig.php');
+
+// Fetch user-specific data
+try {
+    // Fetch user profile information
+    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
+    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+    echo 'Database connection failed: ' . $e->getMessage();
+    exit();
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
@@ -44,8 +70,8 @@
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"></p>
-                                <span class="op-7 fw-normal d-block fs-11"></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p> <!-- Display Full Name -->
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span> <!-- Display Email -->
                             </div>
                         </div>
                     </a>
