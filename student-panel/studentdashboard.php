@@ -2,13 +2,13 @@
 session_start();
 
 // Check if the user is logged in
-if (!isset($_SESSION['username'])) {
-    header("Location: studentlogin.php"); // Redirect to login if not logged in
+if (!isset($_SESSION['matric_no'])) {
+    header("Location: login.php"); // Redirect to login if not logged in
     exit();
 }
 
 // Retrieve user data from session
-$username = $_SESSION['username'];
+$matric_no = $_SESSION['matric_no'];
 $name = $_SESSION['name'];
 ?>
 
@@ -58,7 +58,7 @@ $name = $_SESSION['name'];
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($username); ?></p>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($matric_no); ?></p>
                                 <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($name); ?></span>
                         </div>
                     </a>
@@ -81,7 +81,7 @@ $name = $_SESSION['name'];
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#"><?php echo htmlspecialchars($username); ?></a></li>
+                            <li class="breadcrumb-item"><a href="#"><?php echo htmlspecialchars($matric_no); ?></a></li>
                             <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                         </ol>
                     </nav>
