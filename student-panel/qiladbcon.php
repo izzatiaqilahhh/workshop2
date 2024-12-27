@@ -2,7 +2,7 @@
 // Connection parameters
 $host = "localhost";
 $port = "5432";
-$dbname = "workshop2";
+$dbname = "hrcs";
 $user = "postgres";
 $password = "postgresql";
 
