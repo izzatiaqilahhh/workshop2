@@ -10,13 +10,13 @@
     <link rel="icon" href="images/logo.png" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
-    <link id="style" href="admin-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Style CSS -->
-    <link href="admin-panel/assets/css/styles.min.css" rel="stylesheet">
+    <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
 
     <!-- Icons CSS -->
-    <link href="admin-panel/assets/css/icons.min.css" rel="stylesheet">
+    <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
 </head>
 
 <body>
