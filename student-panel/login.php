@@ -67,12 +67,12 @@ if (isset($_SESSION['student'])) {
                         <div class="row gy-3">
                             <div class="col-xl-12">
                                 <label for="signin-matric-no" class="form-label text-default">Matric Number</label>
-                                <input type="text" class="form-control form-control-lg" id="signin-matric-no" placeholder="Matric Number" name="Matric_No" required>
+                                <input type="text" class="form-control form-control-lg" id="signin-matric-no" placeholder="Matric Number" name="matric_no" required>
                             </div>
                             <div class="col-xl-12 mb-2">
                                 <label for="signin-password" class="form-label text-default d-block">Password</label>
                                 <div class="input-group">
-                                    <input type="Password" class="form-control form-control-lg" id="signin-password" placeholder="Password" name="Password" required>
+                                    <input type="password" class="form-control form-control-lg" id="signin-password" placeholder="password" name="password" required>
                                     <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2">
                                       <i class="ri-eye-off-line align-middle"></i>
                                     </button>
