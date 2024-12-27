@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
     // If not logged in, redirect to the login page
@@ -8,28 +13,15 @@ if (!isset($_SESSION['student'])) {
     exit();
 }
 
-// Include database configuration
+// Include database configuration and functions
 include('teahdbconfig.php');
+include('db_functions.php');
 
 // Fetch user-specific data
 try {
-    $pdo = new PDO($dsn, $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Fetch user profile information
-    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
-    $stmt->bindParam(':Matric_No', $_SESSION['student']);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // Fetch user complaints (or other relevant data)
-    $stmt = $pdo->prepare('SELECT * FROM complaints WHERE Matric_No = :Matric_No');
-    $stmt->bindParam(':Matric_No', $_SESSION['student']);
-    $stmt->execute();
-    $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+    $user = getUserProfile($pdo, $_SESSION['student']);
+    $complaint = getUserComplaint($pdo, $_SESSION['student']);
 } catch (PDOException $e) {
-    // Handle database connection errors
     echo 'Database connection failed: ' . $e->getMessage();
     exit();
 }

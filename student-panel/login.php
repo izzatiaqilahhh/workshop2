@@ -72,7 +72,7 @@ if (isset($_SESSION['student'])) {
                             <div class="col-xl-12 mb-2">
                                 <label for="signin-password" class="form-label text-default d-block">Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control form-control-lg" id="signin-password" placeholder="Password" name="Password" required>
+                                    <input type="Password" class="form-control form-control-lg" id="signin-password" placeholder="Password" name="Password" required>
                                     <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2">
                                       <i class="ri-eye-off-line align-middle"></i>
                                     </button>
