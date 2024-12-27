@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['student-panel'])) {
+if (isset($_SESSION['student'])) {
     // Redirect logged-in users to the dashboard
     header("Location: studentdashboard.php");
     exit();
