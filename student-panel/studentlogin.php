@@ -3,8 +3,8 @@ session_start();
 include('teahdbconfig.php'); // Include your database configuration file
 
 if (isset($_POST['loginBtn'])) {
-    $matric_no = $_POST['matric_no']; // Ensure this matches your form field name
-    $password = $_POST['password']; // Ensure this matches your form field name
+    $matric_no = $_POST['Matric_No']; // Ensure this matches your form field name
+    $password = $_POST['Password']; // Ensure this matches your form field name
 
     // Enable error reporting for debugging
     ini_set('display_errors', 1);
@@ -20,8 +20,8 @@ if (isset($_POST['loginBtn'])) {
 
     // Prepare and execute the query
     try {
-        $stmt = $pdo->prepare('SELECT * FROM student WHERE matric_no = :matric_no');
-        $stmt->bindParam(':matric_no', $matric_no);
+        $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
+        $stmt->bindParam(':Matric_No', $matric_no);
         $stmt->execute();
 
         // Fetch the user data
@@ -32,9 +32,9 @@ if (isset($_POST['loginBtn'])) {
             error_log('User found: ' . print_r($user, true));
 
             // Verify the password (Assuming passwords are hashed)
-            if ($password == $user['password']) {
+            if ($password == $user['Password']) {
                 // Password is correct, start the session
-                $_SESSION['student'] = $user['matric_no'];
+                $_SESSION['student'] = $user['Matric_No'];
                 error_log('Login successful: ' . $_SESSION['student']);
                 header('Location: dashboard.php');
                 exit();

@@ -1,31 +1,3 @@
-<?php
-session_start();
-
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Check if the user is logged in
-if (!isset($_SESSION['student'])) {
-    // If not logged in, redirect to the login page
-    header("Location: login.php");
-    exit();
-}
-
-// Include database configuration and functions
-include('teahdbconfig.php');
-include('db_functions.php');
-
-// Fetch user-specific data
-try {
-    $user = getUserProfile($pdo, $_SESSION['student']);
-    $complaint = getUserComplaint($pdo, $_SESSION['student']);
-} catch (PDOException $e) {
-    echo 'Database connection failed: ' . $e->getMessage();
-    exit();
-}
-?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
