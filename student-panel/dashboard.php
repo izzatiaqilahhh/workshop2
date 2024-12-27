@@ -1,3 +1,40 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['student'])) {
+    // If not logged in, redirect to the login page
+    header("Location: login.php");
+    exit();
+}
+
+// Include database configuration
+include('teahdbconfig.php');
+
+// Fetch user-specific data
+try {
+    $pdo = new PDO($dsn, $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Fetch user profile information
+    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
+    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Fetch user complaints (or other relevant data)
+    $stmt = $pdo->prepare('SELECT * FROM complaints WHERE Matric_No = :Matric_No');
+    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt->execute();
+    $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+    // Handle database connection errors
+    echo 'Database connection failed: ' . $e->getMessage();
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
