@@ -9,6 +9,10 @@ if (isset($_SESSION['student'])) {
 
 <?php include('includes/header.php'); ?>
 
+<title>E-Hostel Room Complaint System - Log In</title>
+
+<link rel="icon" href="images/logo.png" type="images/x-icon">
+
 <div class="container">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
         <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
@@ -60,3 +64,5 @@ if (isset($_SESSION['student'])) {
 
 </body>
 </html>
+
+<?php include('includes/footer.php'); ?>
