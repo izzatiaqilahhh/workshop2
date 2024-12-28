@@ -1,55 +1,35 @@
 <?php
+// process_login.php
 session_start();
+require_once '../qiladbcon.php'; // Include database connection file
 
-// Include database connection file
-include('../qiladbcon.php'); // Ensure this points to your database connection file
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $staffNo = trim($_POST['Staff_No']);
+    $password = trim($_POST['Password']);
 
-// Check if the login button is clicked
-if (isset($_POST['loginBtn'])) {
-    // Retrieve and sanitize input
-    $Staff_No = isset($_POST['Staff_No']) ? filter_var($_POST['Staff_No'], FILTER_SANITIZE_STRING) : null;
-    $Password = isset($_POST['Password']) ? $_POST['Password'] : null;
-
-    // Validate input
-    if (empty($Staff_No)) {
-        $_SESSION['error'] = "Staff number is required.";
-        header("Location: login.php");
-        exit();
-    }
-    if (empty($Password)) {
-        $_SESSION['error'] = "Password is required.";
-        header("Location: login.php");
-        exit();
-    }
-
-    // Query to check if the user exists
-    $query = "SELECT * FROM Hostel_Staff WHERE Staff_No = $1";
-    $result = pg_query_params($connection, $query, array($Staff_No)); // Use $connection instead of $dbconn
+    // Prepare and execute SQL query with parameterized input
+    $query = "SELECT Staff_No, Password FROM Hostel_Staff WHERE Staff_No = $1";
+    $result = pg_query_params($connection, $query, [$staffNo]);
 
     if ($result && pg_num_rows($result) > 0) {
-        $Hostel_Staff = pg_fetch_assoc($result);
+        $row = pg_fetch_assoc($result);
+        $staffNo = $row['Staff_No'];
+        $hashedPassword = $row['password'];
 
-        // Verify the password
-        if (password_verify($Password, $Hostel_Staff['Password'])) {
-            // Set session variables
-            $_SESSION['Staff_ID'] = $Hostel_Staff['Staff_ID'];
-            $_SESSION['Staff_No'] = $Hostel_Staff['Staff_No'];
-            $_SESSION['Name'] = $Hostel_Staff['Name'];
-
-            // Redirect to dashboard
-            header("Location: dashboard.php");
+        // Verify password
+        if (password_verify($password, $hashedPassword)) {
+            $_SESSION['staff_id'] = $staffId;
+            header('Location: dashboard.php'); // Redirect to dashboard
             exit();
         } else {
-            $_SESSION['error'] = "Incorrect password.";
+            echo "<script>alert('Invalid staff number or password!'); window.location.href = 'login.php';</script>";
         }
     } else {
-        $_SESSION['error'] = "No account found with this staff number.";
+        echo "<script>alert('Staff does not exist!'); window.location.href = 'login.php';</script>";
     }
-} else {
-    $_SESSION['error'] = "Invalid request.";
-}
 
-// Redirect back to login page on error
-header("Location: login.php");
-exit();
+    // Free the result and close the connection
+    pg_free_result($result);
+    pg_close($conn);
+}
 ?>
