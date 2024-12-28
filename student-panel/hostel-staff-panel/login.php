@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['Hostel_Staff'])) {
+if (isset($_SESSION['hostel_staff'])) {
     // Redirect logged-in users to the dashboard
     header("Location: dashboard.php");
     exit();
@@ -28,8 +28,8 @@ if (isset($_SESSION['Hostel_Staff'])) {
                     <form action="login-process.php" method="POST">
                         <div class="row gy-3">
                             <div class="col-xl-12">
-                                <label for="signin-staffid" class="form-label text-default">Staff Number</label>
-                                <input type="text" class="form-control form-control-lg" id="signin-staffid" placeholder="Staff Number" name="Staff_No" required>
+                                <label for="signin-staff-no" class="form-label text-default">Staff Number</label>
+                                <input type="text" class="form-control form-control-lg" id="signin-staff-no" placeholder="Staff Number" name="Staff_No" required>
                             </div>
                             <div class="col-xl-12 mb-2">
                                 <label for="signin-password" class="form-label text-default d-block">Password</label>

@@ -1,35 +1,61 @@
 <?php
-// process_login.php
 session_start();
-require_once '../qiladbcon.php'; // Include database connection file
+include('teahdbconfig.php'); // Include your database configuration file
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $staffNo = trim($_POST['Staff_No']);
-    $password = trim($_POST['Password']);
+if (isset($_POST['loginBtn'])) {
+    $staff_no = $_POST['Staff_No']; // Ensure this matches your form field name
+    $password = $_POST['Password']; // Ensure this matches your form field name
 
-    // Prepare and execute SQL query with parameterized input
-    $query = "SELECT Staff_No, Password FROM Hostel_Staff WHERE Staff_No = $1";
-    $result = pg_query_params($connection, $query, [$staffNo]);
+    // Enable error reporting for debugging
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
-    if ($result && pg_num_rows($result) > 0) {
-        $row = pg_fetch_assoc($result);
-        $staffNo = $row['Staff_No'];
-        $hashedPassword = $row['password'];
-
-        // Verify password
-        if (password_verify($password, $hashedPassword)) {
-            $_SESSION['staff_id'] = $staffId;
-            header('Location: dashboard.php'); // Redirect to dashboard
-            exit();
-        } else {
-            echo "<script>alert('Invalid staff number or password!'); window.location.href = 'login.php';</script>";
-        }
-    } else {
-        echo "<script>alert('Staff does not exist!'); window.location.href = 'login.php';</script>";
+    // Ensure $pdo is defined
+    if (!isset($pdo)) {
+        $_SESSION['error'] = 'Database connection is not established.';
+        header('Location: login.php');
+        exit();
     }
 
-    // Free the result and close the connection
-    pg_free_result($result);
-    pg_close($conn);
+    // Prepare and execute the query
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM hostel_staff WHERE Staff_No = :Staff_No');
+        $stmt->bindParam(':Staff_No', $staff_no);
+        $stmt->execute();
+
+        // Fetch the user data
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            // Debugging: Log the fetched user data (except password)
+            error_log('User found: ' . print_r($user, true));
+
+            // Verify the password (Assuming passwords are hashed)
+            if ($password == $user['Password']) {
+                // Password is correct, start the session
+                $_SESSION['hostel_staff'] = $user['Staff_No'];
+                error_log('Login successful: ' . $_SESSION['hostel_staff']);
+                header('Location: dashboard.php');
+                exit();
+            } else {
+                // Incorrect password
+                $_SESSION['error'] = 'Incorrect Staff Number or Password';
+                error_log('Login failed: Incorrect password');
+            }
+        } else {
+            // User not found
+            $_SESSION['error'] = 'Incorrect Staff Number or Password';
+            error_log('Login failed: User not found');
+        }
+    } catch (PDOException $e) {
+        // Handle database connection errors
+        $_SESSION['error'] = 'Database connection failed: ' . $e->getMessage();
+        error_log('Database connection failed: ' . $e->getMessage());
+    }
+
+    // Redirect back to the login page with an error message
+    header('Location: login.php');
+    exit();
 }
 ?>

@@ -1,3 +1,32 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['hostel_staff'])) {
+    // If not logged in, redirect to the login page
+    header("Location: login.php");
+    exit();
+}
+
+// Include database configuration and functions
+include('teahdbconfig.php');
+
+// Fetch user-specific data
+try {
+    // Fetch user profile information
+    $stmt = $pdo->prepare('SELECT * FROM hostel_staff WHERE Staff_No = :Staff_No');
+    $stmt->bindParam(':Staff_No', $_SESSION['hostel_staff']);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+    echo 'Database connection failed: ' . $e->getMessage();
+    exit();
+}
+?>
+
+
+
 <?php include('includes/header.php'); ?>
 
 <title>E-Hostel Room Complaint System - Dashboard</title>
