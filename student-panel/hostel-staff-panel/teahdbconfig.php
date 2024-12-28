@@ -10,7 +10,7 @@ try {
     $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // Connection successful message for debugging
-    echo "Connected successfully to the database.";
+    echo "";
 } catch (PDOException $e) {
     // Handle database connection errors
     echo 'Database connection failed: ' . $e->getMessage();
