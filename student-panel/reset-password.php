@@ -3,7 +3,7 @@ session_start();
 include('teahdbconfig.php'); // Include your database configuration file
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['Email'];
+    $email = $_POST['email'];
 
     // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Check if email exists
-        $stmt = $pdo->prepare("SELECT * FROM student WHERE Email = :Email");
-        $stmt->bindParam(':Email', $email);
+        $stmt = $pdo->prepare("SELECT * FROM student WHERE email = :email");
+        $stmt->bindParam(':email', $email);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

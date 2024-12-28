@@ -40,9 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Update the user's password
         try {
             $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
-            $stmt = $pdo->prepare("UPDATE student SET password = :password WHERE Email = :Email");
+            $stmt = $pdo->prepare("UPDATE student SET password = :password WHERE email = :email");
             $stmt->bindParam(':password', $hashed_password);
-            $stmt->bindParam(':Email', $reset['Email']);
+            $stmt->bindParam(':email', $reset['email']);
             $stmt->execute();
 
             // Delete the reset token

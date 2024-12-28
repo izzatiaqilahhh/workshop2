@@ -78,7 +78,7 @@ session_start();
               <div class="row gy-3">
                 <div class="col-xl-12">
                   <label for="forgot-email" class="form-label text-default">Email Address</label>
-                  <input type="email" class="form-control form-control-lg" id="forgot-email" placeholder="Email Address" required>
+                  <input type="email" class="form-control form-control-lg" id="forgot-email" placeholder="email" required>
                 </div>
                 <div class="col-xl-12 d-grid mt-3">
                   <button type="submit" class="btn btn-lg btn-primary-gradient">Send Reset Link</button>
