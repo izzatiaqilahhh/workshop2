@@ -39,13 +39,13 @@ try {
     <link rel="icon" href="images/logo.png" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
-    <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link id="style" href="assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Style CSS -->
-    <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
+    <link href="assets/css/styles.min.css" rel="stylesheet">
 
     <!-- Icons CSS -->
-    <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
+    <link href="assets/css/icons.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -146,7 +146,7 @@ try {
     <!-- App Content -->
 
     <!-- Bootstrap JS -->
-    <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
