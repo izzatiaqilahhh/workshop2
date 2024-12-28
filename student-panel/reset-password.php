@@ -32,10 +32,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
 
             // Send the email
-            $reset_link = "reset-password-form.php" . $token;
+            $reset_link = "http://localhost:3000/reset-password-form.php?token=" . $token;
             $subject = "Password Reset Request";
-            $message = "Click on the following link to reset your password: " . $reset_link;
-            $headers = "From: no-reply@yourdomain.com";
+            $message = "
+            <html>
+            <head>
+              <title>Password Reset Request</title>
+            </head>
+            <body>
+              <p>Click on the following link to reset your password:</p>
+              <p><a href='" . $reset_link . "'>" . $reset_link . "</a></p>
+            </body>
+            </html>
+            ";
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers .= "From: no-reply@localhost" . "\r\n";
 
             if (mail($email, $subject, $message, $headers)) {
                 $_SESSION['success'] = "Password reset link has been sent to your email.";

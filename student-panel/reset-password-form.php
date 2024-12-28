@@ -2,6 +2,7 @@
 session_start();
 include('teahdbconfig.php'); // Include your database configuration file
 
+// Check if the token is present in the URL
 if (!isset($_GET['token'])) {
     $_SESSION['error'] = "Invalid request.";
     header("Location: login.php");
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
             $stmt = $pdo->prepare("UPDATE student SET password = :password WHERE Email = :Email");
-            $stmt->bindParam(':Password', $hashed_password);
+            $stmt->bindParam(':password', $hashed_password);
             $stmt->bindParam(':Email', $reset['Email']);
             $stmt->execute();
 
@@ -62,21 +63,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-vertical-style="overlay" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close">
 <head>
-    <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge'>
     <title>E-Hostel Room Complaint System - Reset Password</title>
     <link rel="icon" href="images/logo.png" type="images/x-icon">
-    <!-- Bootstrap CSS -->
     <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Style CSS -->
     <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
-    <!-- Icons CSS -->
     <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- App Header -->
     <header class="app-header" style="background-color:rgba(0,0,0,0.0); border:0">
         <div class="main-header-container container-fluid">
             <div class="header-content-left">
@@ -90,13 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </header>
-    <!-- App Header -->
 
-    <!-- Reset Password Form -->
     <div class="container-lg py-5">
         <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
             <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12 my-5">
-                <form action="" method="POST">
+                <form action="" method="POST"> <!-- Form submits to the same page -->
                     <div class="card custom-card" style="background-color:rgba(255,255,255,0.8);">
                         <div class="card-body p-5">
                             <p class="h5 fw-semibold mb-2 text-center">Reset Password</p>
@@ -110,11 +104,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="row gy-3">
                                 <div class="col-xl-12">
                                     <label for="new-password" class="form-label text-default">New Password</label>
-                                    <input type="Password" class="form-control form-control-lg" id="new-password" name="new_password" placeholder="New Password" required>
+                                    <input type="password" class="form-control form-control-lg" id="new-password" name="new_password" placeholder="New Password" required>
                                 </div>
                                 <div class="col-xl-12">
                                     <label for="confirm-password" class="form-label text-default">Confirm Password</label>
-                                    <input type="Password" class="form-control form-control-lg" id="confirm-password" name="confirm_password" placeholder="Confirm Password" required>
+                                    <input type="password" class="form-control form-control-lg" id="confirm-password" name="confirm_password" placeholder="Confirm Password" required>
                                 </div>
                                 <div class="col-xl-12 d-grid mt-3">
                                     <button type="submit" class="btn btn-lg btn-primary-gradient">Reset Password</button>
@@ -129,9 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
-    <!-- Reset Password Form -->
 
-    <!-- Bootstrap JS -->
     <script src="hostel-staff-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
