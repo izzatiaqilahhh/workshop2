@@ -10,13 +10,13 @@ include('includes/header.php');
             <div class="card custom-card">
                 <div class="card-body p-5">
                     <p class="h5 fw-semibold mb-2 text-center">Log In</p>
-                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your user ID and password.</p>
+                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your staff number and password.</p>
                     <!-- Start of form -->
                     <form method="POST" action="login-process.php">
                         <div class="row gy-3">
                             <div class="col-xl-12">
                                 <label for="signin-username" class="form-label text-default">Staff Number</label>
-                                <input type="email" class="form-control form-control-lg" id="signin-username" placeholder="Staff Number" name="staff_id" required>
+                                <input type="text" class="form-control form-control-lg" id="signin-staffno" placeholder="Staff Number" name="Staff_No" required>
                             </div>
                             <div class="col-xl-12 mb-2">
                                 <label for="signin-password" class="form-label text-default d-block">Password</label>
@@ -30,10 +30,10 @@ include('includes/header.php');
                             </div>
                         </div>
                         <div class="text-center">
-                            <p class="fs-12 text-muted mt-3">Forgot Password? <a href="forgot-password.php" class="text-primary text-decoration-underline">Reset Password Here</a></p>
+                            <p class="fs-12 text-muted mt-3">Don't have an account yet? <a href="register.php" class="text-primary text-decoration-underline">Register Here</a></p>
                         </div>
                         <div class="text-center">
-                            <p class="fs-12 text-muted mt-3">Do not have an account yet? <a href="register.php" class="text-primary text-decoration-underline">Register Here</a></p>
+                            <p class="fs-12 text-muted mt-3">Forgot Password? <a href="forgot-password.php" class="text-primary text-decoration-underline">Reset Password Here</a></p>
                         </div>
                     </form>
                     <!-- End of form -->

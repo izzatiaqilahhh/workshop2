@@ -10,7 +10,7 @@ include('includes/header.php');
             <div class="card custom-card">
                 <div class="card-body p-5">
                     <p class="h5 fw-semibold mb-2 text-center">Register</p>
-                    <p class="mb-4 text-muted op-7 fw-normal text-center">Repair Staff Panel</p>
+                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please register first if you don't have an account yet.</p>
                     <!-- Start of form -->
                     <form method="POST" action="register-process.php">
                         <div class="row gy-3">
@@ -23,8 +23,8 @@ include('includes/header.php');
                                 <input type="text" class="form-control form-control-lg" id="staff-number" placeholder="Staff Number" name="staff_number" required>
                             </div>
                             <div class="col-xl-12">
-                                <label for="phone-number" class="form-label text-default">Email Address</label>
-                                <input type="text" class="form-control form-control-lg" id="email-address" placeholder="Email Address" name="phone_number" required>
+                                <label for="email" class="form-label text-default">Email Address</label>
+                                <input type="text" class="form-control form-control-lg" id="email-address" placeholder="Email Address" name="email" required>
                             </div>
                             <div class="col-xl-12">
                                 <label for="phone-number" class="form-label text-default">Phone Number</label>
@@ -35,10 +35,6 @@ include('includes/header.php');
                                 <input type="text" class="form-control form-control-lg" id="specialization" placeholder="Specialization" name="specialization" required>
                             </div>
                             <div class="col-xl-12">
-                                <label for="position" class="form-label text-default">Position</label>
-                                <input type="text" class="form-control form-control-lg" id="position" placeholder="Position" name="position" required>
-                            </div>
-                            <div class="col-xl-12">
                                 <label for="company-name" class="form-label text-default">Company Name</label>
                                 <input type="text" class="form-control form-control-lg" id="company-name" placeholder="Company Name" name="company_name" required>
                             </div>
@@ -47,12 +43,12 @@ include('includes/header.php');
                                 <input type="text" class="form-control form-control-lg" id="company-number" placeholder="Company Number" name="company_number" required>
                             </div>
                             <div class="col-xl-12">
-                                <label for="company-office" class="form-label text-default">Company Office Number</label>
-                                <input type="tel" class="form-control form-control-lg" id="company-office" placeholder="Company Office Number" name="company_contact" required>
+                                <label for="email" class="form-label text-default">Company Email Address</label>
+                                <input type="text" class="form-control form-control-lg" id="email-address" placeholder="Email Address" name="email" required>
                             </div>
                             <div class="col-xl-12">
-                                <label for="field" class="form-label text-default">Field</label>
-                                <input type="text" class="form-control form-control-lg" id="field" placeholder="Field" name="field" required>
+                                <label for="company-office" class="form-label text-default">Company Office Number</label>
+                                <input type="tel" class="form-control form-control-lg" id="company-office" placeholder="Company Office Number" name="company_contact" required>
                             </div>
                             <div class="col-xl-12 mb-2">
                                 <label for="signin-password" class="form-label text-default d-block">Password</label>
@@ -65,7 +61,7 @@ include('includes/header.php');
                                 <label for="signin-password" class="form-label text-default d-block">Retype Password</label>
                                 <div class="input-group">
                                     <input type="retypepassword" class="form-control form-control-lg" id="signin-password2" placeholder="Retype Password" name="retypepassword" required>
-                                    <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
+                                    <button class="btn btn-light" type="button" onclick="createpassword('signin-password2',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
                                 </div>
                             </div>
                             <div class="col-xl-12 d-grid mt-2">

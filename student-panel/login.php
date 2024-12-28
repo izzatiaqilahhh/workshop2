@@ -22,7 +22,7 @@ if (isset($_SESSION['student'])) {
                     }
                     ?>
                     <p class="h5 fw-semibold mb-2 text-center">Log In</p>
-                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your matric Number and password.</p>
+                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your matric number and password.</p>
                     <form action="studentlogin.php" method="POST">
                         <div class="row gy-3">
                             <div class="col-xl-12">
