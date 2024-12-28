@@ -2,35 +2,33 @@
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
-
     <!-- Meta Data -->
     <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>E-Hostel Room Complaint System - Hostel Room Information</title>
 
-    <link rel="icon" href="images/logo.png" type="images/x-icon">
+    <link rel="icon" href="images/logo.png" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
-    <link id="style" href="admin-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Style CSS -->
-    <link href="admin-panel/assets/css/styles.min.css" rel="stylesheet">
+    <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
 
     <!-- Icons CSS -->
-    <link href="admin-panel/assets/css/icons.min.css" rel="stylesheet">
+    <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
 </head>
 
 <body>
-
     <!-- App Header -->
     <header class="app-header">
         <div class="main-header-container container-fluid">
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
+                        <a href="student-dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
                     </div>
                 </div>
             </div>
@@ -44,8 +42,8 @@
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1">Nur Izzati Aqilah Binti Rahmad</p>
-                                <span class="op-7 fw-normal d-block fs-11">B032320078@student.utem.edu.my</span>
+                                <p class="fw-semibold mb-0 lh-1"></p>
+                                <span class="op-7 fw-normal d-block fs-11"></span>
                             </div>
                         </div>
                     </a>
@@ -61,14 +59,13 @@
     <!-- App Content -->
     <div class="main-content app-content">
         <div class="container-fluid">
-
             <!-- Page Header -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb py-sm-4 py-md-0">
                 <h1 class="page-title fw-semibold fs-18 mb-0">Hostel Room Information</h1>
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Nur Izzati Aqilah Binti Rahmad</a></li>
+                            <li class="breadcrumb-item"><a href="#"></a></li>
                             <li class="breadcrumb-item active" aria-current="page">Hostel Room Information</li>
                         </ol>
                     </nav>
@@ -77,7 +74,7 @@
             <!-- Page Header -->
 
             <!-- Room Information Section -->
-             <div class="row mt-4">
+            <div class="row mt-4">
                 <div class="d-flex my-3">
                     <a href="dashboard.php" class="btn btn-primary btn-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill me-2" viewBox="0 0 16 16">
@@ -86,7 +83,6 @@
                         Back
                     </a>
                 </div>
-                <!-- Room Information Section -->
 
                 <!-- Room Details Section -->
                 <div class="col-md-12">
@@ -95,32 +91,32 @@
                             <div class="card-title">My Room Details</div>
                         </div>
                         <div class="card-body">
-                            <table class="table">
-                                <tr>
-                                    <th>Room Number</th>
-                                    <td>SQ-K-8-2-B</td>
-                                </tr>
-                                <tr>
-                                    <th>Room Type</th>
-                                    <td>Double Occupancy</td>
-                                </tr>
-                                <tr>
-                                    <th>Availability</th>
-                                    <td>Occupied</td>
-                                </tr>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>Room Number</th>
+                                        <td>SQ-K-8-2-B</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Room Type</th>
+                                        <td>Double Occupancy</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Availability</th>
+                                        <td>Occupied</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- Room Details Section -->
-
             </div>
-            
         </div>
     </div>
+    <!-- App Content -->
 
     <!-- Bootstrap JS -->
     <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

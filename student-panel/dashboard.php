@@ -1,25 +1,51 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['student'])) {
+    // If not logged in, redirect to the login page
+    header("Location: login.php");
+    exit();
+}
+
+// Include database configuration and functions
+include('teahdbconfig.php');
+
+// Fetch user-specific data
+try {
+    // Fetch user profile information
+    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
+    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+    echo 'Database connection failed: ' . $e->getMessage();
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
-
     <!-- Meta Data -->
     <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>E-Hostel Room Complaint System - Dashboard</title>
+    <title>E-Hostel Room Complaint System - Student Dashboard</title>
 
-    <link rel="icon" href="images/logo.png" type="images/x-icon">
+    <link rel="icon" href="images/logo.png" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
-    <link id="style" href="admin-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Style CSS -->
-    <link href="admin-panel/assets/css/styles.min.css" rel="stylesheet">
+    <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
 
     <!-- Icons CSS -->
-    <link href="admin-panel/assets/css/icons.min.css" rel="stylesheet">
+    <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -30,7 +56,7 @@
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="user-homepage.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
+                        <a href="dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
                     </div>
                 </div>
             </div>
@@ -44,8 +70,8 @@
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1">Nur Izzati Aqilah Binti Rahmad</p>
-                                <span class="op-7 fw-normal d-block fs-11">B032320078@student.utem.edu.my</span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p> <!-- Display Full Name -->
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span> <!-- Display Email -->
                             </div>
                         </div>
                     </a>
@@ -68,7 +94,7 @@
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Nur Izzati Aqilah Binti Rahmad</a></li>
+                            <li class="breadcrumb-item"><a href="#"></a></li>
                             <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                         </ol>
                     </nav>
@@ -77,11 +103,9 @@
             <!-- Page Header -->
 
             <!-- Dashboard Modules Section -->
-             <div class="row mt-4">
-                <!-- Dashboard Modules Section -->
-
+            <div class="row mt-4">
                 <!-- My Profile Section -->
-                <div class="col-md-4">
+                <div class="col-sm-12 col-md-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <h5 class="card-title">My Profile</h5>
@@ -93,7 +117,7 @@
                 <!-- My Profile Section -->
 
                 <!-- My Complaints Section -->
-                <div class="col-md-4">
+                <div class="col-sm-12 col-md-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <h5 class="card-title">My Complaints</h5>
@@ -105,7 +129,7 @@
                 <!-- My Complaints Section -->
 
                 <!-- Room Information Section -->
-                <div class="col-md-4">
+                <div class="col-sm-12 col-md-4">
                     <div class="card custom-card">
                         <div class="card-body">
                             <h5 class="card-title">Hostel Information</h5>
@@ -115,7 +139,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Room Information Section -->
+            <!-- Dashboard Modules Section -->
 
         </div>
     </div>

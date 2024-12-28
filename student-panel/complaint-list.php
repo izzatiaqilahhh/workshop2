@@ -10,13 +10,13 @@
     <link rel="icon" href="images/logo.png" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
-    <link id="style" href="admin-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Style CSS -->
-    <link href="admin-panel/assets/css/styles.min.css" rel="stylesheet">
+    <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
 
     <!-- Icons CSS -->
-    <link href="admin-panel/assets/css/icons.min.css" rel="stylesheet">
+    <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -26,7 +26,7 @@
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
+                        <a href="student-dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
                     </div>
                 </div>
             </div>
@@ -40,8 +40,8 @@
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1">Nur Izzati Aqilah Binti Rahmad</p>
-                                <span class="op-7 fw-normal d-block fs-11">B032320078@student.utem.edu.my</span>
+                                <p class="fw-semibold mb-0 lh-1"></p>
+                                <span class="op-7 fw-normal d-block fs-11"></span>
                             </div>
                         </div>
                     </a>
@@ -63,7 +63,7 @@
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Nur Izzati Aqilah Binti Rahmad</a></li>
+                            <li class="breadcrumb-item"><a href="#"></a></li>
                             <li class="breadcrumb-item active" aria-current="page">My Complaints</li>
                         </ol>
                     </nav>

@@ -1,73 +1,61 @@
 <?php
 session_start();
+include('teahdbconfig.php'); // Include your database configuration file
 
-// Include the database connection file
-include('teahconnect.php');
-
-// Debugging: Check if form is submitted
 if (isset($_POST['loginBtn'])) {
-    echo "Form is being submitted!<br>";
+    $matric_no = $_POST['Matric_No']; // Ensure this matches your form field name
+    $password = $_POST['Password']; // Ensure this matches your form field name
 
-    // Get the submitted form data
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    // Enable error reporting for debugging
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
-    // Create a database connection
-    $conn = new mysqli($host, $user, $password, $database, $port);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    // Ensure $pdo is defined
+    if (!isset($pdo)) {
+        $_SESSION['error'] = 'Database connection is not established.';
+        header('Location: login.php');
+        exit();
     }
 
-    // Debugging: Check if the connection was successful
-    echo "Connected to the database!<br>";
+    // Prepare and execute the query
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
+        $stmt->bindParam(':Matric_No', $matric_no);
+        $stmt->execute();
 
-    // Prepare the SQL query to fetch the user data based on username
-    $sql = "SELECT * FROM Student WHERE Username = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
+        // Fetch the user data
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Debugging: Check if SQL executed correctly
-    if ($stmt) {
-        echo "SQL executed successfully!<br>";
-    } else {
-        echo "SQL error: " . $conn->error . "<br>";
-    }
+        if ($user) {
+            // Debugging: Log the fetched user data (except password)
+            error_log('User found: ' . print_r($user, true));
 
-    $result = $stmt->get_result();
-
-    // Check if the username exists in the database
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-
-        // Verify the password
-        if (password_verify($password, $user['Password'])) {
-            // Password is correct, create session and redirect to dashboard
-            $_SESSION['user_id'] = $user['Matric_No'];
-            $_SESSION['user_name'] = $user['Name'];
-
-            // Redirect to the student dashboard
-            header("Location: dashboard.php");
-            exit();
+            // Verify the password (Assuming passwords are hashed)
+            if ($password == $user['Password']) {
+                // Password is correct, start the session
+                $_SESSION['student'] = $user['Matric_No'];
+                error_log('Login successful: ' . $_SESSION['student']);
+                header('Location: dashboard.php');
+                exit();
+            } else {
+                // Incorrect password
+                $_SESSION['error'] = 'Incorrect Matric Number or Password';
+                error_log('Login failed: Incorrect password');
+            }
         } else {
-            // Incorrect password
-            $error_message = "Incorrect password!";
+            // User not found
+            $_SESSION['error'] = 'Incorrect Matric Number or Password';
+            error_log('Login failed: User not found');
         }
-    } else {
-        // Username not found
-        $error_message = "No user found with that username!";
+    } catch (PDOException $e) {
+        // Handle database connection errors
+        $_SESSION['error'] = 'Database connection failed: ' . $e->getMessage();
+        error_log('Database connection failed: ' . $e->getMessage());
     }
 
-    // Close the connection
-    $conn->close();
+    // Redirect back to the login page with an error message
+    header('Location: login.php');
+    exit();
 }
 ?>
-
-<!-- Display Error Message -->
-<?php if (isset($error_message)) { ?>
-    <div class="alert alert-danger">
-        <?php echo $error_message; ?>
-    </div>
-<?php } ?>

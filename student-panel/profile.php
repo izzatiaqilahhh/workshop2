@@ -5,7 +5,7 @@
 
     <!-- Meta Data -->
     <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>E-Hostel Room Complaint System - My Profile</title>
@@ -13,13 +13,13 @@
     <link rel="icon" href="images/logo.png" type="images/x-icon">
 
     <!-- Bootstrap CSS -->
-    <link id="style" href="admin-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Style CSS -->
-    <link href="admin-panel/assets/css/styles.min.css" rel="stylesheet">
+    <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
 
     <!-- Icons CSS -->
-    <link href="admin-panel/assets/css/icons.min.css" rel="stylesheet">
+    <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
 
 </head>
 
@@ -31,7 +31,7 @@
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
+                        <a href="student-dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
                     </div>
                 </div>
             </div>
@@ -45,8 +45,8 @@
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1">Nur Izzati Aqilah Binti Rahmad</p>
-                                <span class="op-7 fw-normal d-block fs-11">B032320078@student.utem.edu.my</span>
+                                <p class="fw-semibold mb-0 lh-1"></p>
+                                <span class="op-7 fw-normal d-block fs-11"></span>
                             </div>
                         </div>
                     </a>
@@ -69,7 +69,7 @@
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Nur Izzati Aqilah Binti Rahmad</a></li>
+                            <li class="breadcrumb-item"><a href="#"></a></li>
                             <li class="breadcrumb-item active" aria-current="page">My Profile</li>
                         </ol>
                     </nav>
@@ -92,35 +92,36 @@
                         <div class="card-title">My Details</div>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form method="POST" action="update-profile.php">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label>Full Name</label>
-                                    <input type="text" class="form-control" placeholder="Full Name">
+                                    <label for="fullName">Full Name</label>
+                                    <input type="text" id="fullName" class="form-control" name="fullName" value="" placeholder="Full Name">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Matric Number</label>
-                                    <input type="text" class="form-control" placeholder="Matric Number">
+                                    <label for="matricNumber">Matric Number</label>
+                                    <input type="text" id="matricNumber" class="form-control" name="matricNumber" value="" placeholder="Matric Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Identification Card Number</label>
-                                    <input type="text" class="form-control" placeholder="Identification Card Number">
+                                    <label for="icNumber">Identification Card Number</label>
+                                    <input type="text" id="icNumber" class="form-control" name="icNumber" value="" placeholder="Identification Card Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Phone Number</label>
-                                    <input type="text" class="form-control" placeholder="Phone Number">
+                                    <label for="phoneNumber">Phone Number</label>
+                                    <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" value="" placeholder="Phone Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Faculty</label>
-                                    <input type="text" class="form-control" placeholder="Faculty">
+                                    <label for="faculty">Faculty</label>
+                                    <input type="text" id="faculty" class="form-control" name="faculty" value="" placeholder="Faculty">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Course</label>
-                                    <input type="text" class="form-control" placeholder="Course">
+                                    <label for="course">Course</label>
+                                    <input type="text" id="course" class="form-control" name="course" value="" placeholder="Course">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Year of Study</label>
-                                    <select class="form-control">
+                                    <label for="yearOfStudy">Year of Study</label>
+                                    <select id="yearOfStudy" class="form-control" name="yearOfStudy">
+                                        <option value="" disabled selected>Select Year of Study</option>
                                         <option>Year 1</option>
                                         <option>Year 2</option>
                                         <option>Year 3</option>
@@ -129,7 +130,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="d-flex justify-content-start align-items-center">
-                                    <button type="button" class="btn btn-primary">Save Changes</button>
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
                                     </div>
                                 </div>
                             </div>
@@ -139,36 +140,36 @@
             </div>
             <!-- Profile Section -->
             
-             <!-- Change Password Section -->
-            <div class="card custom-card">
-                    <div class="card-header">
-                        <div class="card-title">Change Password</div>
-                    </div>
-                    <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Password</label>
-                                    <input type="text" class="form-control" placeholder="Password">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Retype Password</label>
-                                    <input type="text" class="form-control" placeholder="Retype Password">
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="d-flex justify-content-start align-items-center">
-                                    <button type="button" class="btn btn-primary">Save Changes</button>
-                                    </div>
+            <!-- Change Password Section -->
+            <div class="card custom-card mt-4">
+                <div class="card-header">
+                    <div class="card-title">Change Password</div>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="update-password.php">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" class="form-control" name="password" placeholder="Password">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="retypePassword">Retype Password</label>
+                                <input type="password" id="retypePassword" class="form-control" name="retypePassword" placeholder="Retype Password">
+                            </div>
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             <!-- Change Password Section -->
 
         </div>
     </div>
-     <!-- App Content -->
+    <!-- App Content -->
 
     <!-- Bootstrap JS -->
     <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
