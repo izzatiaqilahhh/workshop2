@@ -200,6 +200,14 @@
 
                     <!-- Slide -->
                     <li class="slide">
+                        <a href="statistics_analysis.php" class="side-menu__item">
+                            <i class='bx bxs-user-account  side-menu__icon'></i>
+                            <span class="side-menu__label">Statistics & Analysis</span>
+                        </a>
+                    </li>
+
+                    <!-- Slide -->
+                    <li class="slide">
                         <a href="view-admin.php" class="side-menu__item">
                             <i class='bx bx-user-pin side-menu__icon'></i>
                             <span class="side-menu__label">Admin</span>
