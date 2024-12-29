@@ -1,4 +1,4 @@
-<?php include('includes/header.php'); ?>
+<?php include('includes/repairstaff_header.php'); ?>
 
 <title>E-Hostel Room Complaint System - Complaint Management</title>
 
@@ -165,4 +165,4 @@
     });
 </script>
 
-<?php include('includes/footer.php'); ?>
+<?php include('includes/repairstaff_footer.php'); ?>
