@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('qiladbcon.php'); // Include your database configuration file
+include('teahdbconfig.php'); // Include your database configuration file
 
 if (isset($_POST['loginBtn'])) {
     $staff_no = $_POST['Staff_No']; // Ensure this matches your form field name
