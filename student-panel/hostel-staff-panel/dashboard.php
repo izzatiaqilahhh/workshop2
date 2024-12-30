@@ -25,7 +25,7 @@ try {
 }
 ?>
 
-<?php include('includes/header.php'); ?>
+<?php include('includes/header-.php'); ?>
 
 <title>E-Hostel Room Complaint System - Dashboard</title>
 
@@ -130,7 +130,7 @@ try {
     </div>
 </div>
 
-<?php include('includes/footer.php'); ?>
+<?php include('includes/footer-.php'); ?>
 
 <!-- Print Page JavaScript Function -->
 <script>

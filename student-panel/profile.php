@@ -103,12 +103,16 @@
                                     <input type="text" id="matricNumber" class="form-control" name="matricNumber" value="" placeholder="Matric Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="icNumber">Identification Card Number</label>
-                                    <input type="text" id="icNumber" class="form-control" name="icNumber" value="" placeholder="Identification Card Number">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" class="form-control" name="email" value="" placeholder="Email Address">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="phoneNumber">Phone Number</label>
                                     <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" value="" placeholder="Phone Number">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="gender">Gender</label>
+                                    <input type="gender" id="gender" class="form-control" name="gender" value="" placeholder="Gender">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="faculty">Faculty</label>
@@ -120,12 +124,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="yearOfStudy">Year of Study</label>
-                                    <select id="yearOfStudy" class="form-control" name="yearOfStudy">
-                                        <option value="" disabled selected>Select Year of Study</option>
-                                        <option>Year 1</option>
-                                        <option>Year 2</option>
-                                        <option>Year 3</option>
-                                        <option>Year 4</option>
+                                    <input type="text" id="yearofstudy" class="form-control" name="yearofstudy" value="" placeholder="Year of Study">
                                     </select>
                                 </div>
                                 <div class="col-md-12">
