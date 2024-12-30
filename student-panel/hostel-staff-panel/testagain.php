@@ -8,7 +8,7 @@ ini_set('display_errors', 1);
 include 'paandbconfig.php'; // Replace with your actual database connection file name
 
 // SQL query to fetch data from Block table
-$sql = "SELECT * FROM BLOCK";
+$sql = "SELECT B.Block_ID, B.Block_Name, B.Block_Gender, B.Number_Of_Floors, S.Name FROM Block B JOIN Hostel_Staff S ON B.Staff_ID = S.Staff_ID";
 $result = $conn->query($sql);
 
 ?>
@@ -43,6 +43,7 @@ $result = $conn->query($sql);
                 <th>Block Name</th>
                 <th>Block Gender</th>
                 <th>Number of Floors</th>
+                <th>Staff In Charge</th>
             </tr>
         </thead>
         <tbody>
@@ -54,7 +55,8 @@ $result = $conn->query($sql);
                     echo "<td>" . $row["Block_ID"] . "</td>";
                     echo "<td>" . $row["Block_Name"] . "</td>";
                     echo "<td>" . $row["Block_Gender"] . "</td>";
-                    echo "<td>" . $row["No_Of_Floors"] . "</td>";
+                    echo "<td>" . $row["Number_Of_Floors"] . "</td>";
+                    echo "<td>" . $row["Name"] . "</td>";
                     echo "</tr>";
                 }
             } else {
@@ -68,5 +70,5 @@ $result = $conn->query($sql);
 
 <?php
 // Close connection
-$conn->close();
+//$conn->close();
 ?>

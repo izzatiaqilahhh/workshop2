@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 $servername = "localhost"; // Change to your database server address if not localhost
 $username = "root";        // Replace with your MySQL username
 $password = "";            // Replace with your MySQL password
-$dbname = "workshop2";     // Replace with your database name
+$dbname = "Workshop2";     // Replace with your database name
 
 // Create connection using MySQLi
 $conn = new mysqli($servername, $username, $password, $dbname);
