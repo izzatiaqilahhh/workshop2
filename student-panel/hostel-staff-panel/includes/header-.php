@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <!-- Favicon -->
-    <link rel="icon" href="../../images/logo.png" type="images/x-icon">
+    <link rel="icon" href="../images/logo.png" type="images/x-icon">
 
     <!-- Bootstrap Css -->
     <link id="style" href="../assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -174,8 +174,16 @@
                     <!-- Slide Category -->
                     <li class="slide__category"><span class="category-name">Management</span></li>
 
-                     <!-- Slide -->
-                     <li class="slide">
+                    <!-- Slide -->
+                    <li class="slide">
+                        <a href="view-student.php" class="side-menu__item">
+                            <i class='bx bxs-user-account  side-menu__icon'></i>
+                            <span class="side-menu__label">Student</span>
+                        </a>
+                    </li>
+
+                    <!-- Slide -->
+                    <li class="slide">
                         <a href="view-complaint.php" class="side-menu__item">
                             <i class='bx bx-message-dots side-menu__icon'></i>
                             <span class="side-menu__label">Complaint</span>
@@ -192,9 +200,9 @@
 
                     <!-- Slide -->
                     <li class="slide">
-                        <a href="view-student.php" class="side-menu__item">
-                            <i class='bx bxs-user-account  side-menu__icon'></i>
-                            <span class="side-menu__label">Student</span>
+                        <a href="view-hostel-staff.php" class="side-menu__item">
+                            <i class='bx bx-user-pin side-menu__icon'></i>
+                            <span class="side-menu__label">Hostel Staff</span>
                         </a>
                     </li>
 
@@ -203,14 +211,6 @@
                         <a href="statistics_analysis.php" class="side-menu__item">
                             <i class='bx bxs-user-account  side-menu__icon'></i>
                             <span class="side-menu__label">Statistics & Analysis</span>
-                        </a>
-                    </li>
-
-                    <!-- Slide -->
-                    <li class="slide">
-                        <a href="view-admin.php" class="side-menu__item">
-                            <i class='bx bx-user-pin side-menu__icon'></i>
-                            <span class="side-menu__label">Admin</span>
                         </a>
                     </li>
 
