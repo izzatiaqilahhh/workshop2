@@ -101,7 +101,7 @@
                 <div class="header-element">
                     <div class="horizontal-logo">
                         <a href="#" class=" fw-bolder text-black me-2  fs-20">
-                            E-Hostel Room Complaint
+                            E-Hostel Room Complaint System
                         </a>
                     </div>
                 </div>
