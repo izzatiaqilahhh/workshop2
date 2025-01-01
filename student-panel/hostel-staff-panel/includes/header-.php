@@ -166,7 +166,7 @@
                     <!-- Slide -->
                     <li class="slide ">
                         <a href="dashboard.php" class="side-menu__item">
-                            <i class="bx bx-home side-menu__icon"></i>
+                            <i class='bx bxs-dashboard side-menu__icon'></i>
                             <span class="side-menu__label">Dashboard</span>
                         </a>
                     </li>
@@ -177,7 +177,7 @@
                     <!-- Slide -->
                     <li class="slide">
                         <a href="view-student.php" class="side-menu__item">
-                            <i class='bx bxs-user-account  side-menu__icon'></i>
+                            <i class='bx bx-user side-menu__icon'></i>
                             <span class="side-menu__label">Student</span>
                         </a>
                     </li>
@@ -185,7 +185,7 @@
                     <!-- Slide -->
                     <li class="slide">
                         <a href="view-complaint.php" class="side-menu__item">
-                            <i class='bx bx-message-dots side-menu__icon'></i>
+                            <i class='bx bx-detail side-menu__icon'></i>
                             <span class="side-menu__label">Complaint</span>
                         </a>
                     </li>
@@ -193,7 +193,7 @@
                     <!-- Slide -->
                     <li class="slide">
                         <a href="view-maintenance-staff.php" class="side-menu__item">
-                            <i class='bx bx-food-menu side-menu__icon'></i>
+                            <i class='bx bxs-user side-menu__icon'></i>
                             <span class="side-menu__label">Maintenance Staff</span>
                         </a>
                     </li>
@@ -201,7 +201,7 @@
                     <!-- Slide -->
                     <li class="slide">
                         <a href="view-hostel-staff.php" class="side-menu__item">
-                            <i class='bx bx-user-pin side-menu__icon'></i>
+                            <i class='bx bxs-user-rectangle side-menu__icon'></i>
                             <span class="side-menu__label">Hostel Staff</span>
                         </a>
                     </li>
@@ -209,7 +209,7 @@
                     <!-- Slide -->
                     <li class="slide">
                         <a href="statistics_analysis.php" class="side-menu__item">
-                            <i class='bx bxs-user-account  side-menu__icon'></i>
+                            <i class='bx bx-bar-chart-alt-2 side-menu__icon'></i>
                             <span class="side-menu__label">Statistics & Analysis</span>
                         </a>
                     </li>
