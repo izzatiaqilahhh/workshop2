@@ -1,4 +1,65 @@
+<?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Include database connection file
+include 'paandbconfig.php'; // Replace with your actual database connection file name
+
+// Fetch total complaints
+$total_complaints_query = "SELECT COUNT(*) AS total FROM Complaint";
+$result_total_complaints = $conn->query($total_complaints_query);
+$total_complaints = $result_total_complaints->fetch_assoc()['total'];
+
+// Fetch resolved complaints
+$resolved_complaints_query = "SELECT COUNT(*) AS resolved FROM Complaint WHERE status = 'Resolved'";
+$result_resolved_complaints = $conn->query($resolved_complaints_query);
+$resolved_complaints = $result_resolved_complaints->fetch_assoc()['resolved'];
+
+// Fetch pending complaints
+$pending_complaints_query = "SELECT COUNT(*) AS pending FROM Complaint WHERE status = 'Pending'";
+$result_pending_complaints = $conn->query($pending_complaints_query);
+$pending_complaints = $result_pending_complaints->fetch_assoc()['pending'];
+
+// Fetch in-progress complaints
+$progress_complaints_query = "SELECT COUNT(*) AS progress FROM Complaint WHERE status = 'In progress'";
+$result_progress_complaints = $conn->query($progress_complaints_query);
+$progress_complaints = $result_progress_complaints->fetch_assoc()['progress'];
+
+// Complaints resolved within 24 hours
+$resolved_within_24hrs_query = "SELECT COUNT(*) AS count FROM Complaint WHERE TIMESTAMPDIFF(HOUR, Date_Created, Date_Resolved) <= 24 AND status = 'Resolved'";
+$result_resolved_within_24hrs = $conn->query($resolved_within_24hrs_query);
+$resolved_within_24hrs = $result_resolved_within_24hrs->fetch_assoc()['count'];
+
+// Most common complaint type
+$top_complaint_type_query = "SELECT Complaint_Type, COUNT(*) AS count FROM Complaint GROUP BY Complaint_Type ORDER BY count DESC LIMIT 1";
+$result_top_complaint_type = $conn->query($top_complaint_type_query);
+$top_complaint_type_row = $result_top_complaint_type->fetch_assoc();
+$top_complaint_type = $top_complaint_type_row['Complaint_Type'];
+$top_complaint_count = $top_complaint_type_row['count'];
+
+// Complaints filed in the current month
+$current_month_complaints_query = "SELECT COUNT(*) AS count FROM Complaint WHERE MONTH(Date_Created) = MONTH(CURRENT_DATE()) AND YEAR(Date_Created) = YEAR(CURRENT_DATE())";
+$result_current_month_complaints = $conn->query($current_month_complaints_query);
+$current_month_complaints = $result_current_month_complaints->fetch_assoc()['count'];
+
+// Pending complaints older than a week
+$pending_older_than_week_query = "SELECT COUNT(*) AS count FROM Complaint WHERE status = 'Pending' AND TIMESTAMPDIFF(DAY, Date_Created, CURRENT_DATE()) > 7";
+$result_pending_older_than_week = $conn->query($pending_older_than_week_query);
+$pending_older_than_week = $result_pending_older_than_week->fetch_assoc()['count'];
+
+// Complaints by type
+$complaints_by_type_query = "SELECT Complaint_Type, COUNT(*) AS count FROM Complaint GROUP BY Complaint_Type";
+$result_complaints_by_type = $conn->query($complaints_by_type_query);
+$complaints_by_type = [];
+while ($row = $result_complaints_by_type->fetch_assoc()) {
+    $complaints_by_type[] = $row;
+}
+?>
+
+<!-- HTML structure for your page -->
 <?php include('includes/header-.php'); ?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <title>E-Hostel Room Complaint System - Statistics and Analysis</title>
 
@@ -10,8 +71,7 @@
         </div>
         <!-- Page Header Close -->
 
-        <!-- Start::Statistics Row -->
-        <!-- Start::Statistics Row -->
+       <!-- Start::Statistics Row -->
 <div class="row mb-4">
     <div class="col-md-3">
         <div class="card text-center">
@@ -83,6 +143,7 @@
                         <h5 class="card-title">Complaints by Category (Pie Chart)</h5>
                         <canvas id="complaintsChart" style="max-width: 500px; max-height: 500px; margin: auto;"></canvas>
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -127,6 +188,66 @@
                 }
             });
         </script>
+
+         <!-- Complaints Resolved within 24 hours -->
+            <!-- Complaints Resolved within 24 hours -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Complaints Resolved within 24 hours</h5>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Number of Complaints</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Fetch the complaints resolved within 24 hours by category
+                        $resolved_within_24hrs_by_type_query = "SELECT Complaint_Type, COUNT(*) AS count
+                                                               FROM Complaint 
+                                                               WHERE TIMESTAMPDIFF(HOUR, Date_Created, Date_Resolved) <= 24 
+                                                               AND status = 'Resolved'
+                                                               GROUP BY Complaint_Type";
+                        $result_resolved_within_24hrs_by_type = $conn->query($resolved_within_24hrs_by_type_query);
+
+                        // Display the complaints in the table
+                        while ($row = $result_resolved_within_24hrs_by_type->fetch_assoc()) {
+                        ?>
+                            <tr>
+                                <td><?php echo $row['Complaint_Type']; ?></td>
+                                <td><?php echo $row['count']; ?></td>
+                            </tr>
+                        <?php } ?>
+
+                        <!-- Calculate the total number of complaints resolved within 24 hours -->
+                        <?php
+                        $total_resolved_within_24hrs_query = "SELECT COUNT(*) AS total
+                                                              FROM Complaint
+                                                              WHERE TIMESTAMPDIFF(HOUR, Date_Created, Date_Resolved) <= 24
+                                                              AND status = 'Resolved'";
+                        $result_total_resolved_within_24hrs = $conn->query($total_resolved_within_24hrs_query);
+                        $total_resolved_within_24hrs = $result_total_resolved_within_24hrs->fetch_assoc()['total'];
+                        ?>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><strong>Total Complaints Resolved within 24 Hours</strong></td>
+                            <td><strong><?php echo $total_resolved_within_24hrs; ?></strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
     </div>
 </div>
 

@@ -1,27 +1,26 @@
-<?php include('includes/header-.php'); ?>
+<?php 
+include 'paandbconfig.php';
+include('includes/header-.php'); 
+?>
 
-<title>E-Hostel Room Complaint System  - Admin Management</title>
+
+<title>E-Hostel Room Complaint System - Admin Management</title>
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
-
-<!-- DataTables Buttons CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
-
-<!-- DataTables Responsive CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
 
 <!-- Start::app-content -->
 <div class="main-content app-content">
     <div class="container">
-
         <!-- Page Header -->
-        <div class="d-md-flex d-block align-items-center justify-content-between mb-2 my-4  page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-22 mb-0">Admin Management</h1>
+        <div class="d-md-flex d-block align-items-center justify-content-between mb-2 my-4 page-header-breadcrumb">
+            <h1 class="page-title fw-semibold fs-22 mb-0">Hostel Staff Information</h1>
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="view-admin.php">Admin Management</a></li>
+                        <li class="breadcrumb-item"><a href="view-admin.php">Hostel Staff Management</a></li>
                     </ol>
                 </nav>
             </div>
@@ -30,7 +29,6 @@
 
         <!-- Start::row-1 -->
         <div class="row mb-4">
-            
             <table class="table table-bordered display">
                 <thead>
                     <tr>
@@ -39,38 +37,43 @@
                         <th>Staff Name</th>
                         <th>Email Address</th>
                         <th>Phone Number</th>
-                        <th>Position</th>
+                        <th>Block in-charge</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($adminItems)): ?>
+                    <?php
+                    // Include the database connection file
+                    //include('includes/paandbconfig.php');
+                    
+                    // Fetch admin data from the database
+                    $query = "SELECT S.Staff_No, S.Name, S.Email, S.Phone_No, B.Block_Name FROM Block B JOIN Hostel_Staff S ON B.Staff_ID = S.Staff_ID";
+                    $result = $conn->query($query);
+                    
+                    if ($result->num_rows > 0) {
+                        $counter = 1;
+                        while ($adminItem = $result->fetch_assoc()) {
+                            ?>
+                            <tr>
+                                <td><?= $counter++; ?></td>
+                                <td><?= $adminItem['Staff_No']; ?></td>
+                                <td><?= $adminItem['Name']; ?></td>
+                                <td><?= $adminItem['Email']; ?></td>
+                                <td><?= $adminItem['Phone_No']; ?></td>
+                                <td><?= $adminItem['Block_Name']; ?></td>
+                                
+                            </tr>
+                            <?php
+                        }
+                    } else {
+                        ?>
                         <tr>
-                            <td colspan="6">No record found.</td>
+                            <td colspan="7">No record found.</td>
                         </tr>
-                    <?php else: ?>
-                        <?php foreach ($adminItems as $adminItem): ?>
-                        <tr>
-                            <td><?= $adminItem['no']; ?></td>
-                            <td><?= $adminItem['staff_no']; ?></td>
-                            <td><?= $adminItem['staff_name']; ?></td>
-                            <td><?= $adminItem['email']; ?></td>
-                            <td><?= $adminItem['phone']; ?></td>
-                            <td><?= $adminItem['position']; ?></td>
-                            <td>
-                                <a href="edit-admin.php?id=<?= $adminItem['id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                <form action="delete-admin.php" method="POST" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?= $adminItem['id']; ?>" />
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
-        <!--End::row-1 -->
-
+        <!-- End::row-1 -->
     </div>
 </div>
 <!-- End::app-content -->
@@ -81,22 +84,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-
-<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-
-<!-- JSZip for Excel export -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-<!-- PDFMake for PDF export -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.colVis.min.js"></script>
 
 <script>
     $(document).ready(function() {
         $('.table').DataTable({
-            responsive:true,
+            responsive: true,
             dom: 'Bfrtip',
             buttons: [
                 { extend: 'copyHtml5', exportOptions: { columns: [0, ':visible'] } },

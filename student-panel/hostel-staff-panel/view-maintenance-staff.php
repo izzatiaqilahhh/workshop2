@@ -1,5 +1,5 @@
-<?php include('includes/header-.php'); ?>
-
+<?php include('includes/header-.php'); 
+include 'paandbconfig.php';?>?
 <title>E-Hostel Room Complaint System - Repair Staff Management</title>
 
 <!-- DataTables CSS -->
@@ -41,17 +41,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewstaffdetails" data-id="<?= $staff_member['staff_id'] ?>">View</button>
-                        </td>
-                    </tr>
-                    
+                    <?php
+                    // Fetch all staff members from the database
+                    //include('includes/db_connection.php');
+                    $query = "SELECT * FROM Maintenance_Worker";
+                    $result = $conn->query($query);
+                    if ($result->num_rows > 0) {
+                        $counter = 1;
+                        while ($staff_member = $result->fetch_assoc()) {
+                            ?>
+                            <tr>
+                                <td><?= $counter++; ?></td>
+                                <td><?= $staff_member['Worker_No']; ?></td>
+                                <td><?= $staff_member['Name']; ?></td>
+                                <td><?= $staff_member['Phone_No']; ?></td>
+                                <td>
+                                    <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewstaffdetails" data-id="<?= $staff_member['Worker_Id'] ?>">View</button>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>
@@ -71,28 +82,24 @@
                 <form>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label>Company Number</label>
-                            <input type="text" class="form-control" id="company_number" readonly>
+                            <label>Staff Number</label>
+                            <input type="text" class="form-control" id="staff_number" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Company Name</label>
-                            <input type="text" class="form-control" id="company_name" readonly>
+                            <label>Staff Name</label>
+                            <input type="text" class="form-control" id="staff_name" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Company Office Number</label>
-                            <input type="text" class="form-control" id="company_offic_number" readonly>
+                            <label>Phone Number</label>
+                            <input type="text" class="form-control" id="phone_number" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Specialization</label>
                             <input type="text" class="form-control" id="specialization" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Position</label>
-                            <input type="text" class="form-control" id="position" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Field</label>
-                            <input type="text" class="form-control" id="field" readonly>
+                            <label>Email</label>
+                            <input type="text" class="form-control" id="email" readonly>
                         </div>
                     </div>
                 </form>
@@ -101,16 +108,9 @@
     </div>
 </div>
 
+<!-- JS for DataTables -->
 <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-
-<!-- JSZip for Excel export -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-<!-- PDFMake for PDF export -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.colVis.min.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -141,8 +141,29 @@
                     ]
                 }
             }
+        });
+    });
+</script>
 
+<!-- JS for Modal with Ajax -->
+<script>
+    $(document).on('click', '.btn-view', function() {
+        var staff_id = $(this).data('id'); // Get the staff ID from data-id attribute
 
+        // Make an Ajax request to fetch staff details
+        $.ajax({
+            url: 'get_staff_details.php', // PHP file to fetch staff details
+            method: 'POST',
+            data: { staff_id: staff_id },
+            success: function(response) {
+                // Populate the modal with the staff details
+                var staff = JSON.parse(response); // Assuming the response is in JSON format
+                $('#staff_number').val(staff.Worker_No);
+                $('#staff_name').val(staff.Name);
+                $('#phone_number').val(staff.Phone_No);
+                $('#specialization').val(staff.Specialization);
+                $('#email').val(staff.Email);
+            }
         });
     });
 </script>

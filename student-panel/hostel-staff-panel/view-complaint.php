@@ -1,4 +1,7 @@
-<?php include('includes/header-.php'); ?>
+<?php 
+include 'paandbconfig.php';
+include 'includes/header-.php'; 
+?>
 
 <title>E-Hostel Room Complaint System - Complaint Management</title>
 
@@ -7,9 +10,6 @@
 
 <!-- DataTables Buttons CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
-
-<!-- DataTables Responsive CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
 
 <!-- Start::app-content -->
 <div class="main-content app-content">
@@ -33,30 +33,46 @@
             <table class="table table-bordered display">
                 <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>Complaint Number</th>
-                        <th>Student Name</th>
-                        <th>Matric Number</th>
-                        <th>Phone Number</th>
-                        <th>Room Number</th>
+                        <th>No</th>
+                        <th>Complaint ID</th>
+                        <th>Complaint Type</th>
+                        <th>Complaint Issue</th>
+                        <th>Description</th>
+                        <th>Room_ID</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                   
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewcomplaindetails">View</button>
-                            <button class="btn btn-success btn-assign" data-bs-toggle="modal" data-bs-target="#assigncomplaintmodal">Assign</button>
-                        </td>
-                    </tr>
+                    <?php
+                    // Fetch complaint data from the database
+                    $query = "SELECT C.Complaint_ID, C.Complaint_Type, C.Complaint_Issue, C.Description, C.Room_ID FROM Complaint C";
+                    $result = $conn->query($query);
                     
+                    if ($result->num_rows > 0) {
+                        $counter = 1;
+                        while ($complaint = $result->fetch_assoc()) {
+                            ?>
+                            <tr>
+                                <td><?= $counter++; ?></td>
+                                <td><?= $complaint['Complaint_ID']; ?></td>
+                                <td><?= $complaint['Complaint_Type']; ?></td>
+                                <td><?= $complaint['Complaint_Issue']; ?></td>
+                                <td><?= $complaint['Description']; ?></td>
+                                <td><?= $complaint['Room_ID']; ?></td>
+                                <td>
+                                    <!-- View Complaint Button with Data -->
+                                    <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewcomplaindetails" data-complaint-id="<?= $complaint['Complaint_ID']; ?>" data-complaint-type="<?= $complaint['Complaint_Type']; ?>" data-complaint-issue="<?= $complaint['Complaint_Issue']; ?>" data-description="<?= $complaint['Description']; ?>">View</button>
+                                    <button class="btn btn-success btn-assign" data-bs-toggle="modal" data-bs-target="#assigncomplaintmodal">Assign</button>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                    } else {
+                        ?>
+                        <tr>
+                            <td colspan="7">No complaint records found.</td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -75,24 +91,23 @@
             <div class="modal-body">
                 <form>
                     <div class="row">
-
-                        <!-- New Field for Complaint Image -->
+                        <!-- Complaint Image -->
                         <div class="col-md-12 mb-3">
                             <label>Complaint Image</label>
-                            <img src="<?php echo '../uploads/' . $complaint_image; ?>" alt="Complaint Image" class="img-fluid" style="max-width: 100%; height: auto; border: 1px solid #ddd;">
+                            <img src="" id="complaint-image" alt="Complaint Image" class="img-fluid" style="max-width: 100%; height: auto; border: 1px solid #ddd;">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label>Complaint Type</label>
-                            <input type="text" class="form-control" value="" placeholder="Security Issues" readonly>
+                            <input type="text" class="form-control" id="complaint-type" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Issue Type</label>
-                            <input type="text" class="form-control" value="" placeholder="Issue Type" readonly>
+                            <input type="text" class="form-control" id="complaint-issue" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Complaint Description</label>
-                            <input type="text" class="form-control" value="" placeholder="Complaint Description" readonly>
+                            <input type="text" class="form-control" id="complaint-description" readonly>
                         </div>
                     </div>
                 </form>
@@ -144,14 +159,15 @@
 
 <!-- JSZip for Excel export -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<!-- PDFMake for PDF export -->
 
+<!-- PDFMake for PDF export -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.colVis.min.js"></script>
 
 <script>
     $(document).ready(function() {
+        // Initialize DataTable
         $('.table').DataTable({
             responsive: true,
             dom: 'Bfrtip',
@@ -162,7 +178,27 @@
                 'colvis'
             ]
         });
+
+        // Populate modal with complaint details
+        $('#viewcomplaindetails').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var complaintID = button.data('complaint-id');
+            var complaintType = button.data('complaint-type');
+            var complaintIssue = button.data('complaint-issue');
+            var description = button.data('description');
+            var image = button.data('image');
+
+            // Update modal content
+            $(this).find('#complaint-type').val(complaintType);
+            $(this).find('#complaint-issue').val(complaintIssue);
+            $(this).find('#complaint-description').val(description);
+
+            // Display the image if available
+            if (image) {
+                $(this).find('#complaint-image').attr('src', 'data:image/jpeg;base64,' + image);
+            }
+        });
     });
 </script>
 
-<?php include('includes/footer-.php'); ?>
+<?php include('includes/footer-.php'); ?>  
