@@ -4,7 +4,7 @@ include('includes/header-.php');
 ?>
 
 
-<title>E-Hostel Room Complaint System - Admin Management</title>
+<title>E-Hostel Room Complaint System - Hostel Staff Management</title>
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
@@ -16,7 +16,7 @@ include('includes/header-.php');
     <div class="container">
         <!-- Page Header -->
         <div class="d-md-flex d-block align-items-center justify-content-between mb-2 my-4 page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-22 mb-0">Hostel Staff Information</h1>
+            <h1 class="page-title fw-semibold fs-22 mb-0">Hostel Staff Management</h1>
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
@@ -37,7 +37,7 @@ include('includes/header-.php');
                         <th>Staff Name</th>
                         <th>Email Address</th>
                         <th>Phone Number</th>
-                        <th>Block in-charge</th>
+                        <th>Block In-Charge</th>
                     </tr>
                 </thead>
                 <tbody>

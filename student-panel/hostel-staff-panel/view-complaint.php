@@ -38,7 +38,7 @@ include 'includes/header-.php';
                         <th>Complaint Type</th>
                         <th>Complaint Issue</th>
                         <th>Description</th>
-                        <th>Room_ID</th>
+                        <th>Room ID</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -70,7 +70,7 @@ include 'includes/header-.php';
                     } else {
                         ?>
                         <tr>
-                            <td colspan="7">No complaint records found.</td>
+                            <td colspan="7">No complaint record found.</td>
                         </tr>
                     <?php } ?>
                 </tbody>

@@ -1,6 +1,6 @@
 <?php include('includes/header-.php'); 
 include 'paandbconfig.php';?>?
-<title>E-Hostel Room Complaint System - Repair Staff Management</title>
+<title>E-Hostel Room Complaint System - Maintenance Staff Management</title>
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
@@ -17,11 +17,11 @@ include 'paandbconfig.php';?>?
 
         <!-- Page Header -->
         <div class="d-md-flex d-block align-items-center justify-content-between mb-2 my-4 page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-22 mb-0">Repair Staff Management</h1>
+            <h1 class="page-title fw-semibold fs-22 mb-0">Maintenance Staff Management</h1>
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="view-maintenance-staff.php">Repair Staff Management</a></li>
+                        <li class="breadcrumb-item"><a href="view-maintenance-staff.php">Maintenance Staff Management</a></li>
                     </ol>
                 </nav>
             </div>
