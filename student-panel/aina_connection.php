@@ -1,6 +1,6 @@
 <?php
 // Database connection settings
-$host = 'localhost'; // Change if your database is hosted elsewhere
+$host = 'config'; // Change if your database is hosted elsewhere
 $user = 'root';      // Your MySQL username
 $password = '';      // Your MySQL password
 $database = 'hostelcomplaint'; // Replace with your database name
