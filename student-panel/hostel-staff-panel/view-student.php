@@ -1,5 +1,5 @@
 <?php
-include 'paandbconfig.php';
+include 'qiladbcon.php';
 include 'includes/header-.php'; // Include header
 
 if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
@@ -25,6 +25,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
     }
     exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +35,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
+
 </head>
 <body>
 
@@ -62,26 +64,29 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
                         </tr>
                     </thead>
                     <tbody>
+                        
                         <?php
-                        $query = "SELECT * FROM Student";
-                        $result = $conn->query($query);
-                        if ($result->num_rows > 0) {
-                            $no = 1;
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>
-                                        <td>{$no}</td>
-                                        <td>{$row['Matric_No']}</td>
-                                        <td>{$row['Name']}</td>
-                                        <td>{$row['Phone_No']}</td>
-                                        <td>
-                                            <button class='btn btn-primary btn-view' data-bs-toggle='modal' data-bs-target='#viewstudentdetails' data-id='{$row['Student_ID']}'>View</button>
-                                        </td>
-                                      </tr>";
-                                $no++;
+                       $no = 1; // Initialize the counter
+                       $query = 'SELECT * FROM "Student"'; // Use double quotes if the table name is case-sensitive
+                       $result = pg_query($connection, $query);
+                       
+                       if ($result) {
+                        while ($row = pg_fetch_assoc($result)) {
+                            echo "<tr>
+                            <td>{$no}</td>
+                            <td>{$row['Matric_No']}</td>
+                            <td>{$row['Name']}</td>
+                            <td>{$row['Phone_No']}</td>
+                            <td>
+                            <button class='btn btn-primary btn-view' data-bs-toggle='modal' data-bs-target='#viewstudentdetails' data-id='{$row['Student_ID']}'>View</button>
+                            </td>
+                            </tr>";
+                            $no++; // Increment the counter
                             }
                         } else {
                             echo "<tr><td colspan='5'>No students found.</td></tr>";
                         }
+
                         ?>
                     </tbody>
                 </table>
@@ -170,6 +175,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
 
     </script>
     <?php include 'includes/footer-.php'; // Include footer ?>
+
 </body>
 </html>
 
