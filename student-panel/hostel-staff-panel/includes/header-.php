@@ -74,7 +74,7 @@
 <body>
 
 <!-- Loader -->
-<div id="loader">
+ <div id="loader">
     <img src="../assets/images/media/loader.svg" alt="">
 </div>
 <!-- Loader -->
