@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
+<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-toggled="close">
 
 <head>
     
@@ -93,9 +93,7 @@
                 <!-- Header Element -->
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="#" class=" fw-bolder text-black me-2  fs-20">
-                            E-Hostel Room Complaint System
-                        </a>
+                        <a href="#" class=" fw-bolder text-black me-2  fs-20">Hostel Room Complaint System</a>
                     </div>
                 </div>
 
@@ -143,9 +141,7 @@
 
         <!-- Main Sidebar Header -->
         <div class="main-sidebar-header">
-            <a href="#" class=" fw-bolder text-white fs-16">
-                E-HRCS
-            </a>
+            <a href="#" class=" fw-bolder text-white fs-16">HRCS</a>
         </div>
 
         <!-- Main Sidebar -->

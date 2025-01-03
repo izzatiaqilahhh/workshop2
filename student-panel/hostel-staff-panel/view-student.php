@@ -1,6 +1,6 @@
 <?php
 include 'qiladbcon.php';
-include 'includes/header-.php'; // Include header
+include 'includes/header-.php';
 
 if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
     
@@ -25,12 +25,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
     }
     exit;
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>E-Hostel Room Complaint System - Student Management</title>
+    <title>Hostel Room Complaint System - Student Management</title>
 
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
@@ -86,8 +86,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
                         } else {
                             echo "<tr><td colspan='5'>No students found.</td></tr>";
                         }
-
                         ?>
+
                     </tbody>
                 </table>
             </div>
@@ -174,7 +174,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
 });
 
     </script>
-    <?php include 'includes/footer-.php'; // Include footer ?>
+    <?php
+    include 'includes/footer-.php'; 
+    ?>
 
 </body>
 </html>

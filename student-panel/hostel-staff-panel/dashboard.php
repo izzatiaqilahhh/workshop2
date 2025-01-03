@@ -27,7 +27,7 @@ try {
 
 <?php include('includes/header-.php'); ?>
 
-<title>E-Hostel Room Complaint System - Dashboard</title>
+<title>Hostel Room Complaint System - Dashboard</title>
 
 <!-- App Content -->
 <div class="main-content app-content">
