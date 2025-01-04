@@ -9,7 +9,7 @@ if (isset($_SESSION['hostel_staff'])) {
 
 <?php include('includes/header.php'); ?>
 
-<title>Hostel Room Complaint System - Log In</title>
+<title>e-HRCS - Log In</title>
 
 <div class="container">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">

@@ -141,7 +141,7 @@
 
         <!-- Main Sidebar Header -->
         <div class="main-sidebar-header">
-            <a href="#" class=" fw-bolder text-white fs-16">HRCS</a>
+            <a href="#" class=" fw-bolder text-white fs-16">e-HRCS</a>
         </div>
 
         <!-- Main Sidebar -->

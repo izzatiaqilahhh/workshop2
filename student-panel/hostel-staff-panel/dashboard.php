@@ -9,7 +9,7 @@ if (!isset($_SESSION['hostel_staff'])) {
 }
 
 // Include database configuration and functions
-include('teahdbconfig.php');
+include('qiladbcon.php');
 
 // Fetch user-specific data
 try {
@@ -27,7 +27,7 @@ try {
 
 <?php include('includes/header-.php'); ?>
 
-<title>Hostel Room Complaint System - Dashboard</title>
+<title>e-HRCS - Dashboard</title>
 
 <!-- App Content -->
 <div class="main-content app-content">

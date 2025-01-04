@@ -2,7 +2,7 @@
 include('includes/header.php');
 ?>
 
-<title>Hostel Room Complaint System - Forgot Password</title>
+<title>e-HRCS - Forgot Password</title>
 
 <div class="container">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
