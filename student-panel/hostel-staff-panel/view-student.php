@@ -7,7 +7,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
     // Fetch student details based on Student_ID
     if (isset($_POST['id'])) {
         $studentId = $_POST['id'];
-
         $query = "SELECT * FROM Student WHERE Student_ID= ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $studentId);
@@ -31,11 +30,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
 <html lang="en">
 <head>
     <title>Hostel Room Complaint System - Student Management</title>
-
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
-
 </head>
 <body>
 
@@ -132,48 +126,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
         </div>
     </div>
 
-    <!-- DataTables and JS -->
-    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.bootstrap5.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-    $('.table').DataTable({
-        responsive: true,
-        dom: 'Bfrtip',
-        buttons: ['copy', 'excel', 'pdf', 'colvis']
-    });
-
-    $('.btn-view').click(function() {
-        var studentId = $(this).data('id');
-
-        $.ajax({
-            url: 'view-student.php',
-            method: 'POST',
-            data: { action: 'fetch_student', id: studentId },
-            dataType: 'json',
-            success: function(response) {
-                console.log(response); // Debugging line
-
-                if (response.error) {
-                    alert(response.error);
-                } else {
-                    $('#Faculty').val(response.Faculty);
-                    $('#Course').val(response.Course);
-                    $('#Year_Of_Study').val(response.Year_Of_Study);
-                    $('#Gender').val(response.Gender);
-                    $('#Room_ID').val(response.Room_ID);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("AJAX Error: " + status + " " + error);
-                alert('Error fetching student details.');
-            }
-        });
-    });
-});
-
-    </script>
     <?php
     include 'includes/footer-.php'; 
     ?>
