@@ -9,7 +9,7 @@ if (isset($_SESSION['student'])) {
 
 <?php include('includes/header.php'); ?>
 
-<title>E-Hostel Room Complaint System - Log In</title>
+<title>e-HRSC - Log In</title>
 
 <link rel="icon" href="images/logo.png" type="images/x-icon">
 
