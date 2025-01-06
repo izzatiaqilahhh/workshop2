@@ -3,7 +3,7 @@ include 'qiladbcon.php';
 include 'includes/header-.php';
 
 if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
-    
+
     // Fetch student details based on Student_ID
     if (isset($_POST['id'])) {
         $studentId = $_POST['id'];
@@ -28,9 +28,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Hostel Room Complaint System - Student Management</title>
+    <title>e-HRCS - Student Management</title>
 </head>
+
 <body>
 
     <!-- Start::app-content -->
@@ -58,15 +60,15 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                         <?php
-                       $no = 1; // Initialize the counter
-                       $query = 'SELECT * FROM "Student"'; // Use double quotes if the table name is case-sensitive
-                       $result = pg_query($connection, $query);
-                       
-                       if ($result) {
-                        while ($row = pg_fetch_assoc($result)) {
-                            echo "<tr>
+                        $no = 1; // Initialize the counter
+                        $query = 'SELECT * FROM "Student"'; // Use double quotes if the table name is case-sensitive
+                        $result = pg_query($connection, $query);
+
+                        if ($result) {
+                            while ($row = pg_fetch_assoc($result)) {
+                                echo "<tr>
                             <td>{$no}</td>
                             <td>{$row['Matric_No']}</td>
                             <td>{$row['Name']}</td>
@@ -75,7 +77,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
                             <button class='btn btn-primary btn-view' data-bs-toggle='modal' data-bs-target='#viewstudentdetails' data-id='{$row['Student_ID']}'>View</button>
                             </td>
                             </tr>";
-                            $no++; // Increment the counter
+                                $no++; // Increment the counter
                             }
                         } else {
                             echo "<tr><td colspan='5'>No students found.</td></tr>";
@@ -127,10 +129,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
     </div>
 
     <?php
-    include 'includes/footer-.php'; 
+    include 'includes/footer-.php';
     ?>
 
 </body>
+
 </html>
-
-

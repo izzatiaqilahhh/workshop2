@@ -9,15 +9,50 @@ if (isset($_SESSION['student'])) {
 
 <?php include('includes/header.php'); ?>
 
-<title>e-HRSC - Log In</title>
+<head>
 
-<link rel="icon" href="images/logo.png" type="images/x-icon">
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>e-HRSC - Log In</title>
+
+    <link rel="icon" href="images/logo.png" type="images/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Style CSS -->
+    <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
+
+    <!-- Icons CSS -->
+    <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
+
+</head>
+
+<!-- App Header -->
+<header class="app-header" style="background-color:rgba(0,0,0,0.0); border:0">
+    <div class="main-header-container container-fluid">
+        <div class="header-content-left">
+            <div class="header-element">
+                <div class="horizontal-logo">
+                    <a href="login.php" class="text-black fw-bolder fs-20">
+                        E-Hostel Room Complaint System
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- App Header -->
 
 <div class="container">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
         <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
             <div class="card custom-card">
                 <div class="card-body p-5">
+
                     <!-- Display error messages -->
                     <?php
                     if (isset($_SESSION['error'])) {
@@ -38,7 +73,7 @@ if (isset($_SESSION['student'])) {
                                 <div class="input-group">
                                     <input type="Password" class="form-control form-control-lg" id="signin-password" placeholder="Password" name="Password" required>
                                     <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2">
-                                      <i class="ri-eye-off-line align-middle"></i>
+                                        <i class="ri-eye-off-line align-middle"></i>
                                     </button>
                                 </div>
                             </div>
@@ -63,6 +98,7 @@ if (isset($_SESSION['student'])) {
 <script src="assets/js/show-password.js"></script>
 
 </body>
+
 </html>
 
 <?php include('includes/footer.php'); ?>

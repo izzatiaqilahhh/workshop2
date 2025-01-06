@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>E-Hostel Room Complaint System - My Profile</title>
+    <title>e-HRCS - My Profile</title>
     
     <link rel="icon" href="images/logo.png" type="images/x-icon">
 
@@ -171,7 +171,7 @@
     <!-- App Content -->
 
     <!-- Bootstrap JS -->
-    <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="hostel-staff-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

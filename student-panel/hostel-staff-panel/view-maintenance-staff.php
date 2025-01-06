@@ -3,11 +3,7 @@ include 'qiladbcon.php';
 include 'includes/header-.php'; 
 ?>
 
-<title>Hostel Room Complaint System - Maintenance Staff Management</title>
-
-<!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
+<title>e-HRCS - Maintenance Staff Management</title>
 
 <!-- Start::app-content -->
 <div class="main-content app-content">

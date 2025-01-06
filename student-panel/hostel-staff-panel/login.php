@@ -11,6 +11,22 @@ if (isset($_SESSION['hostel_staff'])) {
 
 <title>e-HRCS - Log In</title>
 
+<!-- App Header -->
+<header class="app-header" style="background-color:rgba(0,0,0,0.0); border:0">
+    <div class="main-header-container container-fluid">
+        <div class="header-content-left">
+            <div class="header-element">
+                <div class="horizontal-logo">
+                    <a href="login.php" class="text-black fw-bolder fs-20">
+                        E-Hostel Room Complaint System
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- App Header -->
+
 <div class="container">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
         <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
@@ -59,6 +75,7 @@ if (isset($_SESSION['hostel_staff'])) {
 <script src="assets/js/show-password.js"></script>
 
 </body>
+
 </html>
 
 <?php include('includes/footer.php'); ?>

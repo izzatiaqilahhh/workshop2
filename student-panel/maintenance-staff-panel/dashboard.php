@@ -1,6 +1,6 @@
 <?php include('includes/header-.php'); ?>
 
-<title>E-Hostel Room Complaint System - Dashboard</title>
+<title>e-HRCS - Dashboard</title>
 
 <!-- App Content -->
 <div class="main-content app-content">
