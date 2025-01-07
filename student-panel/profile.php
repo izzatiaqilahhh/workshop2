@@ -1,3 +1,27 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['student'])) {
+    // If not logged in, redirect to the login page
+    header("Location: login.php");
+    exit();
+}
+
+// Include database configuration and functions
+include('teahdbconfig.php');
+
+// Fetch user-specific data
+try {
+    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
+    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo 'Database connection failed: ' . $e->getMessage();
+    exit();
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
@@ -68,7 +92,6 @@
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">My Profile</li>
                         </ol>
                     </nav>
@@ -99,15 +122,15 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="matricNumber">Matric Number</label>
-                                    <input type="text" id="matricNumber" class="form-control" name="matricNumber" value="<?php echo htmlspecialchars($user['Matric_No']); ?>" placeholder="Matric Number">
+                                    <input type="text" id="matricNumber" class="form-control" name="matricNumber" value="<?php echo htmlspecialchars($user['Matric_No']); ?>" placeholder="Matric Number" readonly>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="email">Email Address</label>
                                     <input type="email" id="email" class="form-control" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>" placeholder="Email Address">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="phoneNumber">Phone Number</label>
-                                    <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" value="<?php echo htmlspecialchars($user['Phone']); ?>" placeholder="Phone Number">
+                                    <label for="Phone_No">Phone Number</label>
+                                    <input type="text" id="Phone_No" class="form-control" name="Phone_No" value="<?php echo htmlspecialchars($user['Phone']); ?>" placeholder="Phone Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="gender">Gender</label>
@@ -122,8 +145,8 @@
                                     <input type="text" id="course" class="form-control" name="course" value="<?php echo htmlspecialchars($user['Course']); ?>" placeholder="Course">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="yearOfStudy">Year of Study</label>
-                                    <input type="text" id="yearofstudy" class="form-control" name="yearofstudy" value="<?php echo htmlspecialchars($user['Year_of_Study']); ?>" placeholder="Year of Study">
+                                    <label for="Year_Of_Study">Year of Study</label>
+                                    <input type="text" id="Year_Of_Study" class="form-control" name="Year_Of_Study" value="<?php echo htmlspecialchars($user['Year_of_Study']); ?>" placeholder="Year of Study">
                                 </div>
                                 <div class="col-md-12">
                                     <div class="d-flex justify-content-start align-items-center">
