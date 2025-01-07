@@ -130,7 +130,7 @@ try {
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="Phone_No">Phone Number</label>
-                                    <input type="text" id="Phone_No" class="form-control" name="Phone_No" value="<?php echo htmlspecialchars($user['Phone']); ?>" placeholder="Phone Number">
+                                    <input type="text" id="Phone_No" class="form-control" name="Phone_No" value="<?php echo htmlspecialchars($user['Phone_No']); ?>" placeholder="Phone Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="gender">Gender</label>
@@ -146,7 +146,7 @@ try {
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="Year_Of_Study">Year of Study</label>
-                                    <input type="text" id="Year_Of_Study" class="form-control" name="Year_Of_Study" value="<?php echo htmlspecialchars($user['Year_of_Study']); ?>" placeholder="Year of Study">
+                                    <input type="text" id="Year_Of_Study" class="form-control" name="Year_Of_Study" value="<?php echo htmlspecialchars($user['Year_Of_Study']); ?>" placeholder="Year of Study">
                                 </div>
                                 <div class="col-md-12">
                                     <div class="d-flex justify-content-start align-items-center">

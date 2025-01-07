@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Prepare the update query
     $query = 'UPDATE student SET ';
     $params = [];
-    $fields = ['fullName' => 'Name', 'email' => 'Email', 'Phone_No' => 'Phone', 'gender' => 'Gender', 'faculty' => 'Faculty', 'course' => 'Course', 'Year_Of_Study' => 'Year_of_Study'];
+    $fields = ['fullName' => 'Name', 'email' => 'Email', 'Phone_No' => 'Phone_No', 'gender' => 'Gender', 'faculty' => 'Faculty', 'course' => 'Course', 'Year_Of_Study' => 'Year_Of_Study'];
 
     foreach ($fields as $field => $dbField) {
         if (!empty($_POST[$field])) {
