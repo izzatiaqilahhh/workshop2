@@ -1,8 +1,8 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
-
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
 
     <title>e-HRCS - My Profile</title>
     
-    <link rel="icon" href="images/logo.png" type="images/x-icon">
+    <link rel="icon" href="images/logo.png" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
     <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -20,7 +20,6 @@
 
     <!-- Icons CSS -->
     <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -45,8 +44,8 @@
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"></p>
-                                <span class="op-7 fw-normal d-block fs-11"></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p>
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span>
                             </div>
                         </div>
                     </a>
@@ -69,7 +68,7 @@
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#"></a></li>
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">My Profile</li>
                         </ol>
                     </nav>
@@ -96,36 +95,35 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="fullName">Full Name</label>
-                                    <input type="text" id="fullName" class="form-control" name="fullName" value="" placeholder="Full Name">
+                                    <input type="text" id="fullName" class="form-control" name="fullName" value="<?php echo htmlspecialchars($user['Name']); ?>" placeholder="Full Name">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="matricNumber">Matric Number</label>
-                                    <input type="text" id="matricNumber" class="form-control" name="matricNumber" value="" placeholder="Matric Number">
+                                    <input type="text" id="matricNumber" class="form-control" name="matricNumber" value="<?php echo htmlspecialchars($user['Matric_No']); ?>" placeholder="Matric Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="email">Email Address</label>
-                                    <input type="email" id="email" class="form-control" name="email" value="" placeholder="Email Address">
+                                    <input type="email" id="email" class="form-control" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>" placeholder="Email Address">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="phoneNumber">Phone Number</label>
-                                    <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" value="" placeholder="Phone Number">
+                                    <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" value="<?php echo htmlspecialchars($user['Phone']); ?>" placeholder="Phone Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="gender">Gender</label>
-                                    <input type="gender" id="gender" class="form-control" name="gender" value="" placeholder="Gender">
+                                    <input type="text" id="gender" class="form-control" name="gender" value="<?php echo htmlspecialchars($user['Gender']); ?>" placeholder="Gender">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="faculty">Faculty</label>
-                                    <input type="text" id="faculty" class="form-control" name="faculty" value="" placeholder="Faculty">
+                                    <input type="text" id="faculty" class="form-control" name="faculty" value="<?php echo htmlspecialchars($user['Faculty']); ?>" placeholder="Faculty">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="course">Course</label>
-                                    <input type="text" id="course" class="form-control" name="course" value="" placeholder="Course">
+                                    <input type="text" id="course" class="form-control" name="course" value="<?php echo htmlspecialchars($user['Course']); ?>" placeholder="Course">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="yearOfStudy">Year of Study</label>
-                                    <input type="text" id="yearofstudy" class="form-control" name="yearofstudy" value="" placeholder="Year of Study">
-                                    </select>
+                                    <input type="text" id="yearofstudy" class="form-control" name="yearofstudy" value="<?php echo htmlspecialchars($user['Year_of_Study']); ?>" placeholder="Year of Study">
                                 </div>
                                 <div class="col-md-12">
                                     <div class="d-flex justify-content-start align-items-center">
