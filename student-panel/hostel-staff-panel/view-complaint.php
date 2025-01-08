@@ -1,5 +1,5 @@
 <?php 
-include 'qiladbcon.php';
+include 'paandbconfig.php';
 include 'includes/header-.php'; 
 ?>
 
@@ -36,27 +36,27 @@ include 'includes/header-.php';
                         <th>Complaint Type</th>
                         <th>Complaint Issue</th>
                         <th>Description</th>
-                        <th>Room ID</th>
+                        <th>Room No</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     // Fetch complaint data from the database
-                    $query = 'SELECT "Complaint_ID", "Complaint_Type", "Complaint_Issue", "Description", "Room_ID" FROM "Complaint"';
-                    $result = pg_query($connection, $query); // Use pg_query for PostgreSQL
+                    $query = "SELECT C.Complaint_ID, C.Complaint_Type, C.Complaint_Issue, C.Description, R.Room_No FROM Complaint C JOIN Room R ON C.Room_ID = R.Room_ID";
+                    $result = mysqli_query($conn, $query); // Use mysqli_query for MySQL
 
                     if ($result) {
                         $counter = 1; // Counter for the No column
-                        while ($complaint = pg_fetch_assoc($result)) {
+                        while ($complaint = mysqli_fetch_assoc($result)) {
                             ?>
                             <tr>
-                                <td><?= $counter++; ?></td>
+                                <td><?= $counter++; ?></td> 
                                 <td><?= htmlspecialchars($complaint['Complaint_ID']); ?></td>
                                 <td><?= htmlspecialchars($complaint['Complaint_Type']); ?></td>
                                 <td><?= htmlspecialchars($complaint['Complaint_Issue']); ?></td>
                                 <td><?= htmlspecialchars($complaint['Description']); ?></td>
-                                <td><?= htmlspecialchars($complaint['Room_ID']); ?></td>
+                                <td><?= htmlspecialchars($complaint['Room_No']); ?></td>
                                 <td>
                                     <!-- View Complaint Button -->
                                     <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewcomplaindetails" 
