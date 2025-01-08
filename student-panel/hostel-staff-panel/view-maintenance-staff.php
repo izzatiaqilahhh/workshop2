@@ -1,15 +1,9 @@
-<?php include('includes/header-.php'); 
-include 'paandbconfig.php';?>?
-<title>E-Hostel Room Complaint System - Maintenance Staff Management</title>
+<?php
+include 'qiladbcon.php';
+include 'includes/header-.php'; 
+?>
 
-<!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
-
-<!-- DataTables Buttons CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
-
-<!-- DataTables Responsive CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
+<title>e-HRCS - Maintenance Staff Management</title>
 
 <!-- Start::app-content -->
 <div class="main-content app-content">
@@ -42,25 +36,26 @@ include 'paandbconfig.php';?>?
                 </thead>
                 <tbody>
                     <?php
-                    // Fetch all staff members from the database
-                    //include('includes/db_connection.php');
-                    $query = "SELECT * FROM Maintenance_Worker";
-                    $result = $conn->query($query);
-                    if ($result->num_rows > 0) {
+                    $query = 'SELECT * FROM "Maintenance_Worker"';
+                    $result = pg_query($connection, $query); // Use pg_query for PostgreSQL
+                    
+                    if ($result) {
                         $counter = 1;
-                        while ($staff_member = $result->fetch_assoc()) {
+                        while ($staff_member = pg_fetch_assoc($result)) {
                             ?>
                             <tr>
                                 <td><?= $counter++; ?></td>
-                                <td><?= $staff_member['Worker_No']; ?></td>
-                                <td><?= $staff_member['Name']; ?></td>
-                                <td><?= $staff_member['Phone_No']; ?></td>
+                                <td><?= htmlspecialchars($staff_member['Worker_No']); ?></td>
+                                <td><?= htmlspecialchars($staff_member['Name']); ?></td>
+                                <td><?= htmlspecialchars($staff_member['Phone_No']); ?></td>
                                 <td>
-                                    <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewstaffdetails" data-id="<?= $staff_member['Worker_Id'] ?>">View</button>
+                                    <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewstaffdetails" data-id="<?= htmlspecialchars($staff_member['Worker_Id']); ?>">View</button>
                                 </td>
                             </tr>
                             <?php
                         }
+                    } else {
+                        echo '<tr><td colspan="5">No staff records found.</td></tr>';
                     }
                     ?>
                 </tbody>
@@ -108,64 +103,41 @@ include 'paandbconfig.php';?>?
     </div>
 </div>
 
-<!-- JS for DataTables -->
+<!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-
 <script>
     $(document).ready(function() {
         $('.table').DataTable({
-            responsive:true,
+            responsive: true,
             dom: 'Bfrtip',
-            layout: {
-                topStart: {
-                    buttons: [{
-                            extend: 'copyHtml5',
-                            exportOptions: {
-                                columns: [0, ':visible']
-                            }
-                        },
-                        {
-                            extend: 'excelHtml5',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            exportOptions: {
-                                columns: [0, 1, 2, 5]
-                            }
-                        },
-                        'colvis'
-                    ]
-                }
-            }
+            buttons: ['copy', 'excel', 'pdf', 'colvis']
         });
     });
-</script>
 
-<!-- JS for Modal with Ajax -->
-<script>
     $(document).on('click', '.btn-view', function() {
-        var staff_id = $(this).data('id'); // Get the staff ID from data-id attribute
+        var staff_id = $(this).data('id'); // Get staff ID
 
-        // Make an Ajax request to fetch staff details
+        // Fetch details via AJAX
         $.ajax({
-            url: 'get_staff_details.php', // PHP file to fetch staff details
-            method: 'POST',
+            url: 'get_staff_details.php', // PHP script to fetch staff details
+            type: 'POST',
             data: { staff_id: staff_id },
             success: function(response) {
-                // Populate the modal with the staff details
-                var staff = JSON.parse(response); // Assuming the response is in JSON format
+                // Assuming response is JSON
+                var staff = JSON.parse(response);
                 $('#staff_number').val(staff.Worker_No);
                 $('#staff_name').val(staff.Name);
                 $('#phone_number').val(staff.Phone_No);
                 $('#specialization').val(staff.Specialization);
                 $('#email').val(staff.Email);
+            },
+            error: function() {
+                alert('Failed to fetch staff details.');
             }
         });
     });
 </script>
 
-<?php include('includes/footer-.php'); ?>
+<?php
+include 'includes/footer-.php';
+?>

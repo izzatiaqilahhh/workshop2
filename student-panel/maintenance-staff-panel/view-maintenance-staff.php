@@ -1,6 +1,6 @@
 <?php include('includes/header-.php'); ?>
 
-<title>E-Hostel Room Complaint System - Repair Staff Management</title>
+<title>e-HRCS - Repair Staff Management</title>
 
 <script src="../assets/js/jquery-3.7.1.min.js"></script>
 

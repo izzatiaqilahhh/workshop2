@@ -9,7 +9,7 @@ if (!isset($_SESSION['hostel_staff'])) {
 }
 
 // Include database configuration and functions
-include('teahdbconfig.php');
+include('qiladbcon.php');
 
 // Fetch user-specific data
 try {
@@ -18,7 +18,6 @@ try {
     $stmt->bindParam(':Staff_No', $_SESSION['hostel_staff']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
 } catch (PDOException $e) {
     echo 'Database connection failed: ' . $e->getMessage();
     exit();
@@ -27,7 +26,7 @@ try {
 
 <?php include('includes/header-.php'); ?>
 
-<title>E-Hostel Room Complaint System - Dashboard</title>
+<title>e-HRCS - Dashboard</title>
 
 <!-- App Content -->
 <div class="main-content app-content">
@@ -57,8 +56,8 @@ try {
                 </button>
             </div>
 
-             <!-- Card 1 -->
-             <div class="col-sm-6">
+            <!-- Card 1 -->
+            <div class="col-sm-6">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
@@ -91,8 +90,8 @@ try {
                 </div>
             </div>
 
-             <!-- Card 3 -->
-             <div class="col-sm-6">
+            <!-- Card 3 -->
+            <div class="col-sm-6">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
@@ -134,7 +133,7 @@ try {
 
 <!-- Print Page JavaScript Function -->
 <script>
-function printPage() {
-    window.print();
-}
+    function printPage() {
+        window.print();
+    }
 </script>

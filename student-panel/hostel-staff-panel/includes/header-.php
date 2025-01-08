@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
+<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-toggled="close">
 
 <head>
     
@@ -29,11 +29,11 @@
 
     <!-- Choices Css -->
     <link rel="stylesheet" href="../assets/libs/choices.js/public/assets/styles/choices.min.css">
-
+    
     <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
+     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap.min.css">
+     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.7/css/buttons.bootstrap5.min.css">
 
     <!-- Style Css -->
     <link href="../assets/css/styles.min.css" rel="stylesheet">
@@ -93,9 +93,7 @@
                 <!-- Header Element -->
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="#" class=" fw-bolder text-black me-2  fs-20">
-                            E-Hostel Room Complaint System
-                        </a>
+                        <a href="#" class=" fw-bolder text-black me-2  fs-20">Hostel Room Complaint System</a>
                     </div>
                 </div>
 
@@ -143,9 +141,7 @@
 
         <!-- Main Sidebar Header -->
         <div class="main-sidebar-header">
-            <a href="#" class=" fw-bolder text-white fs-16">
-                E-HRCS
-            </a>
+            <a href="#" class=" fw-bolder text-white fs-16">e-HRCS</a>
         </div>
 
         <!-- Main Sidebar -->

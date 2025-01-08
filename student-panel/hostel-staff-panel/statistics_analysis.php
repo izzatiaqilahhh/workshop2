@@ -12,49 +12,90 @@ $result_total_complaints = $conn->query($total_complaints_query);
 $total_complaints = $result_total_complaints->fetch_assoc()['total'];
 
 // Fetch resolved complaints
-$resolved_complaints_query = "SELECT COUNT(*) AS resolved FROM Complaint WHERE status = 'Resolved'";
+$resolved_complaints_query = "
+    SELECT COUNT(*) AS resolved 
+    FROM Complaint_Status  CS
+    JOIN Complaint C
+    ON CS.Complaint_ID = C.Complaint_ID
+    WHERE CS.Complaint_Status = 'Resolved'
+    AND C.DATE_RESOLVED IS NOT NULL";
 $result_resolved_complaints = $conn->query($resolved_complaints_query);
 $resolved_complaints = $result_resolved_complaints->fetch_assoc()['resolved'];
 
 // Fetch pending complaints
-$pending_complaints_query = "SELECT COUNT(*) AS pending FROM Complaint WHERE status = 'Pending'";
+$pending_complaints_query = "
+    SELECT COUNT(*) AS pending 
+    FROM Complaint_Status CS
+    JOIN Complaint C
+    ON CS.Complaint_ID = C.Complaint_ID
+    WHERE CS.Complaint_Status = 'Pending'
+    AND C.DATE_RESOLVED IS NULL";
 $result_pending_complaints = $conn->query($pending_complaints_query);
 $pending_complaints = $result_pending_complaints->fetch_assoc()['pending'];
 
 // Fetch in-progress complaints
-$progress_complaints_query = "SELECT COUNT(*) AS progress FROM Complaint WHERE status = 'In progress'";
+$progress_complaints_query = "
+    SELECT COUNT(*) AS progress 
+    FROM Complaint_Status CS
+    JOIN Complaint C
+    ON CS.Complaint_ID = C.Complaint_ID
+    WHERE CS.Complaint_Status = 'In progress'
+    AND C.DATE_RESOLVED IS NULL";
 $result_progress_complaints = $conn->query($progress_complaints_query);
 $progress_complaints = $result_progress_complaints->fetch_assoc()['progress'];
 
 // Complaints resolved within 24 hours
-$resolved_within_24hrs_query = "SELECT COUNT(*) AS count FROM Complaint WHERE TIMESTAMPDIFF(HOUR, Date_Created, Date_Resolved) <= 24 AND status = 'Resolved'";
+$resolved_within_24hrs_query = "
+    SELECT COUNT(*) AS count 
+    FROM Complaint C 
+    JOIN Complaint_Status CS ON C.Complaint_ID = CS.Complaint_ID 
+    WHERE TIMESTAMPDIFF(HOUR, C.Date_Created, CS.Date_Update_Status) <= 24 
+    AND CS.Complaint_Status = 'Resolved'";
 $result_resolved_within_24hrs = $conn->query($resolved_within_24hrs_query);
 $resolved_within_24hrs = $result_resolved_within_24hrs->fetch_assoc()['count'];
 
 // Most common complaint type
-$top_complaint_type_query = "SELECT Complaint_Type, COUNT(*) AS count FROM Complaint GROUP BY Complaint_Type ORDER BY count DESC LIMIT 1";
+$top_complaint_type_query = "
+    SELECT Complaint_Type, COUNT(*) AS count 
+    FROM Complaint 
+    GROUP BY Complaint_Type 
+    ORDER BY count DESC 
+    LIMIT 1";
 $result_top_complaint_type = $conn->query($top_complaint_type_query);
 $top_complaint_type_row = $result_top_complaint_type->fetch_assoc();
 $top_complaint_type = $top_complaint_type_row['Complaint_Type'];
 $top_complaint_count = $top_complaint_type_row['count'];
 
 // Complaints filed in the current month
-$current_month_complaints_query = "SELECT COUNT(*) AS count FROM Complaint WHERE MONTH(Date_Created) = MONTH(CURRENT_DATE()) AND YEAR(Date_Created) = YEAR(CURRENT_DATE())";
+$current_month_complaints_query = "
+    SELECT COUNT(*) AS count 
+    FROM Complaint 
+    WHERE MONTH(Date_Created) = MONTH(CURRENT_DATE()) 
+    AND YEAR(Date_Created) = YEAR(CURRENT_DATE())";
 $result_current_month_complaints = $conn->query($current_month_complaints_query);
 $current_month_complaints = $result_current_month_complaints->fetch_assoc()['count'];
 
 // Pending complaints older than a week
-$pending_older_than_week_query = "SELECT COUNT(*) AS count FROM Complaint WHERE status = 'Pending' AND TIMESTAMPDIFF(DAY, Date_Created, CURRENT_DATE()) > 7";
+$pending_older_than_week_query = "
+    SELECT COUNT(*) AS count 
+    FROM Complaint C
+    JOIN Complaint_Status CS ON C.Complaint_ID = CS.Complaint_ID
+    WHERE CS.Complaint_Status = 'Pending' 
+    AND TIMESTAMPDIFF(DAY, C.Date_Created, CURRENT_DATE()) > 7";
 $result_pending_older_than_week = $conn->query($pending_older_than_week_query);
 $pending_older_than_week = $result_pending_older_than_week->fetch_assoc()['count'];
 
 // Complaints by type
-$complaints_by_type_query = "SELECT Complaint_Type, COUNT(*) AS count FROM Complaint GROUP BY Complaint_Type";
+$complaints_by_type_query = "
+    SELECT Complaint_Type, COUNT(*) AS count 
+    FROM Complaint 
+    GROUP BY Complaint_Type";
 $result_complaints_by_type = $conn->query($complaints_by_type_query);
 $complaints_by_type = [];
 while ($row = $result_complaints_by_type->fetch_assoc()) {
     $complaints_by_type[] = $row;
 }
+
 ?>
 
 <!-- HTML structure for your page -->
@@ -205,14 +246,16 @@ while ($row = $result_complaints_by_type->fetch_assoc()) {
                     </thead>
                     <tbody>
                         <?php
-                        // Fetch the complaints resolved within 24 hours by category
-                        $resolved_within_24hrs_by_type_query = "SELECT Complaint_Type, COUNT(*) AS count
-                                                               FROM Complaint 
-                                                               WHERE TIMESTAMPDIFF(HOUR, Date_Created, Date_Resolved) <= 24 
-                                                               AND status = 'Resolved'
-                                                               GROUP BY Complaint_Type";
-                        $result_resolved_within_24hrs_by_type = $conn->query($resolved_within_24hrs_by_type_query);
-
+                       $resolved_within_24hrs_by_type_query = "
+                       SELECT C.Complaint_Type, COUNT(*) AS count
+                       FROM Complaint C
+                       JOIN Complaint_Status CS
+                       ON C.Complaint_ID = CS.Complaint_ID
+                       WHERE TIMESTAMPDIFF(HOUR, C.Date_Created, CS.Date_Update_Status) <= 24
+                       AND CS.Complaint_Status = 'Resolved'
+                       GROUP BY C.Complaint_Type";
+                   $result_resolved_within_24hrs_by_type = $conn->query($resolved_within_24hrs_by_type_query);
+                   
                         // Display the complaints in the table
                         while ($row = $result_resolved_within_24hrs_by_type->fetch_assoc()) {
                         ?>
@@ -224,11 +267,15 @@ while ($row = $result_complaints_by_type->fetch_assoc()) {
 
                         <!-- Calculate the total number of complaints resolved within 24 hours -->
                         <?php
-                        $total_resolved_within_24hrs_query = "SELECT COUNT(*) AS total
-                                                              FROM Complaint
-                                                              WHERE TIMESTAMPDIFF(HOUR, Date_Created, Date_Resolved) <= 24
-                                                              AND status = 'Resolved'";
+                        $total_resolved_within_24hrs_query = "
+                        SELECT COUNT(*) AS total
+                        FROM Complaint C
+                        JOIN Complaint_Status CS
+                        ON C.Complaint_ID = CS.Complaint_ID
+                        WHERE TIMESTAMPDIFF(HOUR, C.Date_Created, CS.Date_Update_Status) <= 24
+                        AND CS.Complaint_Status = 'Resolved'";
                         $result_total_resolved_within_24hrs = $conn->query($total_resolved_within_24hrs_query);
+                    
                         $total_resolved_within_24hrs = $result_total_resolved_within_24hrs->fetch_assoc()['total'];
                         ?>
 

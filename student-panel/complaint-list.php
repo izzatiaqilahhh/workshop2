@@ -2,11 +2,14 @@
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
+
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>E-Hostel Room Complaint System - My Complaints</title>
+
+    <title>e-HRCS - My Complaints</title>
+
     <link rel="icon" href="images/logo.png" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
@@ -178,11 +181,11 @@
                                         <td>2024-04-15</td>
                                         <td>Pending</td>
                                         <td>
-                                            <button 
-                                                type="button" 
-                                                class="btn btn-info btn-sm" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#complaintModal" 
+                                            <button
+                                                type="button"
+                                                class="btn btn-info btn-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#complaintModal"
                                                 onclick="populateModal('123456', 'My door lock was broken', 'images/door-lock.jpg')">
                                                 View
                                             </button>
@@ -209,7 +212,7 @@
     </script>
 
     <!-- Bootstrap JS -->
-    <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="hostel-staff-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

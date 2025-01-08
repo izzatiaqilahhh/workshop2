@@ -1,7 +1,7 @@
 <!-- Footer Start -->
 <footer class="footer mt-auto py-3 bg-white text-center hidden-print">
     <div class="container">
-        <span class="text-muted">© Copyright <span id="year">2024</span> <a href="javascript:void(0);" class="text-dark fw-semibold">E-Hostel Room Complaint System</a>, UTeM</span>
+        <span class="text-muted">© Copyright <span id="year">2024</span> <a href="javascript:void(0);" class="text-dark fw-semibold">Hostel Room Complaint System</a>, UTeM</span>
     </div>
 </footer>
 

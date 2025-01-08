@@ -1,6 +1,6 @@
 <?php include('includes/header.php'); ?>
 
-<title>E-Hostel Room Complaint System - My Profile</title>
+<title>e-HRCS - My Profile</title>
 
 <!-- App Content -->
 <div class="main-content app-content">

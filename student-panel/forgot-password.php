@@ -12,7 +12,7 @@ session_start();
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>E-Hostel Room Complaint System - Forgot Password</title>
+  <title>e-HRCS - Forgot Password</title>
 
   <link rel="icon" href="images/logo.png" type="images/x-icon">
 
@@ -24,17 +24,6 @@ session_start();
 
   <!-- Icons CSS -->
   <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
-
-  <!-- Custom Background Style (move to external CSS if needed) -->
-  <style>
-    body {
-      background-image: url('images/banner1.jpg');
-      background-repeat: no-repeat;
-      background-size: cover;
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-    }
-  </style>
 
 </head>
 
@@ -62,12 +51,12 @@ session_start();
       <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12 my-5">
         <?php
         if (isset($_SESSION['success'])) {
-            echo '<div class="alert alert-success">' . $_SESSION['success'] . '</div>';
-            unset($_SESSION['success']);
+          echo '<div class="alert alert-success">' . $_SESSION['success'] . '</div>';
+          unset($_SESSION['success']);
         }
         if (isset($_SESSION['error'])) {
-            echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
-            unset($_SESSION['error']);
+          echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
+          unset($_SESSION['error']);
         }
         ?>
         <form action="reset-password.php" method="POST">
