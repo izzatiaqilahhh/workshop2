@@ -1,12 +1,12 @@
 <?php
 // Database connection settings
-$host = 'config'; // Change if your database is hosted elsewhere
-$user = 'root';      // Your MySQL username
+$servername = 'config'; // Change if your database is hosted elsewhere
+$username = 'root';      // Your MySQL username
 $password = '';      // Your MySQL password
 $database = 'hostelcomplaint'; // Replace with your database name
 
 // Create a connection
-$conn =  new mysqli($host, $user, $password, $database);
+$conn =  new mysqli($servername, $username, $password, $database);
 
 // Check the connection
 if ($conn->connect_error) {
