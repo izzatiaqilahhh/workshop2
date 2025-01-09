@@ -31,11 +31,24 @@ if (isset($_POST['loginBtn'])) {
             // Debugging: Log the fetched user data (except password)
             error_log('User found: ' . print_r($user, true));
 
-            // Verify the password (Assuming passwords are hashed)
-            if ($password == $user['Password']) {
-                // Password is correct, start the session
+            // Check if the password is already hashed
+            if (password_verify($password, $user['Password'])) {
+                // Password is already hashed and verified
                 $_SESSION['student'] = $user['Matric_No'];
                 error_log('You have successfully logged in.: ' . $_SESSION['student']);
+                header('Location: dashboard.php');
+                exit();
+            } elseif ($user['Password'] === $password) {
+                // Password is in plain text, verify and hash it
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                $stmt = $pdo->prepare('UPDATE student SET Password = :password WHERE Matric_No = :Matric_No');
+                $stmt->bindParam(':password', $hashedPassword);
+                $stmt->bindParam(':Matric_No', $matric_no);
+                $stmt->execute();
+
+                // Set session and redirect
+                $_SESSION['student'] = $user['Matric_No'];
+                error_log('You have successfully logged in and your password has been hashed.');
                 header('Location: dashboard.php');
                 exit();
             } else {
