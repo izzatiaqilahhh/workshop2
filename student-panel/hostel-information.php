@@ -1,3 +1,27 @@
+<?php
+session_start();
+include('teahdbconfig.php'); // Include your database configuration file
+
+// Check if the user is logged in
+if (!isset($_SESSION['student'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Fetch room details for the logged-in student
+try {
+    $stmt = $pdo->prepare("SELECT * FROM Room WHERE student_id = :student_id");
+    $stmt->bindParam(':student_id', $_SESSION['student']);
+    $stmt->execute();
+    $room = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$room) {
+        $_SESSION['error'] = 'No room information found for the student.';
+    }
+} catch (PDOException $e) {
+    $_SESSION['error'] = 'Database error: ' . $e->getMessage();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
@@ -45,8 +69,8 @@
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"></p>
-                                <span class="op-7 fw-normal d-block fs-11"></span>
+                            <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p>
+                            <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span>
                             </div>
                         </div>
                     </a>
