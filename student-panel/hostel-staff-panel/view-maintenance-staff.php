@@ -1,5 +1,5 @@
 <?php
-include 'qiladbcon.php';
+include 'paandbconfig.php';
 include 'includes/header-.php'; 
 ?>
 
@@ -36,12 +36,12 @@ include 'includes/header-.php';
                 </thead>
                 <tbody>
                     <?php
-                    $query = 'SELECT * FROM "Maintenance_Worker"';
-                    $result = pg_query($connection, $query); // Use pg_query for PostgreSQL
+                    $query = "SELECT * FROM Maintenance_Worker";
+                    $result = mysqli_query($conn, $query); 
                     
                     if ($result) {
                         $counter = 1;
-                        while ($staff_member = pg_fetch_assoc($result)) {
+                        while ($staff_member = mysqli_fetch_assoc($result)) {
                             ?>
                             <tr>
                                 <td><?= $counter++; ?></td>

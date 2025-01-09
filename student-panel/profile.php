@@ -159,22 +159,42 @@ try {
                 </div>
             </div>
             <!-- Profile Section -->
-            
+
             <!-- Change Password Section -->
             <div class="card custom-card mt-4">
                 <div class="card-header">
                     <div class="card-title">Change Password</div>
                 </div>
                 <div class="card-body">
+                    <?php if (isset($_SESSION['password_error'])): ?>
+                        <div class="alert alert-danger">
+                            <?php
+                            echo $_SESSION['password_error'];
+                            unset($_SESSION['password_error']);
+                            ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['password_success'])): ?>
+                        <div class="alert alert-success">
+                            <?php
+                            echo $_SESSION['password_success'];
+                            unset($_SESSION['password_success']);
+                            ?>
+                        </div>
+                    <?php endif; ?>
                     <form method="POST" action="update-password.php">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="password">Password</label>
-                                <input type="password" id="password" class="form-control" name="password" placeholder="Password">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" class="form-control" name="currentPassword" placeholder="Current Password" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="retypePassword">Retype Password</label>
-                                <input type="password" id="retypePassword" class="form-control" name="retypePassword" placeholder="Retype Password">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" class="form-control" name="newPassword" placeholder="New Password" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input type="password" id="confirmPassword" class="form-control" name="confirmPassword" placeholder="Confirm New Password" required>
                             </div>
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-start align-items-center">

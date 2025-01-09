@@ -31,6 +31,85 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
 
 <head>
     <title>e-HRCS - Student Management</title>
+    <style>
+        /* Basic page styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-content {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 30px;
+            max-width: 1200px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .breadcrumb {
+            background-color: #f4f7fa;
+            padding: 0;
+        }
+
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+        }
+
+        td {
+            background-color: #f9f9f9;
+            font-size: 14px;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f1f1f1;
+        }
+
+        tr:hover td {
+            background-color:blueviolet;
+        }
+
+        .table-bordered {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .table-bordered th, .table-bordered td {
+            border-radius: 4px;
+        }
+    </style>
 </head>
 
 <body>
@@ -39,7 +118,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
     <div class="main-content app-content">
         <div class="container">
             <div class="d-md-flex d-block align-items-center justify-content-between mb-2 my-4 page-header-breadcrumb">
-                <h1 class="page-title fw-semibold fs-22 mb-0">Student List</h1>
+                <h1 class="page-title">Student List</h1>
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
@@ -57,31 +136,35 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
                             <th>Student Name</th>
                             <th>Phone Number</th>
                             <th>Student Email</th>
+                            <th>Room No</th>
                             <th>Course</th>
                             <th>Faculty</th>
-                           
                         </tr>
                     </thead>
                     <tbody>
 
                         <?php
-                        $query = "SELECT * FROM Student"; // Standard SQL for MySQL or MariaDB
+                        $query = "SELECT S.*, R.Room_No 
+                                  FROM Student S
+                                  JOIN Room R
+                                  ON S.Room_ID = R.Room_ID"; // Standard SQL for MySQL or MariaDB
                         $result = mysqli_query($conn, $query);
 
                         if ($result) {
                             while ($row = mysqli_fetch_assoc($result)) {
                                 echo "<tr>
-                            <td>{$row['Student_ID']}</td>
-                            <td>{$row['Matric_No']}</td>
-                            <td>{$row['Name']}</td>
-                            <td>{$row['Phone_No']}</td>
-                            <td>{$row['Email']}</td>
-                            <td>{$row['Course']}</td>
-                            <td>{$row['Faculty']}</td>
-                            </tr>";
+                                    <td>{$row['Student_ID']}</td>
+                                    <td>{$row['Matric_No']}</td>
+                                    <td>{$row['Name']}</td>
+                                    <td>{$row['Phone_No']}</td>
+                                    <td>{$row['Email']}</td>
+                                    <td>{$row['Room_No']}</td>
+                                    <td>{$row['Course']}</td>
+                                    <td>{$row['Faculty']}</td>
+                                </tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='7'>No students found.</td></tr>";
+                            echo "<tr><td colspan='8' class='text-center'>No students found.</td></tr>";
                         }
                         ?>
 
