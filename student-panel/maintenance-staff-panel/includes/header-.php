@@ -167,7 +167,15 @@
                 </div>
                 <ul class="main-menu">
 
-                    <!-- Slide Category -->
+                    
+                    <!-- Slide -->
+                    <li class="slide">
+                        <a href="assigned-complaint.php" class="side-menu__item">
+                            <i class='bx bx-check-circle side-menu__icon'></i>
+                            <span class="side-menu__label">Assigned Complaint</span>
+                        </a>
+                    </li>
+<!-- Slide Category -->
                     <li class="slide__category"><span class="category-name">Main</span></li>
 
                     <!-- Slide -->

@@ -25,22 +25,29 @@
                 </thead>
                 <tbody>
                     <?php
-                    include('db_connection.php'); // Include database connection
+                    // Data dimasukkan secara manual
+                    $complaints = [
+                        [
+                            "id" => "123456",
+                            "student_id" => "S003",
+                            "room_number" => "SL-L-1-1",
+                            "description" => "My door locks was broken",
+                            "status" => "Not done yet",
+                            "update_status" => "None",
+                            "action" => "Assign ASAP"
+                        ]
+                    ];
 
-                    // Fetch assigned complaints
-                    $sql = "SELECT * FROM complaints WHERE assigned_staff = 'Staff001'"; // Replace 'Staff001' with the logged-in staff ID
-                    $result = $conn->query($sql);
-
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<tr>
+                    // Paparkan data
+                    foreach ($complaints as $row) {
+                        echo "<tr>
                                 <td>{$row['id']}</td>
                                 <td>{$row['student_id']}</td>
                                 <td>{$row['room_number']}</td>
                                 <td>{$row['description']}</td>
                                 <td>{$row['status']}</td>
                                 <td>
-                                    <form method='POST' action='update_complaint.php'>
+                                    <form method='POST' action='#'>
                                         <input type='hidden' name='complaint_id' value='{$row['id']}'>
                                         <select name='status' class='form-control mb-2'>
                                             <option value='Pending'>Pending</option>
@@ -48,13 +55,11 @@
                                             <option value='Resolved'>Resolved</option>
                                         </select>
                                         <input type='text' name='progress' class='form-control mb-2' placeholder='Progress Update (optional)'>
-                                        <button type='submit' class='btn btn-success btn-sm'>Update</button>
+                                        <button type='button' class='btn btn-success btn-sm'>Update</button>
                                     </form>
                                 </td>
+                                <td>{$row['action']}</td>
                             </tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='7' class='text-center'>No assigned complaints</td></tr>";
                     }
                     ?>
                 </tbody>

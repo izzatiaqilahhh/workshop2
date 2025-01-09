@@ -1,5 +1,5 @@
 <?php
-include('db_connection.php'); // Include your database connection file
+include('aina_test.php'); // Include your database connection file
 
 // Fetch new complaints
 $sql = "SELECT id, title, description FROM complaints WHERE is_notified = 0";
