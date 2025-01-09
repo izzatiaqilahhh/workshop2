@@ -1,8 +1,28 @@
+<?php
+session_start();
+include('teahdbconfig.php'); // Include your database configuration file
+
+// Check if the user is logged in
+if (!isset($_SESSION['student'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Fetch existing complaints from the database
+try {
+    $stmt = $pdo->prepare("SELECT * FROM Complaint WHERE Student_ID = :Student_ID ORDER BY Date_Created DESC");
+    $stmt->bindParam(':Student_ID', $_SESSION['student']);
+    $stmt->execute();
+    $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $_SESSION['error'] = 'Database error: ' . $e->getMessage();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
-
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,10 +110,10 @@
                             <div class="card-title">Submit New Complaint</div>
                         </div>
                         <div class="card-body">
-                            <form>
+                            <form action="submit-complaint.php" method="POST" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="complaint-type">Complaint Type</label>
-                                    <select class="form-control" id="complaint-type" required onchange="filterIssueType()">
+                                    <select class="form-control" id="complaint-type" name="complaint-type" required onchange="filterIssueType()">
                                         <option value="">Select Complaint Type</option>
                                         <option value="facility">Facility Maintenance Issues</option>
                                         <option value="cleanliness">Cleanliness and Hygiene Complaints</option>
@@ -105,7 +125,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="issue-type">Issue Type</label>
-                                    <select class="form-control" id="issue-type" required>
+                                    <select class="form-control" id="issue-type" name="issue-type" required>
                                         <option value="">Select Issue Type</option>
                                     </select>
                                 </div>
@@ -135,7 +155,7 @@
                                 </script>
                                 <div class="mb-3">
                                     <label for="complaint-description">Complaint Description</label>
-                                    <textarea class="form-control" id="complaint-description" rows="4" placeholder="Describe your complaint here..." required></textarea>
+                                    <textarea class="form-control" id="complaint-description" name="complaint-description" rows="4" placeholder="Describe your complaint here..." required></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="complaint-image">Upload Image</label>
@@ -166,35 +186,62 @@
                                         <th>Complaint Type</th>
                                         <th>Issue Type</th>
                                         <th>Description</th>
-                                        <th>Date Filled</th>
+                                        <th>Date Filed</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>123456</td>
-                                        <td>Security Issues</td>
-                                        <td>Broken Locks</td>
-                                        <td>My door lock was broken</td>
-                                        <td>2024-04-15</td>
-                                        <td>Pending</td>
-                                        <td>
-                                            <button
-                                                type="button"
-                                                class="btn btn-info btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#complaintModal"
-                                                onclick="populateModal('123456', 'My door lock was broken', 'images/door-lock.jpg')">
-                                                View
-                                            </button>
-                                            <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                        </td>
-                                    </tr>
+                                    <?php if (!empty($complaints)): ?>
+                                        <?php foreach ($complaints as $index => $complaint): ?>
+                                            <tr>
+                                                <td><?= $index + 1 ?></td>
+                                                <td><?= htmlspecialchars($complaint['Complaint_ID']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Complaint_Type']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Complaint_Issue']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Description']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Date_Created']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Status']) ?></td>
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-info btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#complaintModal"
+                                                        onclick="populateModal('<?= htmlspecialchars($complaint['Complaint_ID']) ?>', '<?= htmlspecialchars($complaint['Description']) ?>', '<?= htmlspecialchars($complaint['Image']) ?>')">
+                                                        View
+                                                    </button>
+                                                    <a href="#" class="btn btn-warning btn-sm">Edit</a>
+                                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="8">No complaints found.</td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for Complaint Details -->
+            <div class="modal fade" id="complaintModal" tabindex="-1" aria-labelledby="complaintModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="complaintModalLabel">Complaint Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img id="complaintImage" src="" alt="Complaint Image" class="img-fluid mb-3">
+                            <p id="complaintDescription"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -204,8 +251,11 @@
     <!-- App Content -->
 
     <script>
-        function populateModal(complaintID, description, imagePath) {
-            document.getElementById('complaintImage').src = imagePath;
+        function populateModal(complaintID, description, image) {
+            const blob = new Blob([new Uint8Array(atob(image).split("").map(char => char.charCodeAt(0)))]);
+            const url = URL.createObjectURL(blob);
+            
+            document.getElementById('complaintImage').src = url;
             document.getElementById('complaintDescription').textContent = description;
             document.getElementById('complaintModalLabel').textContent = `Complaint ID: ${complaintID}`;
         }
