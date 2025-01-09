@@ -41,13 +41,6 @@
     <!-- Choices Css -->
     <link rel="stylesheet" href="../assets/libs/choices.js/public/assets/styles/choices.min.css">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
-
     <style>
         @media print {
 
@@ -151,7 +144,7 @@
         <!-- Main Sidebar Header -->
         <div class="main-sidebar-header">
             <a href="#" class=" fw-bolder text-white fs-16">
-                E-HRCS
+                e-HRCS
             </a>
         </div>
 
@@ -167,41 +160,32 @@
                 </div>
                 <ul class="main-menu">
 
-                    
-                    <!-- Slide -->
-                    <li class="slide">
-                        <a href="assigned-complaint.php" class="side-menu__item">
-                            <i class='bx bx-check-circle side-menu__icon'></i>
-                            <span class="side-menu__label">Assigned Complaint</span>
-                        </a>
-                    </li>
-<!-- Slide Category -->
                     <li class="slide__category"><span class="category-name">Main</span></li>
 
                     <!-- Slide -->
                     <li class="slide ">
                         <a href="dashboard.php" class="side-menu__item">
-                            <i class="bx bx-home side-menu__icon"></i>
+                            <i class='bx bxs-dashboard side-menu__icon'></i>
                             <span class="side-menu__label">Dashboard</span>
                         </a>
                     </li>
 
                     <!-- Slide Category -->
-                    <li class="slide__category"><span class="category-name">Management</span></li>
+                    <li class="slide__category"><span class="category-name">Complaint Management</span></li>
 
                     <!-- Slide -->
                     <li class="slide">
                         <a href="view-complaint.php" class="side-menu__item">
                             <i class='bx bx-detail side-menu__icon'></i>
-                            <span class="side-menu__label">Complaint</span>
+                            <span class="side-menu__label">Complaint List</span>
                         </a>
                     </li>
 
                     <!-- Slide -->
                     <li class="slide">
-                        <a href="view-maintenance-staff.php" class="side-menu__item">
-                            <i class='bx bxs-user side-menu__icon'></i>
-                            <span class="side-menu__label">Maintainance Staff</span>
+                        <a href="assigned-complaint.php" class="side-menu__item">
+                            <i class='bx bx-check-circle side-menu__icon'></i>
+                            <span class="side-menu__label">Assigned Complaint</span>
                         </a>
                     </li>
 

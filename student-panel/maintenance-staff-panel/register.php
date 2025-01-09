@@ -10,7 +10,7 @@ include('includes/header.php');
         <div class="header-content-left">
             <div class="header-element">
                 <div class="horizontal-logo">
-                    <a href="login.php" class="text-black fw-bolder fs-20">
+                    <a href="register.php" class="text-black fw-bolder fs-20">
                         E-Hostel Room Complaint System
                     </a>
                 </div>

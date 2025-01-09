@@ -4,10 +4,6 @@
 
 <script src="../assets/js/jquery-3.7.1.min.js"></script>
 
-<!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
-
 <!-- App Content -->
 <div class="main-content app-content">
     <div class="container">

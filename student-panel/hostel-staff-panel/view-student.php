@@ -1,5 +1,5 @@
 <?php
-include 'paandbconfig.php';
+include 'qiladbcon.php';
 include 'includes/header-.php';
 
 if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
