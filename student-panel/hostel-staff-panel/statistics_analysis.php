@@ -22,16 +22,16 @@ $resolved_complaints_query = "
 $result_resolved_complaints = $conn->query($resolved_complaints_query);
 $resolved_complaints = $result_resolved_complaints->fetch_assoc()['resolved'];
 
-// Fetch pending complaints
+// Fetch assigned complaints
 $pending_complaints_query = "
-    SELECT COUNT(*) AS pending 
+    SELECT COUNT(*) AS assigned
     FROM Complaint_Status CS
     JOIN Complaint C
     ON CS.Complaint_ID = C.Complaint_ID
-    WHERE CS.Complaint_Status = 'Pending'
+    WHERE CS.Complaint_Status = 'Assigned'
     AND C.DATE_RESOLVED IS NULL";
 $result_pending_complaints = $conn->query($pending_complaints_query);
-$pending_complaints = $result_pending_complaints->fetch_assoc()['pending'];
+$pending_complaints = $result_pending_complaints->fetch_assoc()['assigned'];
 
 // Fetch in-progress complaints
 $progress_complaints_query = "
@@ -133,7 +133,7 @@ while ($row = $result_complaints_by_type->fetch_assoc()) {
     <div class="col-md-3">
         <div class="card text-center">
             <div class="card-body" style="background-color: #fbb4ae; color: #fff;">
-                <h5>Pending Complaints</h5>
+                <h5>Assigned Complaints</h5>
                 <h2><?php echo $pending_complaints; ?></h2>
             </div>
         </div>
