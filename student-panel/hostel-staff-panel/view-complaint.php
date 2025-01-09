@@ -96,6 +96,18 @@ include 'includes/header-.php';
             <div class="modal-body">
                 <form>
                     <div class="row">
+                    <div class="col-md-6 mb-3">
+                            <label>Student Name</label>
+                            <input type="text" class="form-control" id="Name" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Matric Number</label>
+                            <input type="text" class="form-control" id="Matric_No" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Room Number</label>
+                            <input type="text" class="form-control" id="Room_No" readonly>
+                        </div>
                         <div class="col-md-12 mb-3">
                             <label>Complaint Image</label>
                             <img src="" id="complaint-image" alt="Complaint Image" class="img-fluid" style="max-width: 100%; height: auto; border: 1px solid #ddd;">
