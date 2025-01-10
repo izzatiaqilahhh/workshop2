@@ -1,4 +1,5 @@
 <?php include('includes/header-.php'); ?>
+include 'aina_connection.php';
 <title>e-HRCS - Assigned Complaint Management</title>
 
 <div class="main-content app-content">

@@ -1,6 +1,6 @@
 <?php
-include('includes/header.php');
-?>
+include('includes/header.php'); ?>
+include 'aina_connection.php';
 
 <title>e-HRCS - Log In</title>
 
