@@ -7,22 +7,17 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
     // Fetch student details based on Student_ID
     if (isset($_POST['id'])) {
         $studentId = $_POST['id'];
-        $query = "SELECT * FROM Student WHERE Student_ID = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("i", $studentId);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $query = "SELECT * FROM Student WHERE Student_ID = $1";
+        $result = pg_query_params($connection, $query, array($studentId));
 
-        if ($result->num_rows > 0) {
-            $student = $result->fetch_assoc();
+        if ($result && pg_num_rows($result) > 0) {
+            $student = pg_fetch_assoc($result);
             echo json_encode($student);
         } else {
             echo json_encode(['error' => 'No student found.']);
         }
-        $stmt->close();
-        $conn->close();
+        exit;
     }
-    exit;
 }
 ?>
 
@@ -31,85 +26,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
 
 <head>
     <title>e-HRCS - Student Management</title>
-    <style>
-        /* Basic page styling */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7fa;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main-content {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
-            padding: 30px;
-            max-width: 1200px;
-        }
-
-        .page-title {
-            font-size: 24px;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .breadcrumb {
-            background-color: #f4f7fa;
-            padding: 0;
-        }
-
-        .breadcrumb a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-
-        /* Table styling */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-        }
-
-        td {
-            background-color: #f9f9f9;
-            font-size: 14px;
-        }
-
-        tr:nth-child(even) td {
-            background-color: #f1f1f1;
-        }
-
-        tr:hover td {
-            background-color:blueviolet;
-        }
-
-        .table-bordered {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-
-        .table-bordered th, .table-bordered td {
-            border-radius: 4px;
-        }
-    </style>
 </head>
 
 <body>
@@ -144,14 +60,13 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
                     <tbody>
 
                         <?php
-                        $query = "SELECT S.*, R.Room_No 
-                                  FROM Student S
-                                  JOIN Room R
-                                  ON S.Room_ID = R.Room_ID"; // Standard SQL for MySQL or MariaDB
-                        $result = mysqli_query($conn, $query);
+                        $query = 'SELECT S.*, R."Room_No" 
+                        FROM "Student" S
+                        JOIN "Room" R ON S."Room_ID" = R."Room_ID"';
+                        $result = pg_query($connection, $query);
 
                         if ($result) {
-                            while ($row = mysqli_fetch_assoc($result)) {
+                            while ($row = pg_fetch_assoc($result)) {
                                 echo "<tr>
                                     <td>{$row['Student_ID']}</td>
                                     <td>{$row['Matric_No']}</td>

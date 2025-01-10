@@ -2,23 +2,42 @@
 session_start();
 include('teahdbconfig.php'); // Include your database configuration file
 
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
     header("Location: login.php");
     exit();
 }
 
-// Fetch room details for the logged-in student
+// Fetch student and room details
 try {
-    $stmt = $pdo->prepare("SELECT * FROM Room WHERE student_id = :student_id");
-    $stmt->bindParam(':student_id', $_SESSION['student']);
+    // Fetch student details
+    $stmt = $pdo->prepare("SELECT * FROM Student WHERE Matric_No = :Matric_No");
+    $stmt->bindParam(':Matric_No', $_SESSION['student']);
     $stmt->execute();
-    $room = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$room) {
-        $_SESSION['error'] = 'No room information found for the student.';
+    $student = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$student) {
+        $error = 'No student information found.';
+    } else {
+        // Fetch room details for the logged-in student
+        $stmt = $pdo->prepare("SELECT Room.Room_No, Room.Hostel_Block, Room.Current_Occupants
+                               FROM Room
+                               WHERE Room.Room_ID = :room_id");
+        $stmt->bindParam(':room_id', $student['Room_ID']);
+        $stmt->execute();
+        $room = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$room) {
+            $error = 'No room information found for the student.';
+        }
     }
 } catch (PDOException $e) {
-    $_SESSION['error'] = 'Database error: ' . $e->getMessage();
+    $error = 'Database error: ' . $e->getMessage();
 }
 ?>
 
@@ -69,8 +88,8 @@ try {
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                            <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p>
-                            <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($student['Name'] ?? ''); ?></p>
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($student['Email'] ?? ''); ?></span>
                             </div>
                         </div>
                     </a>
@@ -120,20 +139,26 @@ try {
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table">
-                                    <tr>
-                                        <th>Room Number</th>
-                                        <td>SQ-K-8-2-B</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Room Type</th>
-                                        <td>Double Occupancy</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Availability</th>
-                                        <td>Occupied</td>
-                                    </tr>
-                                </table>
+                                <?php if (isset($error)): ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        <?= htmlspecialchars($error) ?>
+                                    </div>
+                                <?php else: ?>
+                                    <table class="table">
+                                        <tr>
+                                            <th>Room Number</th>
+                                            <td><?= htmlspecialchars($room['Room_No'] ?? '') ?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Hostel Block</th>
+                                            <td><?= htmlspecialchars($room['Hostel_Block'] ?? '') ?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Current Occupants</th>
+                                            <td><?= htmlspecialchars($room['Current_Occupants'] ?? '') ?></td>
+                                        </tr>
+                                    </table>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

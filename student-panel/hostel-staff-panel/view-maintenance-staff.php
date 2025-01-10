@@ -1,6 +1,6 @@
 <?php
-include 'paandbconfig.php';
-include 'includes/header-.php'; 
+include 'qiladbcon.php'; // PostgreSQL connection setup
+include 'includes/header-.php';
 ?>
 
 <title>e-HRCS - Maintenance Staff Management</title>
@@ -36,12 +36,12 @@ include 'includes/header-.php';
                 </thead>
                 <tbody>
                     <?php
-                    $query = "SELECT * FROM Maintenance_Worker";
-                    $result = mysqli_query($conn, $query); 
+                    $query = 'SELECT * FROM "Maintenance_Worker"';
+                    $result = pg_query($connection, $query); // PostgreSQL query execution
                     
                     if ($result) {
                         $counter = 1;
-                        while ($staff_member = mysqli_fetch_assoc($result)) {
+                        while ($staff_member = pg_fetch_assoc($result)) {
                             ?>
                             <tr>
                                 <td><?= $counter++; ?></td>
