@@ -1,5 +1,5 @@
 <?php
-include 'qiladbcon.php';
+include 'paandbconfig.php';
 include('includes/header-.php');
 ?>
 
@@ -42,15 +42,15 @@ include('includes/header-.php');
 
                     <?php
                     // Fetch hostel staff data from the database
-                    $query = 'SELECT S."Staff_No", S."Name", S."Email", S."Phone_No", B."Block_Name" 
-                              FROM "Block" B 
-                              JOIN "Hostel_Staff" S ON B."Staff_ID" = S."Staff_ID"';
+                    $query = 'SELECT S.Staff_No, S.Name, S.Email, S.Phone_No, B.Block_Name 
+                              FROM Block B 
+                              JOIN Hostel_Staff S ON B.Staff_ID = S.Staff_ID';
 
-                    $result = pg_query($connection, $query); // Adjusted for PostgreSQL
+                    $result = mysqli_query($conn, $query); // Adjusted for MySQL
 
-                    if ($result && pg_num_rows($result) > 0) {
+                    if ($result && mysqli_num_rows($result) > 0) {
                         $counter = 1;
-                        while ($adminItem = pg_fetch_assoc($result)) {
+                        while ($adminItem = mysqli_fetch_assoc($result)) {
                     ?>
                             <tr>
                                 <td><?= $counter++; ?></td>

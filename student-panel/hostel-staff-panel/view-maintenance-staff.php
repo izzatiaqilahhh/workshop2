@@ -1,5 +1,5 @@
 <?php
-include 'qiladbcon.php'; // PostgreSQL connection setup
+include 'paandbconfig.php'; // MySQL connection setup
 include 'includes/header-.php';
 ?>
 
@@ -30,24 +30,28 @@ include 'includes/header-.php';
                         <th>No.</th>
                         <th>Staff Number</th>
                         <th>Staff Name</th>
-                        <th>Phone Number</th>
+                        <th>Company Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $query = 'SELECT * FROM "Maintenance_Worker"';
-                    $result = pg_query($connection, $query); // PostgreSQL query execution
+                    $query = 'SELECT W.*, C.Company_Name
+                              FROM Maintenance_Worker W
+                              JOIN Maintenance_Company C
+                              ON W.Company_Id = C.Company_Id';
+                    $result = mysqli_query($conn, $query); // MySQL query execution
                     
                     if ($result) {
                         $counter = 1;
-                        while ($staff_member = pg_fetch_assoc($result)) {
+                        while ($staff_member = mysqli_fetch_assoc($result)) {
                             ?>
                             <tr>
                                 <td><?= $counter++; ?></td>
                                 <td><?= htmlspecialchars($staff_member['Worker_No']); ?></td>
                                 <td><?= htmlspecialchars($staff_member['Name']); ?></td>
-                                <td><?= htmlspecialchars($staff_member['Phone_No']); ?></td>
+                                <td><?= htmlspecialchars($staff_member['Company_Name']); ?></td>
+                                
                                 <td>
                                     <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewstaffdetails" data-id="<?= htmlspecialchars($staff_member['Worker_Id']); ?>">View</button>
                                 </td>
@@ -78,23 +82,23 @@ include 'includes/header-.php';
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label>Staff Number</label>
-                            <input type="text" class="form-control" id="staff_number" readonly>
+                            <input type="text" class="form-control" id="#staff_number" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Staff Name</label>
-                            <input type="text" class="form-control" id="staff_name" readonly>
+                            <input type="text" class="form-control" id="#staff_name" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Phone Number</label>
-                            <input type="text" class="form-control" id="phone_number" readonly>
+                            <input type="text" class="form-control" id="#phone_number" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Specialization</label>
-                            <input type="text" class="form-control" id="specialization" readonly>
+                            <input type="text" class="form-control" id="#specialization" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Email</label>
-                            <input type="text" class="form-control" id="email" readonly>
+                            <input type="text" class="form-control" id="#email" readonly>
                         </div>
                     </div>
                 </form>
