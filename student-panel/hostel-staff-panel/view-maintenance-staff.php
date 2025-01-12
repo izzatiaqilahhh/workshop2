@@ -1,5 +1,5 @@
 <?php
-include 'paandbconfig.php'; // MySQL connection setup
+include 'qiladbcon.php';
 include 'includes/header-.php';
 ?>
 
@@ -30,36 +30,34 @@ include 'includes/header-.php';
                         <th>No.</th>
                         <th>Staff Number</th>
                         <th>Staff Name</th>
-                        <th>Company Name</th>
-                        <th>Action</th>
+                        <th>Phone Number</th>
+                        <th>Specialization</th>
+                        <th>Email</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $query = 'SELECT W.*, C.Company_Name
-                              FROM Maintenance_Worker W
-                              JOIN Maintenance_Company C
-                              ON W.Company_Id = C.Company_Id';
-                    $result = mysqli_query($conn, $query); // MySQL query execution
-                    
+                    // Query to fetch maintenance worker details
+                    $query = 'SELECT "worker_no", "name", "phone_no", "specialization", "email", "worker_id"
+                              FROM "maintenance_worker"';
+                    $result = pg_query($connection, $query); // PostgreSQL query execution
+
                     if ($result) {
                         $counter = 1;
-                        while ($staff_member = mysqli_fetch_assoc($result)) {
-                            ?>
+                        while ($staff_member = pg_fetch_assoc($result)) {
+                    ?>
                             <tr>
                                 <td><?= $counter++; ?></td>
-                                <td><?= htmlspecialchars($staff_member['Worker_No']); ?></td>
-                                <td><?= htmlspecialchars($staff_member['Name']); ?></td>
-                                <td><?= htmlspecialchars($staff_member['Company_Name']); ?></td>
-                                
-                                <td>
-                                    <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewstaffdetails" data-id="<?= htmlspecialchars($staff_member['Worker_Id']); ?>">View</button>
-                                </td>
+                                <td><?= htmlspecialchars($staff_member['worker_no']); ?></td>
+                                <td><?= htmlspecialchars($staff_member['name']); ?></td>
+                                <td><?= htmlspecialchars($staff_member['phone_no']); ?></td>
+                                <td><?= htmlspecialchars($staff_member['specialization']); ?></td>
+                                <td><?= htmlspecialchars($staff_member['email']); ?></td>
                             </tr>
-                            <?php
+                    <?php
                         }
                     } else {
-                        echo '<tr><td colspan="5">No staff records found.</td></tr>';
+                        echo '<tr><td colspan="6">No staff records found.</td></tr>';
                     }
                     ?>
                 </tbody>
@@ -68,79 +66,6 @@ include 'includes/header-.php';
     </div>
 </div>
 <!-- End::row-1 -->
-
-<!-- Modal: View Staff Details -->
-<div class="modal fade" id="viewstaffdetails" tabindex="-1" aria-labelledby="viewstaffdetailsLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title" style="color: black;">Staff Details</div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label>Staff Number</label>
-                            <input type="text" class="form-control" id="#staff_number" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Staff Name</label>
-                            <input type="text" class="form-control" id="#staff_name" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Phone Number</label>
-                            <input type="text" class="form-control" id="#phone_number" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Specialization</label>
-                            <input type="text" class="form-control" id="#specialization" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label>Email</label>
-                            <input type="text" class="form-control" id="#email" readonly>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.table').DataTable({
-            responsive: true,
-            dom: 'Bfrtip',
-            buttons: ['copy', 'excel', 'pdf', 'colvis']
-        });
-    });
-
-    $(document).on('click', '.btn-view', function() {
-        var staff_id = $(this).data('id'); // Get staff ID
-
-        // Fetch details via AJAX
-        $.ajax({
-            url: 'get_staff_details.php', // PHP script to fetch staff details
-            type: 'POST',
-            data: { staff_id: staff_id },
-            success: function(response) {
-                // Assuming response is JSON
-                var staff = JSON.parse(response);
-                $('#staff_number').val(staff.Worker_No);
-                $('#staff_name').val(staff.Name);
-                $('#phone_number').val(staff.Phone_No);
-                $('#specialization').val(staff.Specialization);
-                $('#email').val(staff.Email);
-            },
-            error: function() {
-                alert('Failed to fetch staff details.');
-            }
-        });
-    });
-</script>
 
 <?php
 include 'includes/footer-.php';

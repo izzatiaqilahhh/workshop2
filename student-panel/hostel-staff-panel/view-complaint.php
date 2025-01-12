@@ -1,29 +1,29 @@
 <?php
 // Include database configuration
-include 'paandbconfig.php';
+include 'qiladbcon.php';
 include 'includes/header-.php';
 
 // Handle Assign Complaint form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
     $complaint_id = intval($_POST['complaint_id']);
-    $worker_id = mysqli_real_escape_string($conn, $_POST['assigned_to'] ?? '');
-    $remarks = mysqli_real_escape_string($conn, $_POST['remarks'] ?? '');
+    $worker_id = pg_escape_string($connection, $_POST['assigned_to'] ?? '');
+    $remarks = pg_escape_string($connection, $_POST['remarks'] ?? '');
 
     if (!empty($complaint_id) && !empty($worker_id)) {
         // Insert into Complaint_Assignment table
-        $assign_query = "INSERT INTO Complaint_Assignment (Complaint_Id, Worker_Id, Remarks) 
-                         VALUES ('$complaint_id', '$worker_id', '$remarks')";
-        if (mysqli_query($conn, $assign_query)) {
+        $assign_query = "INSERT INTO \"Complaint_Assignment\" (\"Complaint_Id\", \"Worker_Id\", \"Remarks\") 
+                         VALUES ($complaint_id, $worker_id, '$remarks')";
+        if (pg_query($connection, $assign_query)) {
             // Insert into Complaint_Status table
-            $status_query = "INSERT INTO Complaint_Status (Complaint_Status, Description, Date_Update_Status, Complaint_ID) 
-                             VALUES ('Assigned', 'Complaint has been assigned to a worker', NOW(), '$complaint_id')";
-            if (mysqli_query($conn, $status_query)) {
+            $status_query = "INSERT INTO \"Complaint_Status\" (\"Complaint_Status\", \"Description\", \"Date_Update_Status\", \"Complaint_ID\") 
+                             VALUES ('Assigned', 'Complaint has been assigned to a worker', NOW(), $complaint_id)";
+            if (pg_query($connection, $status_query)) {
                 echo "<script>alert('Complaint assigned successfully, and status updated!');</script>";
             } else {
-                echo "<script>alert('Complaint assigned, but failed to update status: " . mysqli_error($conn) . "');</script>";
+                echo "<script>alert('Complaint assigned, but failed to update status: " . pg_last_error($connection) . "');</script>";
             }
         } else {
-            echo "<script>alert('Error assigning complaint: " . mysqli_error($conn) . "');</script>";
+            echo "<script>alert('Error assigning complaint: " . pg_last_error($connection) . "');</script>";
         }
     } else {
         echo "<script>alert('Please fill in all required fields.');</script>";
@@ -33,8 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
 
 <title>e-HRCS - Complaint Management</title>
 
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 <div class="main-content app-content">
     <div class="container">
@@ -50,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Complaint ID</th>
                         <th>Complaint Type</th>
                         <th>Complaint Issue</th>
                         <th>Description</th>
@@ -61,37 +59,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                 </thead>
                 <tbody>
                     <?php
+                    // PostgreSQL query to fetch complaints not assigned yet
                     $query = "
-                    SELECT C.Complaint_ID, C.Complaint_Type, C.Complaint_Issue, C.Description, C.Date_Created, R.Room_No 
-                    FROM Complaint C 
-                    JOIN Room R ON C.Room_ID = R.Room_ID
+                    SELECT c.\"complaint_id\", c.\"complaint_type\", c.\"complaint_issue\", c.\"description\", c.\"date_created\", r.\"room_no\" 
+                    FROM \"complaint\" c 
+                    JOIN \"room\" r ON c.\"room_id\" = r.\"room_id\"
                     WHERE NOT EXISTS (
-                        SELECT 1 FROM Complaint_Assignment CA 
-                        WHERE CA.Complaint_Id = C.Complaint_ID
+                        SELECT 1 FROM \"complaint_assignment\" ca
+                        WHERE ca.\"complaint_id\" = c.\"complaint_id\"
                     )";
-                    $result = mysqli_query($conn, $query);
+
+                    $result = pg_query($connection, $query);
                     $counter = 1;
 
-                    while ($complaint = mysqli_fetch_assoc($result)) {
-                        ?>
+                    while ($complaint = pg_fetch_assoc($result)) {
+                    ?>
                         <tr>
                             <td><?= $counter++; ?></td>
-                            <td><?= htmlspecialchars($complaint['Complaint_ID']); ?></td>
-                            <td><?= htmlspecialchars($complaint['Complaint_Type']); ?></td>
-                            <td><?= htmlspecialchars($complaint['Complaint_Issue']); ?></td>
-                            <td><?= htmlspecialchars($complaint['Description']); ?></td>
-                            <td><?= htmlspecialchars($complaint['Date_Created']); ?></td>
-                            <td><?= htmlspecialchars($complaint['Room_No']); ?></td>
+                            <td><?= htmlspecialchars($complaint['complaint_type']); ?></td>
+                            <td><?= htmlspecialchars($complaint['complaint_issue']); ?></td>
+                            <td><?= htmlspecialchars($complaint['description']); ?></td>
+                            <td><?= htmlspecialchars($complaint['date_created']); ?></td>
+                            <td><?= htmlspecialchars($complaint['room_no']); ?></td>
                             <td>
-                                <button class="btn btn-success assign-complaint-btn" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#assigncomplaintmodal" 
-                                        data-id="<?= htmlspecialchars($complaint['Complaint_ID']); ?>">
+                                <button class="btn btn-success assign-complaint-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#assigncomplaintmodal"
+                                    data-id="<?= htmlspecialchars($complaint['complaint_id']); ?>">
                                     Assign
                                 </button>
                             </td>
                         </tr>
-                        <?php
+                    <?php
                     }
                     ?>
                 </tbody>
@@ -116,9 +115,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                         <select class="form-control" id="assignedTo" name="assigned_to" required>
                             <option value="">Select Maintenance Worker</option>
                             <?php
-                            $worker_query = "SELECT Worker_Id, Name, Specialization FROM Maintenance_Worker";
-                            $worker_result = mysqli_query($conn, $worker_query);
-                            while ($worker = mysqli_fetch_assoc($worker_result)) {
+                            // Fetching maintenance workers for assignment
+                            $worker_query = "SELECT \"Worker_Id\", \"Name\", \"Specialization\" FROM \"Maintenance_Worker\"";
+                            $worker_result = pg_query($connection, $worker_query);
+                            while ($worker = pg_fetch_assoc($worker_result)) {
                                 echo "<option value='" . htmlspecialchars($worker['Worker_Id']) . "'>" . htmlspecialchars($worker['Name']) . " - " . htmlspecialchars($worker['Specialization']) . "</option>";
                             }
                             ?>
@@ -134,10 +134,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
         </div>
     </div>
 </div>
-
-<!-- Bootstrap and jQuery Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     $(document).on('click', '.assign-complaint-btn', function() {

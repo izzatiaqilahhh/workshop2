@@ -1,13 +1,9 @@
 <?php
-include 'paandbconfig.php';
+include 'qiladbcon.php';
 include('includes/header-.php');
 ?>
 
 <title>e-HRCS - Hostel Staff Management</title>
-
-<!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
 
 <!-- Start::app-content -->
 <div class="main-content app-content">
@@ -41,24 +37,24 @@ include('includes/header-.php');
                 <tbody>
 
                     <?php
-                    // Fetch hostel staff data from the database
-                    $query = 'SELECT S.Staff_No, S.Name, S.Email, S.Phone_No, B.Block_Name 
-                              FROM Block B 
-                              JOIN Hostel_Staff S ON B.Staff_ID = S.Staff_ID';
+                    // PostgreSQL query to fetch hostel staff data
+                    $query = 'SELECT s."staff_no", s."name", s."email", s."phone_no", b."block_name" 
+                              FROM "block" b 
+                              JOIN "hostel_staff" s ON b."staff_id" = s."staff_id"';
 
-                    $result = mysqli_query($conn, $query); // Adjusted for MySQL
+                    $result = pg_query($connection, $query); // PostgreSQL query execution
 
-                    if ($result && mysqli_num_rows($result) > 0) {
+                    if ($result && pg_num_rows($result) > 0) {
                         $counter = 1;
-                        while ($adminItem = mysqli_fetch_assoc($result)) {
+                        while ($adminItem = pg_fetch_assoc($result)) {
                     ?>
                             <tr>
                                 <td><?= $counter++; ?></td>
-                                <td><?= htmlspecialchars($adminItem['Staff_No']); ?></td>
-                                <td><?= htmlspecialchars($adminItem['Name']); ?></td>
-                                <td><?= htmlspecialchars($adminItem['Email']); ?></td>
-                                <td><?= htmlspecialchars($adminItem['Phone_No']); ?></td>
-                                <td><?= htmlspecialchars($adminItem['Block_Name']); ?></td>
+                                <td><?= htmlspecialchars($adminItem['staff_no']); ?></td>
+                                <td><?= htmlspecialchars($adminItem['name']); ?></td>
+                                <td><?= htmlspecialchars($adminItem['email']); ?></td>
+                                <td><?= htmlspecialchars($adminItem['phone_no']); ?></td>
+                                <td><?= htmlspecialchars($adminItem['block_name']); ?></td>
                             </tr>
                         <?php
                         }
@@ -78,43 +74,6 @@ include('includes/header-.php');
     </div>
 </div>
 <!-- End::app-content -->
-
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.colVis.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('.table').DataTable({
-            responsive: true,
-            dom: 'Bfrtip',
-            buttons: [{
-                    extend: 'copyHtml5',
-                    exportOptions: {
-                        columns: [0, ':visible']
-                    }
-                },
-                {
-                    extend: 'excelHtml5',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                'colvis'
-            ]
-        });
-    });
-</script>
 
 <?php
 include('includes/footer-.php');

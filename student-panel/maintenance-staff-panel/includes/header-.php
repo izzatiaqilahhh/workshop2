@@ -182,14 +182,6 @@
                     </li>
 
                     <!-- Slide -->
-                     <li class="slide">
-                        <a href="view-maintenance-staff.php" class="side-menu__item">
-                            <i class='bx bxs-user side-menu__icon'></i>
-                            <span class="side-menu__label">Maintainance Staff</span>
-                        </a>
-                    </li>
-
-                    <!-- Slide -->
                     <li class="slide">
                         <a href="assigned-complaint.php" class="side-menu__item">
                             <i class='bx bx-check-circle side-menu__icon'></i>
