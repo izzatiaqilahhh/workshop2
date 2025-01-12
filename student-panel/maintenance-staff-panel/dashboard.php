@@ -1,5 +1,5 @@
-<?php include('includes/header-.php'); ?>
-require 'aina_connection.php';
+<?php include('includes/header-.php');
+include 'aina_connection.php';  ?> 
 <title>e-HRCS - Dashboard</title>
 
 <!-- App Content -->

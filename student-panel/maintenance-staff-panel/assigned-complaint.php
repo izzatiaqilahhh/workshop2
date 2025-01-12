@@ -1,5 +1,12 @@
-<?php include('includes/header-.php'); 
+<?php 
+include('includes/header-.php'); 
 include 'ainaconnection.php'; ?>
+
+// Fetch data from the database
+$query = "SELECT * FROM assignments"; // Replace 'assignments' with your actual table name
+$result = mysqli_query($conn, $query); 
+
+?>
 <title>e-HRCS - Assigned Complaint Management</title>
 
 <div class="main-content app-content">
@@ -22,52 +29,44 @@ include 'ainaconnection.php'; ?>
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>Assignment ID</th>
                         <th>Complaint ID</th>
-                        <th>Student ID</th>
-                        <th>Room Number</th>
-                        <th>Complaint</th>
-                        <th>Current Status</th>
-                        <th>Update Status</th>
-                        <th>Action</th>
+                        <th>Worker ID</th>
+                        <th>Date Assigned</th>
+                        <th>Date Resolved</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                        <th>Update</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    // Data dimasukkan secara manual
-                    $complaints = [
-                        [
-                            "id" => "123456",
-                            "student_id" => "S003",
-                            "room_number" => "SL-L-1-1",
-                            "description" => "My door locks was broken",
-                            "status" => "Not done yet",
-                            "update_status" => "None",
-                            "action" => "Assign ASAP"
-                        ]
-                    ];
-
-                    // Paparkan data
-                    foreach ($complaints as $row) {
-                        echo "<tr>
-                                <td>{$row['id']}</td>
-                                <td>{$row['student_id']}</td>
-                                <td>{$row['room_number']}</td>
-                                <td>{$row['description']}</td>
-                                <td>{$row['status']}</td>
+                    if ($result && mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo "<tr>
+                                <td>{$row['Assignment_Id']}</td>
+                                <td>{$row['Complaint_Id']}</td>
+                                <td>{$row['Worker_Id']}</td>
+                                <td>{$row['Date_Assigned']}</td>
+                                <td>" . ($row['Date_Resolved'] ? $row['Date_Resolved'] : 'N/A') . "</td>
+                                <td>{$row['Status']}</td>
+                                <td>{$row['Remarks']}</td>
                                 <td>
-                                    <form method='POST' action='#'>
-                                        <input type='hidden' name='complaint_id' value='{$row['id']}'>
+                                    <form method='POST' action='update_assignment.php'>
+                                        <input type='hidden' name='assignment_id' value='{$row['Assignment_Id']}'>
                                         <select name='status' class='form-control mb-2'>
-                                            <option value='Pending'>Pending</option>
-                                            <option value='In Progress'>In Progress</option>
-                                            <option value='Resolved'>Resolved</option>
+                                            <option value='Pending'" . ($row['Status'] == 'Pending' ? ' selected' : '') . ">Pending</option>
+                                            <option value='In Progress'" . ($row['Status'] == 'In Progress' ? ' selected' : '') . ">In Progress</option>
+                                            <option value='Resolved'" . ($row['Status'] == 'Resolved' ? ' selected' : '') . ">Resolved</option>
                                         </select>
-                                        <input type='text' name='progress' class='form-control mb-2' placeholder='Progress Update (optional)'>
-                                        <button type='button' class='btn btn-success btn-sm'>Update</button>
+                                        <input type='text' name='remarks' class='form-control mb-2' placeholder='Add remarks (optional)' value='{$row['Remarks']}'>
+                                        <button type='submit' class='btn btn-success btn-sm'>Update</button>
                                     </form>
                                 </td>
-                                <td>{$row['action']}</td>
                             </tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='8' class='text-center'>No assignments found.</td></tr>";
                     }
                     ?>
                 </tbody>

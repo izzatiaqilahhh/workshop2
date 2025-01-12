@@ -1,5 +1,5 @@
 <?php
-include('db_connection.php'); // Include your database connection
+include('ainaconnection.php'); // Include your database connection
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $complaint_id = $_POST['complaint_id'];

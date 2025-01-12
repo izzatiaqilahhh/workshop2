@@ -1,6 +1,6 @@
 <?php
 include('includes/header.php');
-?>
+include 'ainaconnection.php'; ?>
 
 <title>e-HRCS - Forgot Password</title>
 
