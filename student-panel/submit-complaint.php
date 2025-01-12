@@ -15,14 +15,12 @@ function sanitizeInput($data) {
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if session variables are set
-    if (!isset($_SESSION['student']) || !isset($_SESSION['room_id'])) {
-        $_SESSION['error'] = "Session variables not set.";
-        header("Location: complaint-list.php");
+    if (!isset($_SESSION['student'])) {
+        header("Location: login.php");
         exit();
     }
 
     $student_id = $_SESSION['student']; // Assuming student ID is stored in session
-    $room_id = $_SESSION['room_id']; // Assuming room ID is stored in session
     $complaint_type = sanitizeInput($_POST['complaint-type']);
     $issue_type = sanitizeInput($_POST['issue-type']);
     $description = sanitizeInput($_POST['complaint-description']);
@@ -57,15 +55,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert complaint into the database
     try {
-        $stmt = $pdo->prepare("INSERT INTO Complaint (Complaint_Type, Complaint_Issue, Description, Image, Status, Date_Created, Student_ID, Room_ID) VALUES (:complaint_type, :complaint_issue, :description, :image, :status, :date_created, :student_id, :room_id)");
+        $stmt = $pdo->prepare("INSERT INTO Complaint (Complaint_Type, Complaint_Issue, Description, Image, Status, Date_Created, Student_ID) VALUES (:complaint_type, :complaint_issue, :description, :image, :status, :date_created, :student_id)");
         $stmt->bindParam(':complaint_type', $complaint_type);
         $stmt->bindParam(':complaint_issue', $issue_type);
         $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':image', $image_path, PDO::PARAM_LOB);
+        $stmt->bindParam(':image', $image_path);
         $stmt->bindParam(':status', $status);
         $stmt->bindParam(':date_created', $date_created);
         $stmt->bindParam(':student_id', $student_id);
-        $stmt->bindParam(':room_id', $room_id);
         
         // Execute the query and check if it was successful
         if ($stmt->execute()) {

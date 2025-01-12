@@ -8,12 +8,24 @@ if (!isset($_SESSION['student'])) {
     exit();
 }
 
-// Fetch existing complaints from the database
+// Fetch student ID using matric number
 try {
-    $stmt = $pdo->prepare("SELECT * FROM Complaint WHERE Student_ID = :Student_ID ORDER BY Date_Created DESC");
-    $stmt->bindParam(':Student_ID', $_SESSION['student']);
+    $stmt = $pdo->prepare("SELECT Student_ID FROM student WHERE Matric_No = :Matric_No");
+    $stmt->bindParam(':Matric_No', $_SESSION['student']);
     $stmt->execute();
-    $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $student = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($student) {
+        $student_id = $student['Student_ID'];
+
+        // Fetch existing complaints from the database using student ID
+        $stmt = $pdo->prepare("SELECT * FROM Complaint WHERE Student_ID = :Student_ID ORDER BY Date_Created DESC");
+        $stmt->bindParam(':Student_ID', $student_id);
+        $stmt->execute();
+        $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $_SESSION['error'] = 'Student not found.';
+    }
 } catch (PDOException $e) {
     $_SESSION['error'] = 'Database error: ' . $e->getMessage();
 }
