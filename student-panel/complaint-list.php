@@ -218,17 +218,17 @@ try {
                                                 <td><?= htmlspecialchars($complaint['Date_Created']) ?></td>
                                                 <td><?= htmlspecialchars($complaint['Complaint_Status'] ?? 'Pending') ?></td>
                                                 <td>
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-info btn-sm"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#complaintModal"
-                                                    onclick="populateModal('<?= htmlspecialchars($complaint['Complaint_ID']) ?>', '<?= htmlspecialchars($complaint['Description']) ?>', '<?= base64_encode($complaint['Image']) ?>')">
-                                                    View
-                                                </button>
-                                                <a href="edit-complaint.php?complaint_id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-warning btn-sm">Edit</a>
-                                                <a href="delete-complaint.php?complaint_id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this complaint?')">Delete</a>
-                                            </td>
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-info btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#complaintModal"
+                                                        onclick="populateModal('<?= htmlspecialchars($complaint['Complaint_ID']) ?>', '<?= htmlspecialchars($complaint['Description']) ?>', '<?= base64_encode($complaint['Image']) ?>')">
+                                                        View
+                                                    </button>
+                                                    <a href="edit-complaint.php?complaint_id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-warning btn-sm">Edit</a>
+                                                    <a href="delete-complaint.php?complaint_id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this complaint?')">Delete</a>
+                                                </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php else: ?>
