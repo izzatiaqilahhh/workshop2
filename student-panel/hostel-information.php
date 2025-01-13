@@ -34,6 +34,13 @@ try {
 
         if (!$room) {
             $error = 'No room information found for the student.';
+        } else {
+            // Fetch roommates details
+            $stmt = $pdo->prepare("SELECT Name, Phone_No FROM Student WHERE Room_ID = :room_id AND Matric_No != :Matric_No");
+            $stmt->bindParam(':room_id', $student['Room_ID']);
+            $stmt->bindParam(':Matric_No', $_SESSION['student']);
+            $stmt->execute();
+            $roommates = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 } catch (PDOException $e) {
@@ -164,6 +171,42 @@ try {
                     </div>
                 </div>
                 <!-- Room Details Section -->
+
+                <!-- Roommates Details Section -->
+                <div class="col-md-12 mt-4">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title">Roommates</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <?php if (isset($roommates) && !empty($roommates)): ?>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Phone Number</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($roommates as $roommate): ?>
+                                                <tr>
+                                                    <td><?= htmlspecialchars($roommate['Name']) ?></td>
+                                                    <td><?= htmlspecialchars($roommate['Phone_No']) ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                <?php else: ?>
+                                    <div class="alert alert-info" role="alert">
+                                        No roommates information found.
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Roommates Details Section -->
             </div>
         </div>
     </div>

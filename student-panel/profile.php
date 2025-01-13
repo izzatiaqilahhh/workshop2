@@ -186,15 +186,30 @@ try {
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="currentPassword">Current Password</label>
-                                <input type="password" id="currentPassword" class="form-control" name="currentPassword" placeholder="Current Password" required>
+                                <div class="input-group">
+                                    <input type="password" id="currentPassword" class="form-control" name="currentPassword" placeholder="Current Password" required>
+                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('currentPassword')">
+                                        <i class="bi bi-eye-slash" id="toggleCurrentPasswordIcon"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="newPassword">New Password</label>
-                                <input type="password" id="newPassword" class="form-control" name="newPassword" placeholder="New Password" required>
+                                <div class="input-group">
+                                    <input type="password" id="newPassword" class="form-control" name="newPassword" placeholder="New Password" required>
+                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('newPassword')">
+                                        <i class="bi bi-eye-slash" id="toggleNewPasswordIcon"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="confirmPassword">Confirm New Password</label>
-                                <input type="password" id="confirmPassword" class="form-control" name="confirmPassword" placeholder="Confirm New Password" required>
+                                <div class="input-group">
+                                    <input type="password" id="confirmPassword" class="form-control" name="confirmPassword" placeholder="Confirm New Password" required>
+                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('confirmPassword')">
+                                        <i class="bi bi-eye-slash" id="toggleConfirmPasswordIcon"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-start align-items-center">
@@ -213,6 +228,23 @@ try {
 
     <!-- Bootstrap JS -->
     <script src="hostel-staff-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS for toggling password visibility -->
+    <script>
+        function togglePasswordVisibility(id) {
+            const passwordInput = document.getElementById(id);
+            const toggleIcon = document.querySelector(`#${id} + button i`);
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('bi-eye-slash');
+                toggleIcon.classList.add('bi-eye');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('bi-eye');
+                toggleIcon.classList.add('bi-eye-slash');
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -58,6 +58,14 @@ try {
         $stmt->bindParam(':Student_ID', $student_id);
         $stmt->bindParam(':Room_ID', $room_id);
         $stmt->execute();
+        
+        // Get the last inserted complaint ID
+        $complaint_id = $pdo->lastInsertId();
+
+        // Insert initial status into the Complaint_Status table
+        $stmt = $pdo->prepare("INSERT INTO Complaint_Status (Complaint_ID, Complaint_Status, Description) VALUES (:Complaint_ID, 'Pending', NULL)");
+        $stmt->bindParam(':Complaint_ID', $complaint_id);
+        $stmt->execute();
 
         $_SESSION['success'] = 'Complaint submitted successfully.';
         header('Location: complaint-list.php');
