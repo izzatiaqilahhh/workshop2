@@ -19,7 +19,13 @@ try {
         $student_id = $student['Student_ID'];
 
         // Fetch existing complaints from the database using student ID
-        $stmt = $pdo->prepare("SELECT * FROM Complaint WHERE Student_ID = :Student_ID ORDER BY Date_Created DESC");
+        $stmt = $pdo->prepare(
+            "SELECT c.*, cs.Complaint_Status 
+             FROM Complaint c 
+             LEFT JOIN Complaint_Status cs ON c.Complaint_ID = cs.Complaint_ID 
+             WHERE c.Student_ID = :Student_ID 
+             ORDER BY c.Date_Created DESC"
+        );
         $stmt->bindParam(':Student_ID', $student_id);
         $stmt->execute();
         $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -207,7 +213,7 @@ try {
                                                 <td><?= htmlspecialchars($complaint['Complaint_Issue']) ?></td>
                                                 <td><?= htmlspecialchars($complaint['Description']) ?></td>
                                                 <td><?= htmlspecialchars($complaint['Date_Created']) ?></td>
-                                                <td><?= htmlspecialchars($complaint['Status']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Complaint_Status']) ?></td>
                                                 <td>
                                                     <button
                                                         type="button"

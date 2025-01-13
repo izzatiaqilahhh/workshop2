@@ -59,19 +59,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Insert the new complaint into the database
     try {
-        $stmt = $pdo->prepare("INSERT INTO Complaint (Complaint_Type, Complaint_Issue, Description, Image, Date_Created, Student_ID) VALUES (:Complaint_Type, :Complaint_Issue, :Description, :Image, :Date_Created, :Student_ID)");
+        $pdo->beginTransaction();
+
+        // Insert into Complaint table
+        $stmt = $pdo->prepare("INSERT INTO Complaint (Complaint_Type, Complaint_Issue, Description, Image, Date_Created, Student_ID, Room_ID) VALUES (:Complaint_Type, :Complaint_Issue, :Description, :Image, :Date_Created, :Student_ID, :Room_ID)");
         $stmt->bindParam(':Complaint_Type', $complaint_type);
         $stmt->bindParam(':Complaint_Issue', $issue_type);
         $stmt->bindParam(':Description', $description);
         $stmt->bindParam(':Image', $image, PDO::PARAM_LOB);
         $stmt->bindParam(':Date_Created', $date_created);
         $stmt->bindParam(':Student_ID', $student_id);
+        $stmt->bindParam(':Room_ID', $student_id); // Assuming Room_ID is same as Student_ID for simplicity
         $stmt->execute();
+
+        // Get the last inserted Complaint_ID
+        $complaint_id = $pdo->lastInsertId();
+
+        // Insert initial status into Complaint_Status table
+        $stmt = $pdo->prepare("INSERT INTO Complaint_Status (Complaint_Status, Description, Complaint_ID) VALUES ('Pending', '', :Complaint_ID)");
+        $stmt->bindParam(':Complaint_ID', $complaint_id);
+        $stmt->execute();
+
+        $pdo->commit();
 
         $_SESSION['success'] = 'Complaint submitted successfully.';
         header('Location: complaint-list.php');
         exit();
     } catch (PDOException $e) {
+        $pdo->rollBack();
         $_SESSION['error'] = 'Database error: ' . $e->getMessage();
         header('Location: complaint-list.php');
         exit();
