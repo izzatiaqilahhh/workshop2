@@ -32,15 +32,29 @@ if (isset($_GET['complaint_id'])) {
     $complaint_id = $_GET['complaint_id'];
 
     try {
+        // Start a transaction
+        $pdo->beginTransaction();
+
+        // Delete related entries from Complaint_Status
+        $stmt = $pdo->prepare("DELETE FROM Complaint_Status WHERE Complaint_ID = :Complaint_ID");
+        $stmt->bindParam(':Complaint_ID', $complaint_id);
+        $stmt->execute();
+
+        // Delete the complaint
         $stmt = $pdo->prepare("DELETE FROM Complaint WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
         $stmt->bindParam(':Complaint_ID', $complaint_id);
         $stmt->bindParam(':Student_ID', $student_id);
         $stmt->execute();
 
+        // Commit the transaction
+        $pdo->commit();
+
         $_SESSION['success'] = 'Complaint deleted successfully.';
         header('Location: complaint-list.php');
         exit();
     } catch (PDOException $e) {
+        // Rollback the transaction on error
+        $pdo->rollBack();
         $_SESSION['error'] = 'Database error: ' . $e->getMessage();
         header('Location: complaint-list.php');
         exit();

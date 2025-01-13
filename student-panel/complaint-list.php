@@ -8,6 +8,11 @@ if (!isset($_SESSION['student'])) {
     exit();
 }
 
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Fetch student ID using matric number
 try {
     $stmt = $pdo->prepare("SELECT Student_ID FROM student WHERE Matric_No = :Matric_No");
@@ -19,7 +24,11 @@ try {
         $student_id = $student['Student_ID'];
 
         // Fetch existing complaints from the database using student ID
-        $stmt = $pdo->prepare("SELECT c.*, cs.Complaint_Status FROM Complaint c LEFT JOIN Complaint_Status cs ON c.Complaint_ID = cs.Complaint_ID WHERE c.Student_ID = :Student_ID ORDER BY c.Date_Created DESC");
+        $stmt = $pdo->prepare("SELECT c.*, cs.Complaint_Status, cs.Description as Status_Description, cs.Date_Update_Status 
+                               FROM Complaint c 
+                               LEFT JOIN Complaint_Status cs ON c.Complaint_ID = cs.Complaint_ID 
+                               WHERE c.Student_ID = :Student_ID 
+                               ORDER BY c.Date_Created DESC");
         $stmt->bindParam(':Student_ID', $student_id);
         $stmt->execute();
         $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -209,17 +218,17 @@ try {
                                                 <td><?= htmlspecialchars($complaint['Date_Created']) ?></td>
                                                 <td><?= htmlspecialchars($complaint['Complaint_Status'] ?? 'Pending') ?></td>
                                                 <td>
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-info btn-sm"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#complaintModal"
-                                                        onclick="populateModal('<?= htmlspecialchars($complaint['Complaint_ID']) ?>', '<?= htmlspecialchars($complaint['Description']) ?>', '<?= htmlspecialchars($complaint['Image']) ?>')">
-                                                        View
-                                                    </button>
-                                                    <a href="edit-complaint.php?id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-warning btn-sm">Edit</a>
-                                                    <a href="delete-complaint.php?id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this complaint?');">Delete</a>
-                                                </td>
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-info btn-sm"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#complaintModal"
+                                                    onclick="populateModal('<?= htmlspecialchars($complaint['Complaint_ID']) ?>', '<?= htmlspecialchars($complaint['Description']) ?>', '<?= base64_encode($complaint['Image']) ?>')">
+                                                    View
+                                                </button>
+                                                <a href="edit-complaint.php?complaint_id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-warning btn-sm">Edit</a>
+                                                <a href="delete-complaint.php?complaint_id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this complaint?')">Delete</a>
+                                            </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php else: ?>
@@ -258,13 +267,10 @@ try {
 
     <script>
         function populateModal(complaintID, description, image) {
-            if (image) {
-                const blob = new Blob([new Uint8Array(atob(image).split("").map(char => char.charCodeAt(0)))]);
-                const url = URL.createObjectURL(blob);
-                document.getElementById('complaintImage').src = url;
-            } else {
-                document.getElementById('complaintImage').src = 'path/to/default/image.png';
-            }
+            const blob = new Blob([Uint8Array.from(atob(image), c => c.charCodeAt(0))], { type: 'image/jpeg' });
+            const url = URL.createObjectURL(blob);
+            
+            document.getElementById('complaintImage').src = url;
             document.getElementById('complaintDescription').textContent = description;
             document.getElementById('complaintModalLabel').textContent = `Complaint ID: ${complaintID}`;
         }
