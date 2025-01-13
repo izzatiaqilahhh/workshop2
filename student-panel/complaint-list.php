@@ -32,24 +32,18 @@ try {
 ?>
 
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
-
+<html lang="en">
 <head>
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <title>e-HRCS - My Complaints</title>
-
     <link rel="icon" href="images/logo.png" type="image/x-icon">
-
     <!-- Bootstrap CSS -->
     <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Style CSS -->
     <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
-
     <!-- Icons CSS -->
     <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
 </head>
@@ -276,5 +270,4 @@ try {
     <!-- Bootstrap JS -->
     <script src="hostel-staff-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
