@@ -19,13 +19,7 @@ try {
         $student_id = $student['Student_ID'];
 
         // Fetch existing complaints from the database using student ID
-        $stmt = $pdo->prepare(
-            "SELECT c.*, cs.Complaint_Status 
-             FROM Complaint c 
-             LEFT JOIN Complaint_Status cs ON c.Complaint_ID = cs.Complaint_ID 
-             WHERE c.Student_ID = :Student_ID 
-             ORDER BY c.Date_Created DESC"
-        );
+        $stmt = $pdo->prepare("SELECT c.*, cs.Complaint_Status FROM Complaint c LEFT JOIN Complaint_Status cs ON c.Complaint_ID = cs.Complaint_ID WHERE c.Student_ID = :Student_ID ORDER BY c.Date_Created DESC");
         $stmt->bindParam(':Student_ID', $student_id);
         $stmt->execute();
         $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -213,7 +207,7 @@ try {
                                                 <td><?= htmlspecialchars($complaint['Complaint_Issue']) ?></td>
                                                 <td><?= htmlspecialchars($complaint['Description']) ?></td>
                                                 <td><?= htmlspecialchars($complaint['Date_Created']) ?></td>
-                                                <td><?= htmlspecialchars($complaint['Complaint_Status']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Complaint_Status'] ?? 'Pending') ?></td>
                                                 <td>
                                                     <button
                                                         type="button"
@@ -223,8 +217,8 @@ try {
                                                         onclick="populateModal('<?= htmlspecialchars($complaint['Complaint_ID']) ?>', '<?= htmlspecialchars($complaint['Description']) ?>', '<?= htmlspecialchars($complaint['Image']) ?>')">
                                                         View
                                                     </button>
-                                                    <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                                    <a href="edit-complaint.php?id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-warning btn-sm">Edit</a>
+                                                    <a href="delete-complaint.php?id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this complaint?');">Delete</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -264,10 +258,13 @@ try {
 
     <script>
         function populateModal(complaintID, description, image) {
-            const blob = new Blob([new Uint8Array(atob(image).split("").map(char => char.charCodeAt(0)))]);
-            const url = URL.createObjectURL(blob);
-            
-            document.getElementById('complaintImage').src = url;
+            if (image) {
+                const blob = new Blob([new Uint8Array(atob(image).split("").map(char => char.charCodeAt(0)))]);
+                const url = URL.createObjectURL(blob);
+                document.getElementById('complaintImage').src = url;
+            } else {
+                document.getElementById('complaintImage').src = 'path/to/default/image.png';
+            }
             document.getElementById('complaintDescription').textContent = description;
             document.getElementById('complaintModalLabel').textContent = `Complaint ID: ${complaintID}`;
         }
