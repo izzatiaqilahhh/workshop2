@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('teahdbconfig.php'); // Include your database configuration file
+include('teahdbconfig.php');
 
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
@@ -8,63 +8,54 @@ if (!isset($_SESSION['student'])) {
     exit();
 }
 
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Fetch student ID using matric number
+// Fetch user-specific data
 try {
-    $stmt = $pdo->prepare("SELECT Student_ID FROM student WHERE Matric_No = :Matric_No");
+    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
     $stmt->bindParam(':Matric_No', $_SESSION['student']);
     $stmt->execute();
-    $student = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($student) {
-        $student_id = $student['Student_ID'];
-
-        // Fetch existing complaints from the database using student ID
-        $stmt = $pdo->prepare("SELECT c.*, cs.Complaint_Status, cs.Description as Status_Description, cs.Date_Update_Status 
-                               FROM Complaint c 
-                               LEFT JOIN Complaint_Status cs ON c.Complaint_ID = cs.Complaint_ID 
-                               WHERE c.Student_ID = :Student_ID 
-                               ORDER BY c.Date_Created DESC");
-        $stmt->bindParam(':Student_ID', $student_id);
-        $stmt->execute();
-        $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } else {
-        $_SESSION['error'] = 'Student not found.';
+    if (!$user) {
+        echo 'User not found';
+        exit();
     }
+
+    $student_id = $user['Student_ID'];
+
+    $stmt = $pdo->prepare("SELECT c.*, cs.Complaint_Status, cs.Description as Status_Description, cs.Date_Update_Status 
+                           FROM Complaint c 
+                           LEFT JOIN Complaint_Status cs ON c.Complaint_ID = cs.Complaint_ID 
+                           WHERE c.Student_ID = :Student_ID 
+                           ORDER BY c.Date_Created DESC");
+    $stmt->bindParam(':Student_ID', $student_id);
+    $stmt->execute();
+    $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    $_SESSION['error'] = 'Database error: ' . $e->getMessage();
+    echo 'Database connection failed: ' . $e->getMessage();
+    exit();
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 <head>
-    <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>e-HRCS - My Complaints</title>
     <link rel="icon" href="images/logo.png" type="image/x-icon">
-    <!-- Bootstrap CSS -->
-    <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Style CSS -->
-    <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
-    <!-- Icons CSS -->
-    <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
+    <link id="style" href="assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/styles.min.css" rel="stylesheet">
+    <link href="assets/css/icons.min.css" rel="stylesheet">
 </head>
-
 <body>
-    <!-- App Header -->
+
     <header class="app-header">
         <div class="main-header-container container-fluid">
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="complaint-list.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
+                        <a href="dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
                     </div>
                 </div>
             </div>
@@ -78,24 +69,21 @@ try {
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"></p>
-                                <span class="op-7 fw-normal d-block fs-11"></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p>
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span>
                             </div>
                         </div>
                     </a>
-                    <ul class="dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
-                        <li><a class="dropdown-item d-flex" href="#"><i class="ti ti-logout fs-18 me-2 op-7"></i>Logout</a></li>
+                    <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
+                        <li><a class="dropdown-item d-flex" href="logout.php"><i class="ti ti-logout fs-18 me-2 op-7"></i>Logout</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </header>
-    <!-- App Header -->
 
-    <!-- App Content -->
     <div class="main-content app-content">
         <div class="container-fluid">
-            <!-- Page Header -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb py-sm-4 py-md-0">
                 <h1 class="page-title fw-semibold fs-18 mb-0">My Complaints</h1>
                 <div class="ms-md-1 ms-0">
@@ -107,9 +95,7 @@ try {
                     </nav>
                 </div>
             </div>
-            <!-- Page Header -->
 
-            <!-- Complaint Form Section -->
             <div class="row mt-4">
                 <div class="d-flex my-3">
                     <a href="dashboard.php" class="btn btn-primary btn-sm">
@@ -185,7 +171,6 @@ try {
                 </div>
             </div>
 
-            <!-- Complaints Table Section -->
             <div class="row mt-4">
                 <div class="col-md-12">
                     <div class="card custom-card">
@@ -243,7 +228,6 @@ try {
                 </div>
             </div>
 
-            <!-- Modal for Complaint Details -->
             <div class="modal fade" id="complaintModal" tabindex="-1" aria-labelledby="complaintModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -263,7 +247,6 @@ try {
             </div>
         </div>
     </div>
-    <!-- App Content -->
 
     <script>
         function populateModal(complaintID, description, image) {
@@ -276,7 +259,6 @@ try {
         }
     </script>
 
-    <!-- Bootstrap JS -->
-    <script src="hostel-staff-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
