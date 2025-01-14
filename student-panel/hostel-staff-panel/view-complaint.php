@@ -33,8 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
 
 <title>e-HRCS - Complaint Management</title>
 
-
-
 <div class="main-content app-content">
     <div class="container">
 

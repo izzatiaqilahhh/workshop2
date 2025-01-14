@@ -32,6 +32,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>e-HRCS - Student Management</title>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <!-- DataTables Buttons CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+
 </head>
 
 <body>
@@ -98,6 +104,27 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
             </div>
         </div>
     </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.table').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'colvis'
+                ]
+            });
+        });
+    </script>
 
     <?php
     include 'includes/footer-.php';
