@@ -102,7 +102,7 @@ while ($row = $result_complaints_by_type->fetch_assoc()) {
 <?php include('includes/header-.php'); ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<title>E-Hostel Room Complaint System - Statistics and Analysis</title>
+<title>e-HRCS - Statistics and Analysis</title>
 
 <div class="main-content app-content">
     <div class="container">
@@ -112,42 +112,54 @@ while ($row = $result_complaints_by_type->fetch_assoc()) {
         </div>
         <!-- Page Header Close -->
 
-       <!-- Start::Statistics Row -->
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card text-center">
-            <div class="card-body" style="background-color: #b3cde3; color: #fff;">
-                <h5>Total Complaints</h5>
-                <h2><?php echo $total_complaints; ?></h2>
+        <!-- Row 1 -->
+        <div class="row print">
+            <div class="d-flex justify-content-end my-3 hidden-print">
+                <button class="btn btn-primary btn-sm text-center" onclick="printPage()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);">
+                        <path d="M19 7h-1V2H6v5H5c-1.654 0-3 1.346-3 3v7c0 1.103.897 2 2 2h2v3h12v-3h2c1.103 0 2-.897 2-2v-7c0-1.654-1.346-3-3-3zM8 4h8v3H8V4zm8 16H8v-4h8v4zm4-3h-2v-3H6v3H4v-7c0-.551.449-1 1-1h14c.552 0 1 .449 1 1v7z"></path>
+                        <path d="M14 10h4v2h-4z"></path>
+                    </svg>
+                    Print
+                </button>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card text-center">
-            <div class="card-body" style="background-color: #ccebc5; color: #fff;">
-                <h5>Resolved Complaints</h5>
-                <h2><?php echo $resolved_complaints; ?></h2>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card text-center">
-            <div class="card-body" style="background-color: #fbb4ae; color: #fff;">
-                <h5>Assigned Complaints</h5>
-                <h2><?php echo $pending_complaints; ?></h2>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card text-center">
-            <div class="card-body" style="background-color: #fed9a6; color: #fff;">
-                <h5>In Progress Complaints</h5>
-                <h2><?php echo $progress_complaints; ?></h2>
-            </div>
-        </div>
-    </div>
-</div>
 
+        <!-- Start::Statistics Row -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body" style="background-color: #b3cde3; color: #fff;">
+                        <h5>Total Complaints</h5>
+                        <h2><?php echo $total_complaints; ?></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body" style="background-color: #ccebc5; color: #fff;">
+                        <h5>Resolved Complaints</h5>
+                        <h2><?php echo $resolved_complaints; ?></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body" style="background-color: #fbb4ae; color: #fff;">
+                        <h5>Assigned Complaints</h5>
+                        <h2><?php echo $pending_complaints; ?></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body" style="background-color: #fed9a6; color: #fff;">
+                        <h5>In Progress Complaints</h5>
+                        <h2><?php echo $progress_complaints; ?></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Complaints by Category Table -->
         <div class="row mb-4">
@@ -184,69 +196,68 @@ while ($row = $result_complaints_by_type->fetch_assoc()) {
                         <h5 class="card-title">Complaints by Category (Pie Chart)</h5>
                         <canvas id="complaintsChart" style="max-width: 500px; max-height: 500px; margin: auto;"></canvas>
                     </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
-            // Prepare data for the chart
-            const complaintLabels = <?php echo json_encode(array_column($complaints_by_type, 'Complaint_Type')); ?>;
-            const complaintCounts = <?php echo json_encode(array_column($complaints_by_type, 'count')); ?>;
+    <script>
+        // Prepare data for the chart
+        const complaintLabels = <?php echo json_encode(array_column($complaints_by_type, 'Complaint_Type')); ?>;
+        const complaintCounts = <?php echo json_encode(array_column($complaints_by_type, 'count')); ?>;
 
-            // Render the pie chart using Chart.js
-            const ctx = document.getElementById('complaintsChart').getContext('2d');
-            const complaintsChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: complaintLabels,
-                    datasets: [{
-                        data: complaintCounts,
-                        backgroundColor: [
-                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
-                        ],
-                        hoverBackgroundColor: [
-                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let value = context.raw;
-                                    let label = context.label || '';
-                                    return `${label}: ${value} complaints`;
-                                }
+        // Render the pie chart using Chart.js
+        const ctx = document.getElementById('complaintsChart').getContext('2d');
+        const complaintsChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: complaintLabels,
+                datasets: [{
+                    data: complaintCounts,
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+                    ],
+                    hoverBackgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let value = context.raw;
+                                let label = context.label || '';
+                                return `${label}: ${value} complaints`;
                             }
                         }
                     }
                 }
-            });
-        </script>
+            }
+        });
+    </script>
 
-         <!-- Complaints Resolved within 24 hours -->
-            <!-- Complaints Resolved within 24 hours -->
-<div class="row mb-4">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Complaints Resolved within 24 hours</h5>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Number of Complaints</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                       $resolved_within_24hrs_by_type_query = "
+    <!-- Complaints Resolved within 24 hours -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Complaints Resolved within 24 hours</h5>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Number of Complaints</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $resolved_within_24hrs_by_type_query = "
                        SELECT C.Complaint_Type, COUNT(*) AS count
                        FROM Complaint C
                        JOIN Complaint_Status CS
@@ -254,48 +265,50 @@ while ($row = $result_complaints_by_type->fetch_assoc()) {
                        WHERE TIMESTAMPDIFF(HOUR, C.Date_Created, CS.Date_Update_Status) <= 24
                        AND CS.Complaint_Status = 'Resolved'
                        GROUP BY C.Complaint_Type";
-                   $result_resolved_within_24hrs_by_type = $conn->query($resolved_within_24hrs_by_type_query);
-                   
-                        // Display the complaints in the table
-                        while ($row = $result_resolved_within_24hrs_by_type->fetch_assoc()) {
-                        ?>
-                            <tr>
-                                <td><?php echo $row['Complaint_Type']; ?></td>
-                                <td><?php echo $row['count']; ?></td>
-                            </tr>
-                        <?php } ?>
+                            $result_resolved_within_24hrs_by_type = $conn->query($resolved_within_24hrs_by_type_query);
 
-                        <!-- Calculate the total number of complaints resolved within 24 hours -->
-                        <?php
-                        $total_resolved_within_24hrs_query = "
+                            // Display the complaints in the table
+                            while ($row = $result_resolved_within_24hrs_by_type->fetch_assoc()) {
+                            ?>
+                                <tr>
+                                    <td><?php echo $row['Complaint_Type']; ?></td>
+                                    <td><?php echo $row['count']; ?></td>
+                                </tr>
+                            <?php } ?>
+
+                            <!-- Calculate the total number of complaints resolved within 24 hours -->
+                            <?php
+                            $total_resolved_within_24hrs_query = "
                         SELECT COUNT(*) AS total
                         FROM Complaint C
                         JOIN Complaint_Status CS
                         ON C.Complaint_ID = CS.Complaint_ID
                         WHERE TIMESTAMPDIFF(HOUR, C.Date_Created, CS.Date_Update_Status) <= 24
                         AND CS.Complaint_Status = 'Resolved'";
-                        $result_total_resolved_within_24hrs = $conn->query($total_resolved_within_24hrs_query);
-                    
-                        $total_resolved_within_24hrs = $result_total_resolved_within_24hrs->fetch_assoc()['total'];
-                        ?>
+                            $result_total_resolved_within_24hrs = $conn->query($total_resolved_within_24hrs_query);
 
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td><strong>Total Complaints Resolved within 24 Hours</strong></td>
-                            <td><strong><?php echo $total_resolved_within_24hrs; ?></strong></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                            $total_resolved_within_24hrs = $result_total_resolved_within_24hrs->fetch_assoc()['total'];
+                            ?>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td><strong>Total Complaints Resolved within 24 Hours</strong></td>
+                                <td><strong><?php echo $total_resolved_within_24hrs; ?></strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-
-
-
-    </div>
-</div>
+<!-- Print Page JavaScript Function -->
+<script>
+    function printPage() {
+        window.print();
+    }
+</script>
 
 <?php include('includes/footer-.php'); ?>
