@@ -28,7 +28,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Student</h5>
                     <p class="card-text">Log in to manage your hostel room complaints.</p>
-                    <a href="studentLogin.php" class="btn btn-primary">Student Login</a>
+                    <a href="../studentLogin.php" class="btn btn-primary">Student Login</a>
                 </div>
             </div>
         </div>
