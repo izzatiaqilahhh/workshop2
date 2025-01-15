@@ -5,7 +5,6 @@ error_reporting(E_ALL);
 session_start();
 include('teahdbconfig.php'); // Database connection
 
-
 require __DIR__ . '/../vendor/autoload.php'; // Include PHPMailer autoload
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -25,8 +24,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $expires = time() + 1800; // Token valid for 30 minutes
 
         // Insert the token into the database
-        $stmt = $pdo->prepare("INSERT INTO password_resets (email, token, expires) VALUES (?, ?, ?)");
-        $stmt->execute([$email, $token, $expires]);
+        try {
+            $stmt = $pdo->prepare("INSERT INTO password_resets (email, token, expires) VALUES (?, ?, ?)");
+            $stmt->execute([$email, $token, $expires]);
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Failed to insert token into database: " . $e->getMessage();
+            header("Location: forgot-password.php");
+            exit();
+        }
+
+        // Debugging: Check if the token was inserted
+        $stmt = $pdo->prepare("SELECT * FROM password_resets WHERE email = ? AND token = ?");
+        $stmt->execute([$email, $token]);
+        $resetEntry = $stmt->fetch();
+        if (!$resetEntry) {
+            $_SESSION['error'] = "Token insertion failed.";
+            header("Location: forgot-password.php");
+            exit();
+        }
 
         // Send the email using PHPMailer
         $mail = new PHPMailer(true);
@@ -45,11 +60,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $mail->setFrom('fathehaharis69@gmail.com', 'fathehah');
             $mail->addAddress($email);
 
-            // ContentS
+            // Content
             $mail->isHTML(true);
             $mail->Subject = 'Password Reset Request';
             $resetLink = "http://localhost:3000/student-panel/reset-password.php?token=$token&email=$email";
-            $mail->Body = "Click the following link to reset your password: <a href='$resetLink'>$resetLink</a>";
+            $mail->Body = "
+                <p>Hello,</p>
+                <p>We received a request to reset your password for your account. If you didn't make this request, you can ignore this email.</p>
+                <p>To reset your password, please click on the link below:</p>
+                <p><a href='$resetLink'>Reset Password</a></p>
+                <p>If the above link doesn't work, you can copy and paste the following URL into your browser:</p>
+                <p>$resetLink</p>
+                <p>Thank you,<br>The E-Hostel Room Complaint System Team</p>
+            ";
 
             $mail->send();
             $_SESSION['success'] = "A password reset link has been sent to your email.";

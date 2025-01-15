@@ -11,50 +11,45 @@ function redirectWithError($message) {
     exit();
 }
 
-// Debug statement to check if token and email are set
+// Check if token and email are set
 if (!isset($_GET['token']) || !isset($_GET['email'])) {
-    echo "Token or email parameter is missing.<br>";
-    echo "Current URL: " . htmlspecialchars($_SERVER['REQUEST_URI']) . "<br>";
     redirectWithError("Token or email parameter is missing.");
 }
 
 $token = $_GET['token'];
 $email = $_GET['email'];
 
-// Debugging statements to check token and email
-echo "Token: " . htmlspecialchars($token) . "<br>";
-echo "Email: " . htmlspecialchars($email) . "<br>";
-
 // Check if the token is valid and not expired
 $stmt = $pdo->prepare("SELECT * FROM password_resets WHERE email = ? AND token = ? AND expires >= ?");
 $stmt->execute([$email, $token, date("U")]);
 $resetRequest = $stmt->fetch();
 
-// Debugging the database response
-if ($resetRequest) {
-    echo "Token and email found in the database.<br>";
-    echo "Token: " . htmlspecialchars($resetRequest['token']) . "<br>";
-    echo "Email: " . htmlspecialchars($resetRequest['email']) . "<br>";
-    echo "Expires: " . htmlspecialchars($resetRequest['expires']) . "<br>";
-} else {
+if (!$resetRequest) {
     redirectWithError("Invalid or expired token.");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $newPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $newPassword = $_POST['password'];
+    $confirmPassword = $_POST['confirm_password'];
 
-    // Update the password in the database
-    $stmt = $pdo->prepare("UPDATE Student SET Password = ? WHERE Email = ?");
-    if ($stmt->execute([$newPassword, $email])) {
-        // Delete the token from the database
-        $stmt = $pdo->prepare("DELETE FROM password_resets WHERE email = ?");
-        $stmt->execute([$email]);
-
-        $_SESSION['success'] = "Your password has been reset successfully.";
-        header("Location: login.php");
-        exit();
+    if ($newPassword !== $confirmPassword) {
+        $_SESSION['error'] = "Passwords do not match.";
     } else {
-        $_SESSION['error'] = "Failed to update password.";
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+
+        // Update the password in the database
+        $stmt = $pdo->prepare("UPDATE student SET Password = ? WHERE Email = ?");
+        if ($stmt->execute([$hashedPassword, $email])) {
+            // Delete the token from the database
+            $stmt = $pdo->prepare("DELETE FROM password_resets WHERE email = ?");
+            $stmt->execute([$email]);
+
+            $_SESSION['success'] = "Your password has been reset successfully.";
+            header("Location: studentLogin.php");
+            exit();
+        } else {
+            $_SESSION['error'] = "Failed to update password.";
+        }
     }
 }
 ?>
@@ -71,6 +66,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
     <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
+    <style>
+        .password-toggle {
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function togglePasswordVisibility(id, iconId) {
+            var passwordField = document.getElementById(id);
+            var icon = document.getElementById(iconId);
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordField.type = "password";
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container-lg py-5">
@@ -81,10 +96,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="card-body p-5">
                             <p class="h5 fw-semibold mb-2 text-center">Reset Password</p>
                             <p class="mb-4 text-muted op-7 fw-normal text-center">Enter your new password below.</p>
+                            <?php
+                            if (isset($_SESSION['error'])) {
+                                echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
+                                unset($_SESSION['error']);
+                            }
+                            ?>
                             <div class="row gy-3">
                                 <div class="col-xl-12">
                                     <label for="reset-password" class="form-label text-default">New Password</label>
-                                    <input type="password" class="form-control form-control-lg" id="reset-password" name="password" placeholder="New Password" required>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control form-control-lg" id="reset-password" name="password" placeholder="New Password" required>
+                                        <span class="input-group-text password-toggle" onclick="togglePasswordVisibility('reset-password', 'toggle-icon1')">
+                                            <i id="toggle-icon1" class="bi bi-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <label for="confirm-password" class="form-label text-default">Confirm New Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control form-control-lg" id="confirm-password" name="confirm_password" placeholder="Confirm New Password" required>
+                                        <span class="input-group-text password-toggle" onclick="togglePasswordVisibility('confirm-password', 'toggle-icon2')">
+                                            <i id="toggle-icon2" class="bi bi-eye"></i>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="col-xl-12 d-grid mt-3">
                                     <button type="submit" class="btn btn-lg btn-primary-gradient">Reset Password</button>
@@ -96,6 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
     <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
