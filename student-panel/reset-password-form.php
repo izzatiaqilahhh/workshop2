@@ -5,7 +5,7 @@ include('teahdbconfig.php'); // Include your database configuration file
 // Check if the token is present in the URL
 if (!isset($_GET['token'])) {
     $_SESSION['error'] = "Invalid request.";
-    header("Location: login.php");
+    header("Location: studentLogin.php");
     exit();
 }
 
@@ -20,12 +20,12 @@ try {
 
     if (!$reset) {
         $_SESSION['error'] = "Invalid or expired token.";
-        header("Location: login.php");
+        header("Location: studentLogin.php");
         exit();
     }
 } catch (PDOException $e) {
     $_SESSION['error'] = "Database error: " . $e->getMessage();
-    header("Location: login.php");
+    header("Location: studentLogin.php");
     exit();
 }
 
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
 
             $_SESSION['success'] = "Password has been reset successfully.";
-            header("Location: login.php");
+            header("Location: studentLogin.php");
             exit();
         } catch (PDOException $e) {
             $_SESSION['error'] = "Database error: " . $e->getMessage();
