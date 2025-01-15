@@ -3,7 +3,7 @@ include('includes/header-.php');
 include 'ainaconnection.php'; ?>
 
 // Fetch data from the database
-$query = "SELECT * FROM assignments"; // Replace 'assignments' with your actual table name
+$query = "SELECT * FROM complaint_assignment"; // Replace 'assignments' with your actual table name
 $result = mysqli_query($conn, $query); 
 
 ?>
