@@ -28,7 +28,7 @@ include 'ainaconnection.php'; ?>
                     <p class="h5 fw-semibold mb-2 text-center">Log In</p>
                     <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your staff number and password.</p>
                     <!-- Start of form -->
-                    <form method="POST" action="login-process.php">
+                    <form method="POST" action="loginprocess.php">
                         <div class="row gy-3">
                             <div class="col-xl-12">
                                 <label for="signin-username" class="form-label text-default">Staff Number</label>
