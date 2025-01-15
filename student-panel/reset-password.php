@@ -1,75 +1,72 @@
 <?php
-session_start();
-include('teahdbconfig.php'); // Include your database configuration file
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
+// Include Composer's autoloader
+require 'vendor/autoload.php';
 
-    // Validate email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $_SESSION['error'] = "Invalid email address.";
-        header("Location: forgot-password.php");
-        exit();
-    }
+// Function to send password reset email
+function sendPasswordResetEmail($recipientEmail, $resetLink) {
+    $mail = new PHPMailer(true);
 
     try {
-        // Check if email exists
-        $stmt = $pdo->prepare("SELECT * FROM student WHERE email = :email");
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host = 'smtp.student.utem.edu.my'; // Set your SMTP server
+        $mail->SMTPAuth = true;
+        $mail->Username = 'fathehaharis69@student.utem.edu.my'; // SMTP username
+        $mail->Password = 'your-email-password'; // SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587; // Usually 587 for TLS
 
-        if ($user) {
-            // Generate a unique token
-            $token = bin2hex(random_bytes(50));
-            $expires_at = date("Y-m-d H:i:s", strtotime("+1 hour"));
+        // Recipients
+        $mail->setFrom('fathehaharis69@student.utem.edu.my', 'Your Name');
+        $mail->addAddress($recipientEmail); // Add a recipient
 
-            // Store the token in the database
-            $stmt = $pdo->prepare("INSERT INTO password_resets (email, token, expires_at) VALUES (:email, :token, :expires_at)");
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':token', $token);
-            $stmt->bindParam(':expires_at', $expires_at);
-            $stmt->execute();
+        // Content
+        $mail->isHTML(true); // Set email format to HTML
+        $mail->Subject = 'Password Reset Request';
+        $mail->Body    = "You have requested a password reset. Click the link below to reset your password:<br><br><a href=\"$resetLink\">$resetLink</a><br><br>If you did not request this, please ignore this email.";
+        $mail->AltBody = "You have requested a password reset. Click the link below to reset your password:\n\n$resetLink\n\nIf you did not request this, please ignore this email.";
 
-            // Send the email
-            $reset_link = "http://localhost:3000/reset-password-form.php?token=" . $token;
-            $subject = "Password Reset Request";
-            $message = "
-            <html>
-            <head>
-              <title>Password Reset Request</title>
-            </head>
-            <body>
-              <p>Click on the following link to reset your password:</p>
-              <p><a href='" . $reset_link . "'>" . $reset_link . "</a></p>
-            </body>
-            </html>
-            ";
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $headers .= "From: no-reply@localhost" . "\r\n";
-
-            if (mail($email, $subject, $message, $headers)) {
-                $_SESSION['success'] = "Password reset link has been sent to your email.";
-                header("Location: forgot-password.php");
-                exit();
-            } else {
-                $_SESSION['error'] = "Failed to send email.";
-                header("Location: forgot-password.php");
-                exit();
-            }
-        } else {
-            $_SESSION['error'] = "No account found with that email address.";
-            header("Location: forgot-password.php");
-            exit();
-        }
-    } catch (PDOException $e) {
-        $_SESSION['error'] = "Database error: " . $e->getMessage();
-        header("Location: forgot-password.php");
-        exit();
+        // Send the email
+        $mail->send();
+        echo 'Password reset link has been sent to your email address.';
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-} else {
-    header("Location: forgot-password.php");
-    exit();
+}
+
+// Generate a password reset link (this is a simplified example)
+function generateResetLink($email) {
+    $token = bin2hex(random_bytes(16)); // Generate a random token
+    $resetLink = "http://yourdomain.com/reset-password-form.php?token=$token&email=$email";
+    
+    // Save the token in the database with the user's email (not shown here)
+    // ...
+
+    return $resetLink;
+}
+
+// Example usage
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $recipientEmail = $_POST['email'];
+    $resetLink = generateResetLink($recipientEmail);
+    sendPasswordResetEmail($recipientEmail, $resetLink);
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Request Password Reset</title>
+</head>
+<body>
+    <form action="reset-password.php" method="post">
+        <label for="email">Enter your email:</label>
+        <input type="email" id="email" name="email" required>
+        <button type="submit">Send Reset Link</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+    "name": "izzatiaqilahhh/workshop2",
+    "description": "A sample project for workshop2",
+    "type": "project",
+    "minimum-stability": "stable",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}
