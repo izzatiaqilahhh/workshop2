@@ -5,10 +5,25 @@ error_reporting(E_ALL);
 session_start();
 include('teahdbconfig.php'); // Database connection
 
+// Function to redirect with an error message
 function redirectWithError($message) {
     $_SESSION['error'] = $message;
     header("Location: forgot-password.php");
     exit();
+}
+
+// Function to validate the password
+function validatePassword($password) {
+    if (strlen($password) < 8 || strlen($password) > 16) {
+        return "Password must be between 8 and 16 characters long.";
+    }
+    if (!preg_match('/[A-Z]/', $password)) {
+        return "Password must include at least one uppercase letter.";
+    }
+    if (!preg_match('/[0-9]/', $password)) {
+        return "Password must include at least one number.";
+    }
+    return "";
 }
 
 // Check if token and email are set
@@ -32,7 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $newPassword = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
 
-    if ($newPassword !== $confirmPassword) {
+    // Validate the password
+    $validationError = validatePassword($newPassword);
+    if ($validationError) {
+        $_SESSION['error'] = $validationError;
+    } elseif ($newPassword !== $confirmPassword) {
         $_SESSION['error'] = "Passwords do not match.";
     } else {
         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
@@ -128,6 +147,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                 </form>
+                <div class="mt-4 text-center">
+                    <p class="text-muted">Password requirements:</p>
+                    <ul class="text-muted">
+                        <li>Length: 8-16 characters</li>
+                        <li>At least one uppercase letter</li>
+                        <li>At least one number</li>
+                    </ul>
+                    <p class="text-muted">Example: <strong>Hehehe1234</strong></p>
+                </div>
             </div>
         </div>
     </div>
