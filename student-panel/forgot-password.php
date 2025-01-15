@@ -26,19 +26,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Insert the token into the database
         try {
             $stmt = $pdo->prepare("INSERT INTO password_resets (email, token, expires) VALUES (?, ?, ?)");
-            $stmt->execute([$email, $token, $expires]);
+            if (!$stmt->execute([$email, $token, $expires])) {
+                throw new Exception('Failed to insert token: ' . implode(' ', $stmt->errorInfo()));
+            } else {
+                echo "Token inserted successfully.<br>";
+            }
+            // Debugging: Check if the token was inserted
+            $stmt = $pdo->prepare("SELECT * FROM password_resets WHERE email = ? AND token = ?");
+            $stmt->execute([$email, $token]);
+            $resetEntry = $stmt->fetch();
+            if (!$resetEntry) {
+                throw new Exception('Token insertion check failed.');
+            } else {
+                echo "Token insertion verified.<br>";
+            }
         } catch (Exception $e) {
             $_SESSION['error'] = "Failed to insert token into database: " . $e->getMessage();
-            header("Location: forgot-password.php");
-            exit();
-        }
-
-        // Debugging: Check if the token was inserted
-        $stmt = $pdo->prepare("SELECT * FROM password_resets WHERE email = ? AND token = ?");
-        $stmt->execute([$email, $token]);
-        $resetEntry = $stmt->fetch();
-        if (!$resetEntry) {
-            $_SESSION['error'] = "Token insertion failed.";
             header("Location: forgot-password.php");
             exit();
         }
