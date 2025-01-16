@@ -304,6 +304,86 @@ while ($row = $result_complaints_by_type->fetch_assoc()) {
     </div>
 </div>
 
+
+<!-- HTML structure for your page -->
+<?php include('includes/header-.php'); ?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<title>e-HRCS - Statistics and Analysis</title>
+
+<div class="main-content app-content">
+    <div class="container">
+        <h1 class="page-title fw-semibold fs-22 mb-4">Statistics and Analysis</h1>
+
+        <!-- Trend Analysis Section -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Trend Analysis: Complaints Over Time</h5>
+                        <canvas id="trendChart" style="max-width: 100%; height: 400px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to Render the Trend Chart -->
+<script>
+    // Fetch trend data and render the chart
+    fetch('fetch_trend_data.php')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.dates,
+                    datasets: [{
+                        label: 'Number of Complaints',
+                        data: data.counts,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Complaints'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let value = context.raw;
+                                    return `Complaints: ${value}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching trend data:', error));
+</script>
+
 <!-- Print Page JavaScript Function -->
 <script>
     function printPage() {
