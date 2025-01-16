@@ -1,7 +1,7 @@
-<?php
-include('includes/header.php');
-include 'ainaconnection.php'; ?>
 
+<?php include('includes/header.php'); ?>
+
+<head>
 <title>e-HRCS - Log In</title>
 
 <!-- App Header -->

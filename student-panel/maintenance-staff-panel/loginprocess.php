@@ -1,41 +1,74 @@
 <?php
-session_start(); // Start the session
-include 'ainaconnection.php'; // Include your database connection file
+session_start();
+include('ainaconnection.php'); // Include your database configuration file
 
 if (isset($_POST['loginBtn'])) {
-    $staff_no = $_POST['Staff_No'];
-    $password = $_POST['password'];
+    $staff_no = $_POST['Staff_No']; // Ensure this matches your form field name
+    $password = $_POST['Password']; // Ensure this matches your form field name
 
-    // Query to check if the user exists
-    $query = "SELECT * FROM maintenance_worker WHERE Worker_No = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("s", $staff_no);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Enable error reporting for debugging
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
-    if ($result->num_rows === 1) {
-        $user = $result->fetch_assoc();
-
-        // Verify the password
-        if (password_verify($password, $user['password'])) {
-            // Store user data in the session
-            $_SESSION['Worker_No'] = $user['id'];
-            $_SESSION['Password'] = $user['Staff_No'];
-
-            // Redirect to dashboard
-            header("Location: dashboard.php");
-            exit();
-        } else {
-            // Invalid password
-            $_SESSION['error'] = "Invalid password.";
-            header("Location: login.php");
-            exit();
-        }
-    } else {
-        // User not found
-        $_SESSION['error'] = "Staff number not found.";
-        header("Location: login.php");
+    // Ensure $pdo is defined
+    if (!isset($pdo)) {
+        $_SESSION['error'] = 'Database connection is not established!';
+        header('Location: maintenanceStaffLogin.php');
         exit();
     }
+
+    // Prepare and execute the query
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
+        $stmt->bindParam(':Matric_No', $matric_no);
+        $stmt->execute();
+
+        // Fetch the user data
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            // Debugging: Log the fetched user data (except password)
+            error_log('User found: ' . print_r($user, true));
+
+            // Check if the password is already hashed
+            if (password_verify($password, $user['Password'])) {
+                // Password is already hashed and verified
+                $_SESSION['student'] = $user['Matric_No'];
+                error_log('You have successfully logged in.: ' . $_SESSION['student']);
+                header('Location: dashboard.php');
+                exit();
+            } elseif ($user['Password'] === $password) {
+                // Password is in plain text, verify and hash it
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                $stmt = $pdo->prepare('UPDATE student SET Password = :password WHERE Matric_No = :Matric_No');
+                $stmt->bindParam(':password', $hashedPassword);
+                $stmt->bindParam(':Matric_No', $matric_no);
+                $stmt->execute();
+
+                // Set session and redirect
+                $_SESSION['student'] = $user['Matric_No'];
+                error_log('You have successfully logged in and your password has been hashed.');
+                header('Location: dashboard.php');
+                exit();
+            } else {
+                // Incorrect password
+                $_SESSION['error'] = 'Incorrect matric number or password!';
+                error_log('Login failed: Incorrect password!');
+            }
+        } else {
+            // User not found
+            $_SESSION['error'] = 'Incorrect matric number or password!';
+            error_log('Login failed: User not found!');
+        }
+    } catch (PDOException $e) {
+        // Handle database connection errors
+        $_SESSION['error'] = 'Database connection failed!: ' . $e->getMessage();
+        error_log('Database connection failed!: ' . $e->getMessage());
+    }
+
+    // Redirect back to the login page with an error message
+    header('Location: studentLogin.php');
+    exit();
 }
 ?>
