@@ -73,11 +73,16 @@ if (isset($_GET['complaint_id'])) {
     }
 
     try {
-        $stmt = $pdo->prepare("UPDATE Complaint SET Complaint_Type = :Complaint_Type, Complaint_Issue = :Complaint_Issue, Description = :Description, Image = :Image WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
+        // Update complaint details
+        if ($image) {
+            $stmt = $pdo->prepare("UPDATE Complaint SET Complaint_Type = :Complaint_Type, Complaint_Issue = :Complaint_Issue, Description = :Description, Image = :Image WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
+            $stmt->bindParam(':Image', $image, PDO::PARAM_LOB);
+        } else {
+            $stmt = $pdo->prepare("UPDATE Complaint SET Complaint_Type = :Complaint_Type, Complaint_Issue = :Complaint_Issue, Description = :Description WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
+        }
         $stmt->bindParam(':Complaint_Type', $complaint_type);
         $stmt->bindParam(':Complaint_Issue', $issue_type);
         $stmt->bindParam(':Description', $description);
-        $stmt->bindParam(':Image', $image, PDO::PARAM_LOB);
         $stmt->bindParam(':Complaint_ID', $complaint_id);
         $stmt->bindParam(':Student_ID', $student_id);
         $stmt->execute();
@@ -221,6 +226,9 @@ if (isset($_GET['complaint_id'])) {
                                 <div class="mb-3">
                                     <label for="complaint-image">Upload Image</label>
                                     <input type="file" class="form-control" id="complaint-image" name="complaint-image" accept="image/*">
+                                    <?php if(!empty($complaint['Image'])): ?>
+                                        <img src="data:image/jpeg;base64,<?= base64_encode($complaint['Image']) ?>" alt="Complaint Image" class="img-fluid mt-3" style="max-width: 200px;">
+                                    <?php endif; ?>
                                 </div>
                                 <div class="mb-3">
                                     <button type="submit" class="btn btn-primary">Update Complaint</button>

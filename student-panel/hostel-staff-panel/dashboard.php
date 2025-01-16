@@ -26,7 +26,7 @@ try {
 
 <?php include('includes/header-.php'); ?>
 
-<title>e-HRCS - Dashboard</title>
+<title>e-HRCS - Dashboard Overview</title>
 
 <!-- App Content -->
 <div class="main-content app-content">
@@ -34,11 +34,11 @@ try {
 
         <!-- Page Header -->
         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-22 mb-0">Dashboard</h1>
+            <h1 class="page-title fw-semibold fs-22 mb-0">Dashboard Overview</h1>
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="dashboard.php">Dashboard Overview</a></li>
                     </ol>
                 </nav>
             </div>
@@ -128,11 +128,11 @@ try {
     </div>
 </div>
 
-<?php include('includes/footer-.php'); ?>
-
 <!-- Print Page JavaScript Function -->
 <script>
     function printPage() {
         window.print();
     }
 </script>
+
+<?php include('includes/footer-.php'); ?>
