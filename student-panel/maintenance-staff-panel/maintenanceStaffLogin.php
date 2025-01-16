@@ -1,7 +1,15 @@
 <?php
-include('includes/header.php'); 
-include 'ainaconnection.php'; ?>
+session_start();
+if (isset($_SESSION['maintenanceStaff'])) {
+    // Redirect logged-in users to the dashboard
+    header("Location: dashboard.php");
+    exit();
+}
+?>
 
+<?php include('includes/header.php'); ?>
+
+<head>
 <title>e-HRCS - Log In</title>
 
 <!-- App Header -->

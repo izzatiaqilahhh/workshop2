@@ -1,5 +1,7 @@
-<?php include('includes/header-.php'); 
-include 'qiladbcon.php'; ?>
+<?php
+include('includes/header-.php'); 
+include 'ainaconnection.php'; 
+?>
 
 <title>e-HRCS - Complaint Management</title>
 
@@ -35,17 +37,30 @@ include 'qiladbcon.php'; ?>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>123456</td>
-                        <td>Nur Izzati Aqilah Binti Rahmad</td>
-                        <td>B032320078</td>
-                        <td>019-7327658</td>
-                        <td>
-                            <button class="btn btn-primary btn-view" data-bs-toggle="modal" data-bs-target="#viewcomplaindetails">View</button>
-                            <button class="btn btn-success btn-assign" data-bs-toggle="modal" data-bs-target="#assigncomplaintmodal">Assign</button>
-                        </td>
-                    </tr>
+                    <?php
+                    $query = "SELECT * FROM complaints"; // Update 'complaints' to your actual table name
+                    $result = mysqli_query($conn, $query);
+
+                    if (mysqli_num_rows($result) > 0) {
+                        $count = 1;
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo "<tr>";
+                            echo "<td>" . $count . "</td>";
+                            echo "<td>" . $row['complaint_id'] . "</td>";
+                            echo "<td>" . $row['student_name'] . "</td>";
+                            echo "<td>" . $row['matric_number'] . "</td>";
+                            echo "<td>" . $row['phone_number'] . "</td>";
+                            echo "<td>
+                                    <button class='btn btn-primary btn-view' data-bs-toggle='modal' data-bs-target='#viewcomplaindetails'>View</button>
+                                    <button class='btn btn-success btn-assign' data-bs-toggle='modal' data-bs-target='#assigncomplaintmodal'>Assign</button>
+                                  </td>";
+                            echo "</tr>";
+                            $count++;
+                        }
+                    } else {
+                        echo "<tr><td colspan='6' class='text-center'>No complaints found</td></tr>";
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>
@@ -65,19 +80,19 @@ include 'qiladbcon.php'; ?>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label>Room Number</label>
-                            <input type="text" class="form-control" value="SL-L-1-1" readonly>
+                            <input type="text" class="form-control" id="room_number" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Complaint Type</label>
-                            <input type="text" class="form-control" value="Security Issues" readonly>
+                            <input type="text" class="form-control" id="complaint_type" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Issue Type</label>
-                            <input type="text" class="form-control" value="Broken Locks" readonly>
+                            <input type="text" class="form-control" id="issue_type" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Complaint Description</label>
-                            <input type="text" class="form-control" value="My doow locks was broken." readonly>
+                            <textarea class="form-control" id="complaint_description" readonly></textarea>
                         </div>
                     </div>
                 </form>
@@ -99,7 +114,7 @@ include 'qiladbcon.php'; ?>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label>Complaint ID</label>
-                            <input type="text" class="form-control" value="123456" readonly>
+                            <input type="text" class="form-control" id="assign_complaint_id" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Assign To</label>
@@ -124,11 +139,18 @@ include 'qiladbcon.php'; ?>
     </div>
 </div>
 
-
 <script>
     $(document).ready(function() {
         $('.table').DataTable({
             responsive: true
+        });
+
+        // Example for dynamically populating modal details (replace with your actual implementation)
+        $('.btn-view').on('click', function() {
+            $('#room_number').val('Example Room');
+            $('#complaint_type').val('Example Type');
+            $('#issue_type').val('Example Issue');
+            $('#complaint_description').val('Example Description');
         });
     });
 </script>
