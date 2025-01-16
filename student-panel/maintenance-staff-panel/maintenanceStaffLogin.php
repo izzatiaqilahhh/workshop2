@@ -1,6 +1,6 @@
 <?php
 include('includes/header.php');
-include 'ainaconnection.php'; ?>
+include 'teahdbconfig.php'; ?>
 
 <title>e-HRCS - Log In</title>
 
