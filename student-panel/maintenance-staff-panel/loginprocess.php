@@ -13,7 +13,7 @@ if (isset($_POST['loginBtn'])) {
 
     // Ensure $pdo is defined
     if (!isset($pdo)) {
-        $_SESSION['error'] = 'Database connection is not established!.';
+        $_SESSION['error'] = 'Database connection is not established!';
         header('Location: maintenanceStaffLogin.php');
         exit();
     }
@@ -31,22 +31,35 @@ if (isset($_POST['loginBtn'])) {
             // Debugging: Log the fetched user data (except password)
             error_log('User found: ' . print_r($user, true));
 
-            // Verify the password (Assuming passwords are hashed)
+            // Check if the password is already hashed
             if (password_verify($password, $user['Password'])) {
-                // Password is correct, start the session
-                $_SESSION['maintenance_staff'] = $user['Worker_No'];
-                error_log('You have successfully logged in.: ' . $_SESSION['maintenance_staff']);
+                // Password is already hashed and verified
+                $_SESSION['maintenance_worker'] = $user['Worker_No'];
+                error_log('You have successfully logged in.: ' . $_SESSION['maintenance_worker']);
+                header('Location: dashboard.php');
+                exit();
+            } elseif ($user['Password'] === $password) {
+                // Password is in plain text, verify and hash it
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                $stmt = $pdo->prepare('UPDATE maintenance_worker SET Password = :password WHERE Worker_No = :Worker_No');
+                $stmt->bindParam(':password', $hashedPassword);
+                $stmt->bindParam(':Worker_No', $worker_no);
+                $stmt->execute();
+
+                // Set session and redirect
+                $_SESSION['maintenance_worker'] = $user['Worker_No'];
+                error_log('You have successfully logged in and your password has been hashed.');
                 header('Location: dashboard.php');
                 exit();
             } else {
                 // Incorrect password
                 $_SESSION['error'] = 'Incorrect worker number or password!';
-                error_log('Login failed: Incorrect password');
+                error_log('Login failed: Incorrect password!');
             }
         } else {
             // User not found
             $_SESSION['error'] = 'Incorrect worker number or password!';
-            error_log('Login failed: User not found');
+            error_log('Login failed: User not found!');
         }
     } catch (PDOException $e) {
         // Handle database connection errors
