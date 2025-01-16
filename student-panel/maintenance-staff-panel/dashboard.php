@@ -1,5 +1,13 @@
-<?php include('includes/header-.php');
-include 'ainaconnection.php';  ?> 
+<?php
+session_start();
+if (!isset($_SESSION['worker'])) {
+    header('Location: maintenanceStaffLogin.php');
+    exit();
+}
+
+include('includes/header.php');
+include 'teahdbconfig.php';
+?>
 <title>e-HRCS - Dashboard</title>
 
 <!-- App Content -->
@@ -110,4 +118,4 @@ include 'ainaconnection.php';  ?>
     fetchNewComplaints();
 </script>
 
-<?php include('includes/footer-.php'); ?>
+<?php include('includes/footer.php'); ?>

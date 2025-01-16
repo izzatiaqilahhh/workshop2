@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (isset($_SESSION['worker'])) {
+    // Redirect logged-in users to the dashboard
+    header("Location: dashboard.php");
+    exit();
+}
+?>
 
 <?php include('includes/header.php'); ?>
 
@@ -10,7 +18,7 @@
         <div class="header-content-left">
             <div class="header-element">
                 <div class="horizontal-logo">
-                    <a href="login.php" class="text-black fw-bolder fs-20">
+                    <a href="maintenanceStaffLogin.php" class="text-black fw-bolder fs-20">
                         E-Hostel Room Complaint System
                     </a>
                 </div>
@@ -26,13 +34,13 @@
             <div class="card custom-card">
                 <div class="card-body p-5">
                     <p class="h5 fw-semibold mb-2 text-center">Log In</p>
-                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your staff number and password.</p>
+                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your worker number and password.</p>
                     <!-- Start of form -->
                     <form method="POST" action="loginprocess.php">
                         <div class="row gy-3">
                             <div class="col-xl-12">
-                                <label for="signin-username" class="form-label text-default">Staff Number</label>
-                                <input type="text" class="form-control form-control-lg" id="signin-staffno" placeholder="Staff Number" name="Staff_No" required>
+                                <label for="signin-worker-no" class="form-label text-default">Worker Number</label>
+                                <input type="text" class="form-control form-control-lg" id="signin-worker-no" placeholder="Worker Number" name="Worker_No" required>
                             </div>
                             <div class="col-xl-12 mb-2">
                                 <label for="signin-password" class="form-label text-default d-block">Password</label>
