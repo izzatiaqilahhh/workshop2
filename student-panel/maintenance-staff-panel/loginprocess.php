@@ -9,13 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Validate input
     if (empty($worker_no) || empty($password)) {
-        echo 'Please fill in all fields.';
+        $_SESSION['error'] = 'Please fill in all fields.';
+        header('Location: workerLogin.php');
         exit();
     }
 
     // Prepare SQL statement to prevent SQL injection
-    $stmt = $pdo->prepare('SELECT * FROM Maintenance_Worker WHERE Worker_No = :Worker_No');
-    $stmt->execute(['Worker_No' => $worker_no]);
+    $stmt = $pdo->prepare('SELECT * FROM Maintenance_Worker WHERE Worker_No = :worker_no');
+    $stmt->execute(['worker_no' => $worker_no]);
     $worker = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Check if the worker exists and the password is correct
@@ -24,14 +25,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['worker_id'] = $worker['Worker_Id'];
         $_SESSION['worker_no'] = $worker['Worker_No'];
         $_SESSION['worker_name'] = $worker['Name'];
-        echo "Login successful. Redirecting to dashboard...";
-        header('Location: dashboard.php'); // Redirect to a dashboard or home page
+        $_SESSION['worker'] = true; // Set session variable to indicate worker is logged in
+        header('Location: dashboard.php'); // Redirect to the dashboard page
         exit();
     } else {
         // Invalid credentials
-        echo 'Invalid worker number or password.';
+        $_SESSION['error'] = 'Invalid worker number or password.';
+        header('Location: maintenanceStaffLogin.php');
+        exit();
     }
 } else {
-    echo 'Invalid request method.';
+    $_SESSION['error'] = 'Invalid request method.';
+    header('Location: maintenanceStaffLogin.php');
+    exit();
 }
 ?>
