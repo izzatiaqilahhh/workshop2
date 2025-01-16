@@ -3,8 +3,8 @@ session_start();
 include('teahdbconfig.php'); // Include your database configuration file
 
 if (isset($_POST['loginBtn'])) {
-    $worker_no = $_POST['Worker_No']; // Ensure this matches your form field name
-    $password = $_POST['Password']; // Ensure this matches your form field name
+    $worker_no = $_POST['Worker_No'];
+    $password = $_POST['Password'];
 
     // Enable error reporting for debugging
     ini_set('display_errors', 1);
@@ -18,8 +18,8 @@ if (isset($_POST['loginBtn'])) {
         exit();
     }
 
-    // Prepare and execute the query
     try {
+        // Prepare and execute the query
         $stmt = $pdo->prepare('SELECT * FROM maintenance_worker WHERE Worker_No = :Worker_No');
         $stmt->bindParam(':Worker_No', $worker_no);
         $stmt->execute();
@@ -31,11 +31,10 @@ if (isset($_POST['loginBtn'])) {
             // Debugging: Log the fetched user data (except password)
             error_log('User found: ' . print_r($user, true));
 
-            // Check if the password is already hashed
             if (password_verify($password, $user['Password'])) {
                 // Password is already hashed and verified
                 $_SESSION['maintenance_staff'] = $user['Worker_No'];
-                error_log('You have successfully logged in.: ' . $_SESSION['maintenance_staff']);
+                error_log('You have successfully logged in: ' . $_SESSION['maintenance_staff']);
                 header('Location: dashboard.php');
                 exit();
             } elseif ($user['Password'] === $password) {
@@ -63,7 +62,7 @@ if (isset($_POST['loginBtn'])) {
         }
     } catch (PDOException $e) {
         // Handle database connection errors
-        $_SESSION['error'] = 'Database connection failed!: ' . $e->getMessage();
+        $_SESSION['error'] = 'Database connection failed!';
         error_log('Database connection failed!: ' . $e->getMessage());
     }
 
