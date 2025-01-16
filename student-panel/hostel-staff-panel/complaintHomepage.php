@@ -20,7 +20,7 @@
 
 <div class="container text-center mt-5">
     <h1>Welcome to E-Hostel Room Complaint System</h1>
-    <p class="mb-4 text-muted">Choose your user type to proceed:</p>
+    <p class="mb-4 text-muted">Choose Your User Type to Proceed:</p>
 
     <div class="row justify-content-center">
         <div class="col-md-4 mb-4">
@@ -59,4 +59,4 @@
 
 </html>
 
-<?php include('includes/footer.php'); ?>  
+<?php include('includes/footer.php'); ?>

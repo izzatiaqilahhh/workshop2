@@ -58,4 +58,3 @@ if (isset($_POST['loginBtn'])) {
     header('Location: login.php');
     exit();
 }
-?>

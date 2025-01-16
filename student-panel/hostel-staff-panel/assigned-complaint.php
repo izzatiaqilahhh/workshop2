@@ -47,7 +47,7 @@ $result = pg_query($connection, $query); // Using pg_query for PostgreSQL
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    <?php
                     // Check if there are records
                     if (pg_num_rows($result) > 0) {
                         $counter = 1; // Initialize row counter
@@ -57,7 +57,7 @@ $result = pg_query($connection, $query); // Using pg_query for PostgreSQL
                                 $statusClass = 'text-warning fw-bold'; // Highlight with yellow color
                             } elseif (strcasecmp($row['complaint_status'], 'Resolved') === 0) {
                                 $statusClass = 'text-success fw-bold'; // Highlight with green color
-                            }   
+                            }
                             echo "<tr>";
                             echo "<td>" . $counter . "</td>";
                             echo "<td>" . htmlspecialchars($row['complaint_id']) . "</td>";
