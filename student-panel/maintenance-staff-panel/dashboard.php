@@ -5,21 +5,21 @@ if (!isset($_SESSION['maintenance_staff'])) {
     exit();
 }
 
-include('includes/header-.php');
-include 'teahdbconfig.php';  ?> 
-
+include 'teahdbconfig.php';  
+ 
 // Fetch user-specific data
 try {
     // Fetch user profile information
     $stmt = $pdo->prepare('SELECT * FROM maintenance_worker WHERE Worker_No = :Worker_No');
-    $stmt->bindParam(':Worker_No', $_SESSION['']);
+    $stmt->bindParam(':Worker_No', $_SESSION['maintenance_staff']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo 'Database connection failed: ' . $e->getMessage();
     exit();
 }
-?>
+
+include('includes/header-.php'); ?>
 
 <title>e-HRCS - Dashboard</title>
 
