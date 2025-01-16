@@ -1,6 +1,29 @@
-<?php include('includes/header-.php');
+<?php
+session_start();
 
-include 'teahdbconfig.php';  ?> 
+// Check if the user is logged in
+if (!isset($_SESSION['maintenance_staff'])) {
+    // If not logged in, redirect to the login page
+    header("Location: maintenanceStaffLogin.php");
+    exit();
+}
+
+// Include database configuration and functions
+include('teahdbconfig.php');
+
+// Fetch user-specific data
+try {
+    // Fetch user profile information
+    $stmt = $pdo->prepare('SELECT * FROM Maintenance_Worker WHERE Worker_No = :worker_no');
+    $stmt->bindParam(':Worker_No', $_SESSION['worker']);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo 'Database connection failed: ' . $e->getMessage();
+    exit();
+}
+?>
+
 <title>e-HRCS - Dashboard</title>
 
 <!-- App Content -->
