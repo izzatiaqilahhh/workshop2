@@ -3,7 +3,7 @@ session_start();
 include('teahdbconfig.php'); // Include your database configuration file
 
 if (isset($_POST['loginBtn'])) {
-    $staff_no = $_POST['Worker_No']; // Ensure this matches your form field name
+    $worker_no = $_POST['Worker_No']; // Ensure this matches your form field name
     $password = $_POST['Password']; // Ensure this matches your form field name
 
     // Enable error reporting for debugging
@@ -32,10 +32,10 @@ if (isset($_POST['loginBtn'])) {
             error_log('User found: ' . print_r($user, true));
 
             // Verify the password (Assuming passwords are hashed)
-            if ($password == $user['Password']) {
+            if (password_verify($password, $user['Password'])) {
                 // Password is correct, start the session
-                $_SESSION['worker'] = $user['Worker_No'];
-                error_log('You have successfully logged in.: ' . $_SESSION['worker']);
+                $_SESSION['maintenance_staff'] = $user['Worker_No'];
+                error_log('You have successfully logged in.: ' . $_SESSION['maintenance_staff']);
                 header('Location: dashboard.php');
                 exit();
             } else {
@@ -58,3 +58,4 @@ if (isset($_POST['loginBtn'])) {
     header('Location: maintenanceStaffLogin.php');
     exit();
 }
+?>

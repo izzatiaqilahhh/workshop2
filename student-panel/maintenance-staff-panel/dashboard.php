@@ -2,7 +2,7 @@
 session_start();
 
 // Check if the user is logged in
-if (!isset($_SESSION['worker'])) {
+if (!isset($_SESSION['maintenanceStaffLogin'])) {
     // If not logged in, redirect to the login page
     header("Location: maintenanceStaffLogin.php");
     exit();

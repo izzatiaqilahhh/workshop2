@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['worker'])) {
+if (isset($_SESSION['maintenance_staff'])) {
     // Redirect logged-in workers to the dashboard
     header("Location: dashboard.php");
     exit();
