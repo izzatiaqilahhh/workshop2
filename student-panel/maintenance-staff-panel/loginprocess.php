@@ -34,8 +34,8 @@ if (isset($_POST['loginBtn'])) {
             // Check if the password is already hashed
             if (password_verify($password, $user['Password'])) {
                 // Password is already hashed and verified
-                $_SESSION['maintenance_worker'] = $user['Worker_No'];
-                error_log('You have successfully logged in.: ' . $_SESSION['maintenance_worker']);
+                $_SESSION['maintenance_staff'] = $user['Worker_No'];
+                error_log('You have successfully logged in.: ' . $_SESSION['maintenance_staff']);
                 header('Location: dashboard.php');
                 exit();
             } elseif ($user['Password'] === $password) {
@@ -47,7 +47,7 @@ if (isset($_POST['loginBtn'])) {
                 $stmt->execute();
 
                 // Set session and redirect
-                $_SESSION['maintenance_worker'] = $user['Worker_No'];
+                $_SESSION['maintenance_staff'] = $user['Worker_No'];
                 error_log('You have successfully logged in and your password has been hashed.');
                 header('Location: dashboard.php');
                 exit();

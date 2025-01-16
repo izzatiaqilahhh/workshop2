@@ -2,7 +2,7 @@
 session_start();
 
 // Check if the user is logged in
-if (!isset($_SESSION['maintenanceStaffLogin'])) {
+if (!isset($_SESSION['maintenance_staff'])) {
     // If not logged in, redirect to the login page
     header("Location: maintenanceStaffLogin.php");
     exit();
@@ -15,7 +15,7 @@ include('teahdbconfig.php');
 try {
     // Fetch user profile information
     $stmt = $pdo->prepare('SELECT * FROM Maintenance_Worker WHERE Worker_No = :worker_no');
-    $stmt->bindParam(':Worker_No', $_SESSION['worker']);
+    $stmt->bindParam(':Worker_No', $_SESSION['maintenance_staff']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -134,4 +134,4 @@ try {
     fetchNewComplaints();
 </script>
 
-<?php include('includes/footer-.php'); ?>
+<?php include('includes/footer-.php'); ?> 
