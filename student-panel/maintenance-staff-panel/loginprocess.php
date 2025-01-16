@@ -1,42 +1,60 @@
 <?php
 session_start();
-require 'teahdbconfig.php'; // Include the database connection
+include('teahdbconfig.php'); // Include your database configuration file
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Retrieve form data
-    $worker_no = $_POST['Worker_No'];
-    $password = $_POST['Password'];
+if (isset($_POST['loginBtn'])) {
+    $staff_no = $_POST['Worker_No']; // Ensure this matches your form field name
+    $password = $_POST['Password']; // Ensure this matches your form field name
 
-    // Validate input
-    if (empty($worker_no) || empty($password)) {
-        $_SESSION['error'] = 'Please fill in all fields.';
-        header('Location: workerLogin.php');
-        exit();
-    }
+    // Enable error reporting for debugging
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
-    // Prepare SQL statement to prevent SQL injection
-    $stmt = $pdo->prepare('SELECT * FROM Maintenance_Worker WHERE Worker_No = :worker_no');
-    $stmt->execute(['worker_no' => $worker_no]);
-    $worker = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // Check if the worker exists and the password is correct
-    if ($worker && $password === $worker['Password']) {
-        // Successful login
-        $_SESSION['worker_id'] = $worker['Worker_Id'];
-        $_SESSION['worker_no'] = $worker['Worker_No'];
-        $_SESSION['worker_name'] = $worker['Name'];
-        $_SESSION['worker'] = true; // Set session variable to indicate worker is logged in
-        header('Location: dashboard.php'); // Redirect to the dashboard page
-        exit();
-    } else {
-        // Invalid credentials
-        $_SESSION['error'] = 'Invalid worker number or password.';
+    // Ensure $pdo is defined
+    if (!isset($pdo)) {
+        $_SESSION['error'] = 'Database connection is not established!.';
         header('Location: maintenanceStaffLogin.php');
         exit();
     }
-} else {
-    $_SESSION['error'] = 'Invalid request method.';
+
+    // Prepare and execute the query
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM maintenance_worker WHERE Worker_No = :Worker_No');
+        $stmt->bindParam(':Worker_No', $worker_no);
+        $stmt->execute();
+
+        // Fetch the user data
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            // Debugging: Log the fetched user data (except password)
+            error_log('User found: ' . print_r($user, true));
+
+            // Verify the password (Assuming passwords are hashed)
+            if ($password == $user['Password']) {
+                // Password is correct, start the session
+                $_SESSION['worker'] = $user['Worker_No'];
+                error_log('You have successfully logged in.: ' . $_SESSION['worker']);
+                header('Location: dashboard.php');
+                exit();
+            } else {
+                // Incorrect password
+                $_SESSION['error'] = 'Incorrect worker number or password!';
+                error_log('Login failed: Incorrect password');
+            }
+        } else {
+            // User not found
+            $_SESSION['error'] = 'Incorrect worker number or password!';
+            error_log('Login failed: User not found');
+        }
+    } catch (PDOException $e) {
+        // Handle database connection errors
+        $_SESSION['error'] = 'Database connection failed!: ' . $e->getMessage();
+        error_log('Database connection failed!: ' . $e->getMessage());
+    }
+
+    // Redirect back to the login page with an error message
     header('Location: maintenanceStaffLogin.php');
     exit();
 }
-?>
