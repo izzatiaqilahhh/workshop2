@@ -16,5 +16,5 @@ if ($conn->connect_error) {
 }
 
 // Close the connection (optional, script usually does this at the end)
-$conn->close();
+//$conn->close();
 ?>
