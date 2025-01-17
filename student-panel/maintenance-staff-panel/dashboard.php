@@ -5,7 +5,7 @@ if (!isset($_SESSION['maintenance_staff'])) {
     exit();
 }
 
-include 'teahdbconfig.php';  
+include 'ainaconnection.php';  
  
 // Fetch user-specific data
 try {
