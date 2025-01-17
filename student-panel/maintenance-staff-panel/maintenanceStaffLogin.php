@@ -82,6 +82,9 @@ if (isset($_SESSION['maintenance_staff'])) {
                                 <button type="submit" name="loginBtn" class="btn btn-lg btn-primary-gradient">Log In</button>
                             </div>
                         </div>
+                            <div class="text-center">
+                            <p class="fs-12 text-muted mt-3">Don't have an account yet? <a href="register.php" class="text-primary text-decoration-underline">Register Here</a></p>
+                        </div>
                     </form>
                     <div class="text-center">
                         <p class="fs-12 text-muted mt-3">Forgot Password? <a href="forgot-password.php" class="text-primary text-decoration-underline">Reset Password Here</a></p>

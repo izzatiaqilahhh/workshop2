@@ -1,6 +1,6 @@
 <?php
 include('includes/header.php');
-include 'ainaconnection.php'; ?>
+include 'teahdbconfig.php'; ?>
 
 <title>e-HRCS - Register</title>
 
@@ -39,8 +39,8 @@ include 'ainaconnection.php'; ?>
                                 <input type="text" class="form-control form-control-lg" id="staff-number" placeholder="Staff Number" name="staff_number" required>
                             </div>
                             <div class="col-xl-12">
-                                <label for="email" class="form-label text-default">Email Address</label>
-                                <input type="text" class="form-control form-control-lg" id="email-address" placeholder="Email Address" name="email" required>
+                                <label for="staff-email" class="form-label text-default">Email Address</label>
+                                <input type="email" class="form-control form-control-lg" id="staff-email" placeholder="Email Address" name="staff_email" required>
                             </div>
                             <div class="col-xl-12">
                                 <label for="phone-number" class="form-label text-default">Phone Number</label>
@@ -55,29 +55,25 @@ include 'ainaconnection.php'; ?>
                                 <input type="text" class="form-control form-control-lg" id="company-name" placeholder="Company Name" name="company_name" required>
                             </div>
                             <div class="col-xl-12">
-                                <label for="company-number" class="form-label text-default">Company Number</label>
-                                <input type="text" class="form-control form-control-lg" id="company-number" placeholder="Company Number" name="company_number" required>
-                            </div>
-                            <div class="col-xl-12">
-                                <label for="email" class="form-label text-default">Company Email Address</label>
-                                <input type="text" class="form-control form-control-lg" id="email-address" placeholder="Email Address" name="email" required>
-                            </div>
-                            <div class="col-xl-12">
                                 <label for="company-office" class="form-label text-default">Company Office Number</label>
-                                <input type="tel" class="form-control form-control-lg" id="company-office" placeholder="Company Office Number" name="company_contact" required>
+                                <input type="tel" class="form-control form-control-lg" id="company-office" placeholder="Company Office Number" name="company_office" required>
+                            </div>
+                            <div class="col-xl-12">
+                                <label for="company-email" class="form-label text-default">Company Email Address</label>
+                                <input type="email" class="form-control form-control-lg" id="company-email" placeholder="Company Email Address" name="company_email" required>
                             </div>
                             <div class="col-xl-12 mb-2">
-                                <label for="signin-password" class="form-label text-default d-block">Password</label>
+                                <label for="password" class="form-label text-default d-block">Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control form-control-lg" id="signin-password" placeholder="Password" name="password" required>
-                                    <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
+                                    <input type="password" class="form-control form-control-lg" id="password" placeholder="Password" name="password" required>
+                                    <button class="btn btn-light" type="button" onclick="createpassword('password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
                                 </div>
                             </div>
                             <div class="col-xl-12 mb-2">
-                                <label for="signin-password" class="form-label text-default d-block">Retype Password</label>
+                                <label for="retype-password" class="form-label text-default d-block">Retype Password</label>
                                 <div class="input-group">
-                                    <input type="retypepassword" class="form-control form-control-lg" id="signin-password2" placeholder="Retype Password" name="retypepassword" required>
-                                    <button class="btn btn-light" type="button" onclick="createpassword('signin-password2',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
+                                    <input type="password" class="form-control form-control-lg" id="retype-password" placeholder="Retype Password" name="retype_password" required>
+                                    <button class="btn btn-light" type="button" onclick="createpassword('retype-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
                                 </div>
                             </div>
                             <div class="col-xl-12 d-grid mt-2">
@@ -85,7 +81,7 @@ include 'ainaconnection.php'; ?>
                             </div>
                         </div>
                         <div class="text-center">
-                            <p class="fs-12 text-muted mt-3">Already have an account? <a href="login.php" class="text-primary text-decoration-underline">Log In</a></p>
+                            <p class="fs-12 text-muted mt-3">Already have an account? <a href="maintenanceStaffLogin.php" class="text-primary text-decoration-underline">Log In</a></p>
                         </div>
                     </form>
                     <!-- End of form -->

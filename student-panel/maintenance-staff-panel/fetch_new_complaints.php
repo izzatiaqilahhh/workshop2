@@ -1,21 +1,24 @@
 <?php
-include('ainaconnection.php'); // Include your database connection file
+session_start();
+include('teahdbconfig.php'); // Include your database configuration file
 
-// Fetch new complaints
-$sql = "SELECT id, title, description FROM complaints WHERE is_notified = 0";
-$result = $conn->query($sql);
-
-$new_complaints = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $new_complaints[] = $row;
-    }
-
-    // Mark complaints as notified
-    $update_sql = "UPDATE complaints SET is_notified = 1 WHERE is_notified = 0";
-    $conn->query($update_sql);
+if (!isset($_SESSION['maintenance_staff'])) {
+    header('HTTP/1.1 401 Unauthorized');
+    echo json_encode(['error' => 'Unauthorized']);
+    exit();
 }
 
-header('Content-Type: application/json');
-echo json_encode($new_complaints);
+try {
+    // Fetch new complaints
+    $stmt = $pdo->prepare('SELECT Complaint_ID, Complaint_Type, Complaint_Issue, Description, Date_Created FROM Complaint WHERE Date_Resolved IS NULL ORDER BY Date_Created DESC');
+    $stmt->execute();
+    $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Return complaints as JSON
+    echo json_encode($complaints);
+} catch (PDOException $e) {
+    header('HTTP/1.1 500 Internal Server Error');
+    echo json_encode(['error' => 'Database connection failed: ' . $e->getMessage()]);
+    exit();
+}
 ?>
