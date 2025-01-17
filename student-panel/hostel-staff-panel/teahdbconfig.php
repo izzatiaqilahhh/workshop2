@@ -1,6 +1,6 @@
 <?php
 $host = '127.0.0.1'; // or your actual host, e.g., 'localhost'
-$dbname = 'hostelcomplaint'; // your actual database name
+$dbname = 'utemhostelcomplaint'; // your actual database name
 $username = 'root'; // your actual database username
 $password = 'password'; // your actual database password
 

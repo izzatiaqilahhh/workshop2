@@ -9,7 +9,7 @@ if (!isset($_SESSION['hostel_staff'])) {
 }
 
 // Include database configuration and functions
-include('qiladbcon.php');
+include('teahdbconfig.php');
 
 // Fetch user-specific data
 try {
