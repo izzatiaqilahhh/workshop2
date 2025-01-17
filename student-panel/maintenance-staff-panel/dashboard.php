@@ -108,8 +108,9 @@ include('includes/header-.php'); ?>
                     complaints.forEach(complaint => {
                         const listItem = `
                             <li class="dropdown-item">
-                                <strong>${complaint.title}</strong>
-                                <p class="text-muted mb-0" style="font-size: 0.85em;">${complaint.description}</p>
+                                <strong>${complaint.Complaint_Type} - ${complaint.Complaint_Issue}</strong>
+                                <p class="text-muted mb-0" style="font-size: 0.85em;">${complaint.Description}</p>
+                                <small class="text-muted">${complaint.Date_Created}</small>
                             </li>
                         `;
                         notificationList.insertAdjacentHTML('beforeend', listItem);
