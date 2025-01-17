@@ -4,12 +4,12 @@ session_start();
 // Check if the user is logged in
 if (!isset($_SESSION['hostel_staff'])) {
     // If not logged in, redirect to the login page
-    header("Location: login.php");
+    header("Location: hostelStaffLogin.php");
     exit();
 }
 
 // Include database configuration and functions
-include('teahdbconfig.php');
+include('qiladbcon.php');
 
 // Fetch user-specific data
 try {
@@ -18,7 +18,6 @@ try {
     $stmt->bindParam(':Staff_No', $_SESSION['hostel_staff']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
 } catch (PDOException $e) {
     echo 'Database connection failed: ' . $e->getMessage();
     exit();
@@ -27,7 +26,7 @@ try {
 
 <?php include('includes/header-.php'); ?>
 
-<title>E-Hostel Room Complaint System - Dashboard</title>
+<title>e-HRCS - Dashboard Overview</title>
 
 <!-- App Content -->
 <div class="main-content app-content">
@@ -35,11 +34,11 @@ try {
 
         <!-- Page Header -->
         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-22 mb-0">Dashboard</h1>
+            <h1 class="page-title fw-semibold fs-22 mb-0">Dashboard Overview</h1>
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="dashboard.php">Dashboard Overview</a></li>
                     </ol>
                 </nav>
             </div>
@@ -57,17 +56,17 @@ try {
                 </button>
             </div>
 
-             <!-- Card 1 -->
-             <div class="col-sm-6">
+            <!-- Card 1 -->
+            <div class="col-sm-6">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-2">Total Complaint</p>
+                            <p class="mb-2">Total Student</p>
                             <h4 class="mb-0 fw-semibold mb-2"></h4>
                         </div>
                         <div>
-                            <span class="avatar avatar-md bg-warning p-2">
-                                <i class='bx bx-message-dots side-menu__icon'></i>
+                            <span class="avatar avatar-md bg-primary p-2">
+                                <i class='bx bx-user side-menu__icon'></i>
                             </span>
                         </div>
                     </div>
@@ -79,47 +78,46 @@ try {
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-2">Total Repair Staff</p>
+                            <p class="mb-2">Total Maintenance Staff</p>
                             <h4 class="mb-0 fw-semibold mb-2"></h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-secondary p-2">
-                                <i class='bx bx-food-menu side-menu__icon'></i>
+                                <i class='bx bxs-user side-menu__icon'></i>
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
 
-             <!-- Card 3 -->
-             <div class="col-sm-6">
-                <div class="card custom-card">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <p class="mb-2">Total Student</p>
-                            <h4 class="mb-0 fw-semibold mb-2"></h4>
-                        </div>
-                        <div>
-                            <span class="avatar avatar-md bg-primary p-2">
-                                <i class="bx bxs-user-account side-menu__icon"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Card 4 -->
+            <!-- Card 3 -->
             <div class="col-sm-6">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-2">Total Admin</p>
+                            <p class="mb-2">Total Hostel Staff</p>
                             <h4 class="mb-0 fw-semibold mb-2"></h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-success p-2">
-                                <i class='bx bx-user-pin side-menu__icon'></i>
+                                <i class='bx bxs-user-rectangle side-menu__icon'></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 1 -->
+            <div class="col-sm-6">
+                <div class="card custom-card">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="mb-2">Total Complaint</p>
+                            <h4 class="mb-0 fw-semibold mb-2"></h4>
+                        </div>
+                        <div>
+                            <span class="avatar avatar-md bg-warning p-2">
+                                <i class='bx bx-detail side-menu__icon'></i>
                             </span>
                         </div>
                     </div>
@@ -130,11 +128,11 @@ try {
     </div>
 </div>
 
-<?php include('includes/footer-.php'); ?>
-
 <!-- Print Page JavaScript Function -->
 <script>
-function printPage() {
-    window.print();
-}
+    function printPage() {
+        window.print();
+    }
 </script>
+
+<?php include('includes/footer-.php'); ?>

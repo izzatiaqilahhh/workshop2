@@ -1,8 +1,24 @@
 <?php
 include('includes/header.php');
-?>
+include 'ainaconnection.php'; ?>
 
-<title>E-Hostel Room Complaint System - Forgot Password</title>
+<title>e-HRCS - Forgot Password</title>
+
+<!-- App Header -->
+<header class="app-header" style="background-color:rgba(0,0,0,0.0); border:0">
+    <div class="main-header-container container-fluid">
+        <div class="header-content-left">
+            <div class="header-element">
+                <div class="horizontal-logo">
+                    <a href="forgot-password.php" class="text-black fw-bolder fs-20">
+                        E-Hostel Room Complaint System
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- App Header -->
 
 <div class="container">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">

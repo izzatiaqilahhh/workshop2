@@ -1,15 +1,9 @@
-<?php 
-include 'paandbconfig.php';
-include('includes/header-.php'); 
+<?php
+include 'qiladbcon.php';
+include('includes/header-.php');
 ?>
 
-
-<title>E-Hostel Room Complaint System - Hostel Staff Management</title>
-
-<!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
+<title>e-HRCS - Hostel Staff Management</title>
 
 <!-- Start::app-content -->
 <div class="main-content app-content">
@@ -20,7 +14,7 @@ include('includes/header-.php');
             <div class="ms-md-1 ms-0">
                 <nav>
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="view-admin.php">Hostel Staff Management</a></li>
+                        <li class="breadcrumb-item"><a href="view-hostel-staff.php">Hostel Staff Management</a></li>
                     </ol>
                 </nav>
             </div>
@@ -41,35 +35,38 @@ include('includes/header-.php');
                     </tr>
                 </thead>
                 <tbody>
+
                     <?php
-                    // Include the database connection file
-                    //include('includes/paandbconfig.php');
-                    
-                    // Fetch admin data from the database
-                    $query = "SELECT S.Staff_No, S.Name, S.Email, S.Phone_No, B.Block_Name FROM Block B JOIN Hostel_Staff S ON B.Staff_ID = S.Staff_ID";
-                    $result = $conn->query($query);
-                    
-                    if ($result->num_rows > 0) {
+                    // PostgreSQL query to fetch hostel staff data
+                    $query = 'SELECT s."staff_no", s."name", s."email", s."phone_no", b."block_name" 
+                              FROM "block" b 
+                              JOIN "hostel_staff" s ON b."staff_id" = s."staff_id"';
+
+                    $result = pg_query($connection, $query); // PostgreSQL query execution
+
+                    if ($result && pg_num_rows($result) > 0) {
                         $counter = 1;
-                        while ($adminItem = $result->fetch_assoc()) {
-                            ?>
+                        while ($adminItem = pg_fetch_assoc($result)) {
+                    ?>
                             <tr>
                                 <td><?= $counter++; ?></td>
-                                <td><?= $adminItem['Staff_No']; ?></td>
-                                <td><?= $adminItem['Name']; ?></td>
-                                <td><?= $adminItem['Email']; ?></td>
-                                <td><?= $adminItem['Phone_No']; ?></td>
-                                <td><?= $adminItem['Block_Name']; ?></td>
-                                
+                                <td><?= htmlspecialchars($adminItem['staff_no']); ?></td>
+                                <td><?= htmlspecialchars($adminItem['name']); ?></td>
+                                <td><?= htmlspecialchars($adminItem['email']); ?></td>
+                                <td><?= htmlspecialchars($adminItem['phone_no']); ?></td>
+                                <td><?= htmlspecialchars($adminItem['block_name']); ?></td>
                             </tr>
-                            <?php
+                        <?php
                         }
                     } else {
                         ?>
                         <tr>
-                            <td colspan="7">No record found.</td>
+                            <td colspan="6">No record found.</td>
                         </tr>
-                    <?php } ?>
+                    <?php
+                    }
+                    ?>
+
                 </tbody>
             </table>
         </div>
@@ -78,27 +75,6 @@ include('includes/header-.php');
 </div>
 <!-- End::app-content -->
 
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.colVis.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('.table').DataTable({
-            responsive: true,
-            dom: 'Bfrtip',
-            buttons: [
-                { extend: 'copyHtml5', exportOptions: { columns: [0, ':visible'] } },
-                { extend: 'excelHtml5', exportOptions: { columns: ':visible' } },
-                { extend: 'pdfHtml5', exportOptions: { columns: [0, 1, 2, 5] } },
-                'colvis'
-            ]
-        });
-    });
-</script>
-
-<?php include('includes/footer-.php'); ?>
+<?php
+include('includes/footer-.php');
+?>

@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (isset($_SESSION['hostel_staff'])) {
-    // Redirect logged-in users to the dashboard
+if (isset($_SESSION['maintenance_staff'])) {
+    // Redirect logged-in workers to the dashboard
     header("Location: dashboard.php");
     exit();
 }
@@ -9,13 +9,51 @@ if (isset($_SESSION['hostel_staff'])) {
 
 <?php include('includes/header.php'); ?>
 
-<title>E-Hostel Room Complaint System - Log In</title>
+
+<head>
+
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>e-HRSC - Worker Log In</title>
+
+    <link rel="icon" href="images/logo.png" type="images/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Style CSS -->
+    <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
+
+    <!-- Icons CSS -->
+    <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
+
+</head>
+
+<!-- App Header -->
+<header class="app-header" style="background-color:rgba(0,0,0,0.0); border:0">
+    <div class="main-header-container container-fluid">
+        <div class="header-content-left">
+            <div class="header-element">
+                <div class="horizontal-logo">
+                    <a href="maintenanceStaffLogin.php" class="text-black fw-bolder fs-20">
+                        E-Hostel Room Complaint System
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- App Header -->
 
 <div class="container">
     <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
         <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
             <div class="card custom-card">
                 <div class="card-body p-5">
+
                     <!-- Display error messages -->
                     <?php
                     if (isset($_SESSION['error'])) {
@@ -24,18 +62,20 @@ if (isset($_SESSION['hostel_staff'])) {
                     }
                     ?>
                     <p class="h5 fw-semibold mb-2 text-center">Log In</p>
-                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your staff number and password.</p>
-                    <form action="login-process.php" method="POST">
+                    <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your worker number and password.</p>
+                    <form action="loginprocess.php" method="POST">
                         <div class="row gy-3">
                             <div class="col-xl-12">
-                                <label for="signin-staff-no" class="form-label text-default">Staff Number</label>
-                                <input type="text" class="form-control form-control-lg" id="signin-staff-no" placeholder="Staff Number" name="Staff_No" required>
+                                <label for="signin-worker-no" class="form-label text-default">Worker Number</label>
+                                <input type="text" class="form-control form-control-lg" id="signin-worker-no" placeholder="Worker Number" name="Worker_No" required>
                             </div>
                             <div class="col-xl-12 mb-2">
                                 <label for="signin-password" class="form-label text-default d-block">Password</label>
                                 <div class="input-group">
                                     <input type="password" class="form-control form-control-lg" id="signin-password" placeholder="Password" name="Password" required>
-                                    <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
+                                    <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2">
+                                        <i class="ri-eye-off-line align-middle"></i>
+                                    </button>
                                 </div>
                             </div>
                             <div class="col-xl-12 d-grid mt-2">
@@ -59,6 +99,7 @@ if (isset($_SESSION['hostel_staff'])) {
 <script src="assets/js/show-password.js"></script>
 
 </body>
+
 </html>
 
 <?php include('includes/footer.php'); ?>

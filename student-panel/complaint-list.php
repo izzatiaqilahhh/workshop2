@@ -1,32 +1,61 @@
+<?php
+session_start();
+include('teahdbconfig.php');
+
+// Check if the user is logged in
+if (!isset($_SESSION['student'])) {
+    header("Location: studentLogin.php");
+    exit();
+}
+
+// Fetch user-specific data
+try {
+    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
+    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+        echo 'User not found';
+        exit();
+    }
+
+    $student_id = $user['Student_ID'];
+
+    $stmt = $pdo->prepare("SELECT c.*, cs.Complaint_Status, cs.Description as Status_Description, cs.Date_Update_Status 
+                           FROM Complaint c 
+                           LEFT JOIN Complaint_Status cs ON c.Complaint_ID = cs.Complaint_ID 
+                           WHERE c.Student_ID = :Student_ID 
+                           ORDER BY c.Date_Created DESC");
+    $stmt->bindParam(':Student_ID', $student_id);
+    $stmt->execute();
+    $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo 'Database connection failed: ' . $e->getMessage();
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
-
 <head>
-    <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>E-Hostel Room Complaint System - My Complaints</title>
+    <title>e-HRCS - My Complaints</title>
     <link rel="icon" href="images/logo.png" type="image/x-icon">
-
-    <!-- Bootstrap CSS -->
-    <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Style CSS -->
-    <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
-
-    <!-- Icons CSS -->
-    <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
+    <link id="style" href="assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/styles.min.css" rel="stylesheet">
+    <link href="assets/css/icons.min.css" rel="stylesheet">
 </head>
-
 <body>
-    <!-- App Header -->
+
     <header class="app-header">
         <div class="main-header-container container-fluid">
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="student-dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
+                        <a href="dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
                     </div>
                 </div>
             </div>
@@ -40,24 +69,21 @@
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"></p>
-                                <span class="op-7 fw-normal d-block fs-11"></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p>
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span>
                             </div>
                         </div>
                     </a>
-                    <ul class="dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
-                        <li><a class="dropdown-item d-flex" href="#"><i class="ti ti-logout fs-18 me-2 op-7"></i>Logout</a></li>
+                    <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
+                        <li><a class="dropdown-item d-flex" href="logout.php"><i class="ti ti-logout fs-18 me-2 op-7"></i>Logout</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </header>
-    <!-- App Header -->
 
-    <!-- App Content -->
     <div class="main-content app-content">
         <div class="container-fluid">
-            <!-- Page Header -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb py-sm-4 py-md-0">
                 <h1 class="page-title fw-semibold fs-18 mb-0">My Complaints</h1>
                 <div class="ms-md-1 ms-0">
@@ -69,16 +95,14 @@
                     </nav>
                 </div>
             </div>
-            <!-- Page Header -->
 
-            <!-- Complaint Form Section -->
             <div class="row mt-4">
                 <div class="d-flex my-3">
                     <a href="dashboard.php" class="btn btn-primary btn-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill me-2" viewBox="0 0 16 16">
                             <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
                         </svg>
-                        Back
+                        Back to Dashboard
                     </a>
                 </div>
                 <div class="col-md-12">
@@ -87,10 +111,10 @@
                             <div class="card-title">Submit New Complaint</div>
                         </div>
                         <div class="card-body">
-                            <form>
+                            <form action="submit-complaint.php" method="POST" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="complaint-type">Complaint Type</label>
-                                    <select class="form-control" id="complaint-type" required onchange="filterIssueType()">
+                                    <select class="form-control" id="complaint-type" name="complaint-type" required onchange="filterIssueType()">
                                         <option value="">Select Complaint Type</option>
                                         <option value="facility">Facility Maintenance Issues</option>
                                         <option value="cleanliness">Cleanliness and Hygiene Complaints</option>
@@ -102,7 +126,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="issue-type">Issue Type</label>
-                                    <select class="form-control" id="issue-type" required>
+                                    <select class="form-control" id="issue-type" name="issue-type" required>
                                         <option value="">Select Issue Type</option>
                                     </select>
                                 </div>
@@ -132,7 +156,7 @@
                                 </script>
                                 <div class="mb-3">
                                     <label for="complaint-description">Complaint Description</label>
-                                    <textarea class="form-control" id="complaint-description" rows="4" placeholder="Describe your complaint here..." required></textarea>
+                                    <textarea class="form-control" id="complaint-description" name="complaint-description" rows="4" placeholder="Describe your complaint here..." required></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="complaint-image">Upload Image</label>
@@ -147,7 +171,6 @@
                 </div>
             </div>
 
-            <!-- Complaints Table Section -->
             <div class="row mt-4">
                 <div class="col-md-12">
                     <div class="card custom-card">
@@ -163,53 +186,79 @@
                                         <th>Complaint Type</th>
                                         <th>Issue Type</th>
                                         <th>Description</th>
-                                        <th>Date Filled</th>
+                                        <th>Date Filed</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>123456</td>
-                                        <td>Security Issues</td>
-                                        <td>Broken Locks</td>
-                                        <td>My door lock was broken</td>
-                                        <td>2024-04-15</td>
-                                        <td>Pending</td>
-                                        <td>
-                                            <button 
-                                                type="button" 
-                                                class="btn btn-info btn-sm" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#complaintModal" 
-                                                onclick="populateModal('123456', 'My door lock was broken', 'images/door-lock.jpg')">
-                                                View
-                                            </button>
-                                            <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                        </td>
-                                    </tr>
+                                    <?php if (!empty($complaints)): ?>
+                                        <?php foreach ($complaints as $index => $complaint): ?>
+                                            <tr>
+                                                <td><?= $index + 1 ?></td>
+                                                <td><?= htmlspecialchars($complaint['Complaint_ID']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Complaint_Type']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Complaint_Issue']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Description']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Date_Created']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['Complaint_Status'] ?? 'Pending') ?></td>
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-info btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#complaintModal"
+                                                        onclick="populateModal('<?= htmlspecialchars($complaint['Complaint_ID']) ?>', '<?= htmlspecialchars($complaint['Description']) ?>', '<?= base64_encode($complaint['Image']) ?>')">
+                                                        View
+                                                    </button>
+                                                    <a href="edit-complaint.php?complaint_id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-warning btn-sm">Edit</a>
+                                                    <a href="delete-complaint.php?complaint_id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this complaint?')">Delete</a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="8">No complaints found.</td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="complaintModal" tabindex="-1" aria-labelledby="complaintModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="complaintModalLabel">Complaint Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img id="complaintImage" src="" alt="Complaint Image" class="img-fluid mb-3">
+                            <p id="complaintDescription"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- App Content -->
 
     <script>
-        function populateModal(complaintID, description, imagePath) {
-            document.getElementById('complaintImage').src = imagePath;
+        function populateModal(complaintID, description, image) {
+            const blob = new Blob([Uint8Array.from(atob(image), c => c.charCodeAt(0))], { type: 'image/jpeg' });
+            const url = URL.createObjectURL(blob);
+            
+            document.getElementById('complaintImage').src = url;
             document.getElementById('complaintDescription').textContent = description;
             document.getElementById('complaintModalLabel').textContent = `Complaint ID: ${complaintID}`;
         }
     </script>
 
-    <!-- Bootstrap JS -->
-    <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

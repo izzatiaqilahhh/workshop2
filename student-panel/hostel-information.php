@@ -1,13 +1,64 @@
+<?php
+session_start();
+include('teahdbconfig.php'); // Include your database configuration file
+
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Check if the user is logged in
+if (!isset($_SESSION['student'])) {
+    header("Location: studentLogin.php");
+    exit();
+}
+
+// Fetch student and room details
+try {
+    // Fetch student details
+    $stmt = $pdo->prepare("SELECT * FROM Student WHERE Matric_No = :Matric_No");
+    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt->execute();
+    $student = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$student) {
+        $error = 'No student information found.';
+    } else {
+        // Fetch room details for the logged-in student
+        $stmt = $pdo->prepare("SELECT Room.Room_No, Room.Hostel_Block, Room.Current_Occupants
+                               FROM Room
+                               WHERE Room.Room_ID = :room_id");
+        $stmt->bindParam(':room_id', $student['Room_ID']);
+        $stmt->execute();
+        $room = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$room) {
+            $error = 'No room information found for the student.';
+        } else {
+            // Fetch roommates details
+            $stmt = $pdo->prepare("SELECT Name, Phone_No FROM Student WHERE Room_ID = :room_id AND Matric_No != :Matric_No");
+            $stmt->bindParam(':room_id', $student['Room_ID']);
+            $stmt->bindParam(':Matric_No', $_SESSION['student']);
+            $stmt->execute();
+            $roommates = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
+} catch (PDOException $e) {
+    $error = 'Database error: ' . $e->getMessage();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="horizontal" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
 
 <head>
+
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>E-Hostel Room Complaint System - Hostel Room Information</title>
+    <title>e-HRCS - Hostel Room Information</title>
 
     <link rel="icon" href="images/logo.png" type="image/x-icon">
 
@@ -19,16 +70,18 @@
 
     <!-- Icons CSS -->
     <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
+
 </head>
 
 <body>
+
     <!-- App Header -->
     <header class="app-header">
         <div class="main-header-container container-fluid">
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="student-dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
+                        <a href="hostel-information.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
                     </div>
                 </div>
             </div>
@@ -42,8 +95,8 @@
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"></p>
-                                <span class="op-7 fw-normal d-block fs-11"></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($student['Name'] ?? ''); ?></p>
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($student['Email'] ?? ''); ?></span>
                             </div>
                         </div>
                     </a>
@@ -59,6 +112,7 @@
     <!-- App Content -->
     <div class="main-content app-content">
         <div class="container-fluid">
+
             <!-- Page Header -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-header-breadcrumb py-sm-4 py-md-0">
                 <h1 class="page-title fw-semibold fs-18 mb-0">Hostel Room Information</h1>
@@ -80,7 +134,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill me-2" viewBox="0 0 16 16">
                             <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
                         </svg>
-                        Back
+                        Back to Dashboard
                     </a>
                 </div>
 
@@ -92,31 +146,74 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table">
-                                    <tr>
-                                        <th>Room Number</th>
-                                        <td>SQ-K-8-2-B</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Room Type</th>
-                                        <td>Double Occupancy</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Availability</th>
-                                        <td>Occupied</td>
-                                    </tr>
-                                </table>
+                                <?php if (isset($error)): ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        <?= htmlspecialchars($error) ?>
+                                    </div>
+                                <?php else: ?>
+                                    <table class="table">
+                                        <tr>
+                                            <th>Room Number</th>
+                                            <td><?= htmlspecialchars($room['Room_No'] ?? '') ?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Hostel Block</th>
+                                            <td><?= htmlspecialchars($room['Hostel_Block'] ?? '') ?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Current Occupants</th>
+                                            <td><?= htmlspecialchars($room['Current_Occupants'] ?? '') ?></td>
+                                        </tr>
+                                    </table>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Room Details Section -->
+
+                <!-- Roommates Details Section -->
+                <div class="col-md-12 mt-4">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title">Roommates</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <?php if (isset($roommates) && !empty($roommates)): ?>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Phone Number</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($roommates as $roommate): ?>
+                                                <tr>
+                                                    <td><?= htmlspecialchars($roommate['Name']) ?></td>
+                                                    <td><?= htmlspecialchars($roommate['Phone_No']) ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                <?php else: ?>
+                                    <div class="alert alert-info" role="alert">
+                                        No roommates information found.
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Roommates Details Section -->
             </div>
         </div>
     </div>
     <!-- App Content -->
 
     <!-- Bootstrap JS -->
-    <script src="admin-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="hostel-staff-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

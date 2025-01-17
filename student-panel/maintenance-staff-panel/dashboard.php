@@ -1,6 +1,27 @@
-<?php include('includes/header-.php'); ?>
+<?php 
+session_start();
+if (!isset($_SESSION['maintenance_staff'])) {
+    header('Location: maintenanceStaffLogin.php');
+    exit();
+}
 
-<title>E-Hostel Room Complaint System - Dashboard</title>
+include 'teahdbconfig.php';  
+ 
+// Fetch user-specific data
+try {
+    // Fetch user profile information
+    $stmt = $pdo->prepare('SELECT * FROM maintenance_worker WHERE Worker_No = :Worker_No');
+    $stmt->bindParam(':Worker_No', $_SESSION['maintenance_staff']);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo 'Database connection failed: ' . $e->getMessage();
+    exit();
+}
+
+include('includes/header-.php'); ?>
+
+<title>e-HRCS - Dashboard</title>
 
 <!-- App Content -->
 <div class="main-content app-content">
@@ -9,12 +30,21 @@
         <!-- Page Header -->
         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
             <h1 class="page-title fw-semibold fs-22 mb-0">Dashboard</h1>
-            <div class="ms-md-1 ms-0">
-                <nav>
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                    </ol>
-                </nav>
+            <div class="ms-md-1 ms-0 d-flex align-items-center">
+
+                <!-- Notification Icon -->
+                <div class="dropdown">
+                    <button class="btn btn-light position-relative" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class='bx bx-bell' style="font-size: 24px;"></i>
+                        <span id="notificationCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" style="width: 300px; max-height: 400px; overflow-y: auto;">
+                        <li class="dropdown-header">New Complaints</li>
+                        <div id="notificationList">
+                            <li class="dropdown-item text-muted">No new complaints</li>
+                        </div>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -46,10 +76,59 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
 </div>
+
+<!-- Notification Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function fetchNewComplaints() {
+        $.ajax({
+            url: 'fetch_new_complaints.php', // PHP script to fetch new complaints
+            method: 'GET',
+            success: function(data) {
+                const complaints = JSON.parse(data);
+                const notificationCount = complaints.length;
+
+                // Update the notification icon badge
+                const notificationBadge = document.getElementById('notificationCount');
+                if (notificationCount > 0) {
+                    notificationBadge.textContent = notificationCount;
+                    notificationBadge.classList.remove('d-none');
+                } else {
+                    notificationBadge.classList.add('d-none');
+                }
+
+                // Update the notification dropdown list
+                const notificationList = document.getElementById('notificationList');
+                notificationList.innerHTML = ''; // Clear the list
+                if (notificationCount > 0) {
+                    complaints.forEach(complaint => {
+                        const listItem = `
+                            <li class="dropdown-item">
+                                <strong>${complaint.title}</strong>
+                                <p class="text-muted mb-0" style="font-size: 0.85em;">${complaint.description}</p>
+                            </li>
+                        `;
+                        notificationList.insertAdjacentHTML('beforeend', listItem);
+                    });
+                } else {
+                    notificationList.innerHTML = '<li class="dropdown-item text-muted">No new complaints</li>';
+                }
+            },
+            error: function(err) {
+                console.error("Error fetching complaints:", err);
+            }
+        });
+    }
+
+    // Fetch new complaints every 5 seconds
+    setInterval(fetchNewComplaints, 5000);
+
+    // Initial fetch when the page loads
+    fetchNewComplaints();
+</script>
 
 <?php include('includes/footer-.php'); ?>

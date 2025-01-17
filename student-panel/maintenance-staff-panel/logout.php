@@ -2,5 +2,6 @@
 session_start();
 session_unset();
 session_destroy();
-header("Location: hostelStaffLogin.php");
+header('Location: maintenanceStaffLogin.php');
 exit();
+?>

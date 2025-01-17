@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-nav-style="menu-hover" data-width="boxed" loader="enable">
+<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-toggled="close">
 
 <!-- New Codes Start -->
 
@@ -9,9 +9,9 @@
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+
     <!-- Favicon -->
-    <link rel="icon" href="../../images/logo.png" type="images/x-icon">
+    <link rel="icon" href="../images/logo.png" type="images/x-icon">
 
     <!-- Choices JS -->
     <script src="../assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
@@ -40,13 +40,6 @@
 
     <!-- Choices Css -->
     <link rel="stylesheet" href="../assets/libs/choices.js/public/assets/styles/choices.min.css">
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
 
     <style>
         @media print {
@@ -111,7 +104,7 @@
 
                     <!-- Header Link -->
                     <a aria-label="Hide Sidebar" class="sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle" data-bs-toggle="sidebar" href="javascript:void(0);"><span></span></a>
-                    
+
                 </div>
 
             </div>
@@ -130,12 +123,16 @@
                                     <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"></path>
                                 </svg>
                             </div>
+                            <div class="d-sm-block d-none">
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p> <!-- Display Full Name -->
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span> <!-- Display Email -->
+                            </div>
                         </div>
                     </a>
-                    
+
                     <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
                         <li><a class="dropdown-item d-flex" href="profile.php"><i class="ti ti-user-circle fs-18 me-2 op-7"></i>Profile</a></li>
-                        <li><a class="dropdown-item d-flex" href=""><i class="ti ti-logout fs-18 me-2 op-7"></i>Log Out</a></li>
+                        <li><a class="dropdown-item d-flex" href="logout.php"><i class="ti ti-logout fs-18 me-2 op-7"></i>Log Out</a></li>
                     </ul>
                 </div>
 
@@ -151,7 +148,7 @@
         <!-- Main Sidebar Header -->
         <div class="main-sidebar-header">
             <a href="#" class=" fw-bolder text-white fs-16">
-                E-HRCS
+                e-HRCS
             </a>
         </div>
 
@@ -167,33 +164,32 @@
                 </div>
                 <ul class="main-menu">
 
-                    <!-- Slide Category -->
                     <li class="slide__category"><span class="category-name">Main</span></li>
 
                     <!-- Slide -->
                     <li class="slide ">
                         <a href="dashboard.php" class="side-menu__item">
-                            <i class="bx bx-home side-menu__icon"></i>
+                            <i class='bx bxs-dashboard side-menu__icon'></i>
                             <span class="side-menu__label">Dashboard</span>
                         </a>
                     </li>
 
                     <!-- Slide Category -->
-                    <li class="slide__category"><span class="category-name">Management</span></li>
+                    <li class="slide__category"><span class="category-name">Complaint Management</span></li>
 
                     <!-- Slide -->
                     <li class="slide">
                         <a href="view-complaint.php" class="side-menu__item">
-                            <i class='bx bx-message-dots side-menu__icon'></i>
-                            <span class="side-menu__label">Complaint</span>
+                            <i class='bx bx-detail side-menu__icon'></i>
+                            <span class="side-menu__label">Complaint List</span>
                         </a>
                     </li>
 
                     <!-- Slide -->
                     <li class="slide">
-                        <a href="view-maintenance-staff.php" class="side-menu__item">
-                            <i class='bx bx-food-menu side-menu__icon'></i>
-                            <span class="side-menu__label">Maintainance Staff</span>
+                        <a href="assigned-complaint.php" class="side-menu__item">
+                            <i class='bx bx-check-circle side-menu__icon'></i>
+                            <span class="side-menu__label">Assigned Complaint</span>
                         </a>
                     </li>
 
