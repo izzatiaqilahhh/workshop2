@@ -1,4 +1,30 @@
-<?php include('includes/header.php'); ?>
+<?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['hostel_staff'])) {
+    // If not logged in, redirect to the login page
+    header("Location: hostelStaffLogin.php");
+    exit();
+}
+
+// Include database configuration and functions
+include('teahdbconfig.php');
+
+// Fetch user-specific data
+try {
+    // Fetch user profile information
+    $stmt = $pdo->prepare('SELECT * FROM hostel_staff WHERE Staff_No = :Staff_No');
+    $stmt->bindParam(':Staff_No', $_SESSION['hostel_staff']);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo 'Database connection failed: ' . $e->getMessage();
+    exit();
+}
+
+include('includes/header-.php'); 
+?>
 
 <title>e-HRCS - My Profile</title>
 
@@ -29,7 +55,7 @@
 
         <!-- Row 1 -->
         <div class="row">
-            <form action="your-profile-action.php" method="POST">
+            <form action="update-profile.php" method="POST">
                 <div class="card custom-card">
                     <div class="card-header">
                         <div class="card-title">
@@ -41,31 +67,25 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label>Staff Name</label>
-                                    <input type="text" name="name" value="" required class="form-control">
+                                    <input type="text" name="name" value="<?php echo htmlspecialchars($user['Name']); ?>" required class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label>Staff Number</label>
-                                    <input type="text" name="staffno" value="" required class="form-control">
+                                    <input type="text" name="staffno" value="<?php echo htmlspecialchars($user['Staff_No']); ?>" required class="form-control" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label>Email Address</label>
-                                    <input type="email" name="email" value="" required class="form-control">
+                                    <input type="email" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>" required class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label>Phone Number</label>
-                                    <input type="text" name="phone" value="" required class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label>Position</label>
-                                    <input type="text" name="position" value="" required class="form-control">
+                                    <input type="text" name="phone" value="<?php echo htmlspecialchars($user['Phone_No']); ?>" required class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-12">
