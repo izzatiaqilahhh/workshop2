@@ -32,7 +32,7 @@ if (isset($_POST['loginBtn'])) {
             if (password_verify($password, $user['Password'])) {
                 // Password is already hashed and verified
                 $_SESSION['maintenance_staff'] = $user['Worker_No'];
-                error_log('You have successfully logged in: ' . $_SESSION['maintenance_staff']);
+                error_log('You have successfully logged in: ' . $_SESSION['maintenance_worker']);
                 header('Location: dashboard.php');
                 exit();
             } elseif ($user['Password'] === $password) {
@@ -71,12 +71,5 @@ if (isset($_POST['loginBtn'])) {
     // Redirect back to the login page with an error message
     header('Location: maintenanceStaffLogin.php');
     exit();
-}
-?>
-
-<?php
-// Debugging: Check if headers are sent
-if (headers_sent($file, $line)) {
-    error_log("Headers already sent in $file on line $line");
 }
 ?>
