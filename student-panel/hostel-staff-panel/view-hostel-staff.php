@@ -37,16 +37,16 @@ include('includes/header-.php');
                 <tbody>
 
                     <?php
-                    // PostgreSQL query to fetch hostel staff data
+                    // PostgreSQL query to fetch hostel staff data using PDO
                     $query = 'SELECT s."staff_no", s."name", s."email", s."phone_no", b."block_name" 
                               FROM "block" b 
                               JOIN "hostel_staff" s ON b."staff_id" = s."staff_id"';
 
-                    $result = pg_query($connection, $query); // PostgreSQL query execution
+                    $stmt = $pdo->query($query);
 
-                    if ($result && pg_num_rows($result) > 0) {
+                    if ($stmt && $stmt->rowCount() > 0) {
                         $counter = 1;
-                        while ($adminItem = pg_fetch_assoc($result)) {
+                        while ($adminItem = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     ?>
                             <tr>
                                 <td><?= $counter++; ?></td>

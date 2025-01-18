@@ -39,7 +39,7 @@ include('includes/header.php');
                         </div>
                     </form> <!-- Closing the form tag -->
                     <div class="text-center">
-                        <p class="fs-12 text-muted mt-3">Remembered your password? <a href="login.php" class="text-primary text-decoration-underline">Log In</a></p>
+                        <p class="fs-12 text-muted mt-3">Remembered your password? <a href="hostelStaffLogin.php" class="text-primary text-decoration-underline">Log In</a></p>
                     </div>
                 </div>
             </div>

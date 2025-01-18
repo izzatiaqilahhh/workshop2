@@ -1,22 +1,7 @@
-<?php
-session_start();
-
-// Check if the user is logged in
-if (!isset($_SESSION['hostel_staff'])) {
-    // If not logged in, redirect to the login page
-    header("Location: hostelStaffLogin.php");
-    exit();
-}
-
-// Include database configuration and fetch user data
+<!-- <?php
 include('qiladbcon.php');
 
 try {
-    $stmt = $pdo->prepare('SELECT * FROM hostel_staff WHERE staff_no = :staff_no');
-    $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
     // Fetch counts for the dashboard
     $totalComplaintStmt = $pdo->query('SELECT COUNT(*) FROM complaint');
     $totalComplaint = $totalComplaintStmt->fetchColumn();
@@ -29,13 +14,31 @@ try {
 
     $totalMaintenanceStaffStmt = $pdo->query('SELECT COUNT(*) FROM maintenance_worker');
     $totalMaintenanceStaff = $totalMaintenanceStaffStmt->fetchColumn();
+
+    // Return data as JSON
+    echo json_encode([
+        'totalComplaint' => $totalComplaint,
+        'totalStudent' => $totalStudent,
+        'totalHostelStaff' => $totalHostelStaff,
+        'totalMaintenanceStaff' => $totalMaintenanceStaff,
+    ]);
 } catch (PDOException $e) {
-    echo 'Database query failed: ' . $e->getMessage();
-    exit();
+    echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
 
-<?php include('includes/header-.php'); ?>
+<?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['hostel_staff'])) {
+    header("Location: hostelStaffLogin.php");
+    exit();
+}
+
+include('qiladbcon.php');
+include('includes/header-.php');
+?>
 
 <title>e-HRCS - Dashboard Overview</title>
 
@@ -74,7 +77,7 @@ try {
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-2">Total Complaint</p>
-                            <h4 class="mb-0 fw-semibold mb-2"><?php echo $totalComplaint; ?></h4>
+                            <h4 class="mb-0 fw-semibold mb-2" id="totalComplaint">Loading...</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-warning p-2">
@@ -91,7 +94,7 @@ try {
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-2">Total Student</p>
-                            <h4 class="mb-0 fw-semibold mb-2"><?php echo $totalStudent; ?></h4>
+                            <h4 class="mb-0 fw-semibold mb-2" id="totalStudent">Loading...</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-primary p-2">
@@ -108,11 +111,11 @@ try {
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-2">Total Hostel Staff</p>
-                            <h4 class="mb-0 fw-semibold mb-2"><?php echo $totalHostelStaff; ?></h4>
+                            <h4 class="mb-0 fw-semibold mb-2" id="totalHostelStaff">Loading...</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-success p-2">
-                                <i class='bx bxs-user side-menu__icon'></i>
+                                <i class='bx bxs-user-rectangle side-menu__icon'></i>
                             </span>
                         </div>
                     </div>
@@ -125,11 +128,11 @@ try {
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-2">Total Maintenance Staff</p>
-                            <h4 class="mb-0 fw-semibold mb-2"><?php echo $totalMaintenanceStaff; ?></h4>
+                            <h4 class="mb-0 fw-semibold mb-2" id="totalMaintenanceStaff">Loading...</h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-secondary p-2">
-                                <i class='bx bxs-user-rectangle side-menu__icon'></i>
+                                <i class='bx bxs-user side-menu__icon'></i>
                             </span>
                         </div>
                     </div>
@@ -145,6 +148,27 @@ try {
     function printPage() {
         window.print();
     }
+
+    // Function to fetch and update data
+    function fetchData() {
+        fetch('fetch_data.php')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.error) {
+                    document.getElementById('totalComplaint').textContent = data.totalComplaint;
+                    document.getElementById('totalStudent').textContent = data.totalStudent;
+                    document.getElementById('totalHostelStaff').textContent = data.totalHostelStaff;
+                    document.getElementById('totalMaintenanceStaff').textContent = data.totalMaintenanceStaff;
+                } else {
+                    console.error(data.error);
+                }
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    // Fetch data initially and then every 5 seconds
+    fetchData();
+    setInterval(fetchData, 5000);
 </script>
 
-<?php include('includes/footer-.php'); ?>
+<?php include('includes/footer-.php'); ?> -->

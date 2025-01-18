@@ -5,17 +5,17 @@ include 'includes/header-.php';
 
 // Check if the 'fetch_student' action is triggered
 if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
-
     // Fetch student details based on Student_ID
     if (isset($_POST['id'])) {
         $studentId = $_POST['id'];
 
-        // Prepare and execute the query
-        $query = "SELECT * FROM student WHERE student_id = $1";
-        $result = pg_query_params($conn, $query, array($studentId));
+        // Prepare and execute the query using PDO
+        $query = "SELECT * FROM student WHERE student_id = :student_id";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(['student_id' => $studentId]);
 
-        if ($result && pg_num_rows($result) > 0) {
-            $student = pg_fetch_assoc($result);
+        if ($stmt->rowCount() > 0) {
+            $student = $stmt->fetch(PDO::FETCH_ASSOC);
             echo json_encode($student);
         } else {
             echo json_encode(['error' => 'No student found.']);
@@ -71,17 +71,17 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
                     </thead>
                     <tbody>
                         <?php
-                        // SQL query to fetch student details with room number
+                        // SQL query to fetch student details with room number using PDO
                         $query = "
                             SELECT s.student_id, s.matric_no, s.name, s.phone_no, s.email, s.course, s.faculty, r.room_no
                             FROM student s
                             JOIN room r ON s.room_id = r.room_id
                         ";
-                        $result = pg_query($connection, $query);
+                        $stmt = $pdo->query($query);
 
-                        if ($result && pg_num_rows($result) > 0) {
+                        if ($stmt->rowCount() > 0) {
                             $counter = 1; // Initialize counter
-                            while ($row = pg_fetch_assoc($result)) {
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 // Display each student's data with the counter
                                 echo "<tr>
                                     <td>{$counter}</td> <!-- Display row number -->
