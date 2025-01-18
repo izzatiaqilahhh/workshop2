@@ -9,7 +9,7 @@ if (!isset($_SESSION['maintenance_staff'])) {
 }
 
 // Include database configuration and functions
-include('teahdbconfig.php');
+include('ainaconnection.php');
 
 // Fetch user-specific data
 try {
