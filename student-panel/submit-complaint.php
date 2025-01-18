@@ -1,7 +1,11 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include('teahdbconfig.php'); // Include MariaDB config for student verification
-include('paandbconfig.php'); // Include MySQL config for complaint handling
+include('paandbconfig.php'); // Include MySQL config for complaint submission
 
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
@@ -11,7 +15,7 @@ if (!isset($_SESSION['student'])) {
 
 // Fetch student ID using matric number from MariaDB
 try {
-    $stmt = $pdo->prepare("SELECT Student_ID FROM student WHERE Matric_No = :Matric_No");
+    $stmt = $pdo->prepare("SELECT Student_ID, Room_ID FROM student WHERE Matric_No = :Matric_No");
     $stmt->bindParam(':Matric_No', $_SESSION['student']);
     $stmt->execute();
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -23,66 +27,107 @@ try {
     }
 
     $student_id = $student['Student_ID'];
-} catch (PDOException $e) {
-    $_SESSION['error'] = 'Database error: ' . $e->getMessage();
-    header('Location: complaint-list.php');
-    exit();
-}
+    $room_id = $student['Room_ID'];
 
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $complaint_type = $_POST['complaint-type'];
-    $issue_type = $_POST['issue-type'];
-    $description = $_POST['complaint-description'];
-    $date_created = date('Y-m-d');
-    $image = null;
+    // Handle form submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['complaint-type'], $_POST['issue-type'], $_POST['complaint-description'])) {
+            $complaint_type = $_POST['complaint-type'];
+            $issue_type = $_POST['issue-type'];
+            $description = $_POST['complaint-description'];
+            $date_created = date('Y-m-d');
+            $image = null;
 
-    // Handle file upload
-    if (isset($_FILES['complaint-image']) && $_FILES['complaint-image']['error'] === UPLOAD_ERR_OK) {
-        $file_tmp = $_FILES['complaint-image']['tmp_name'];
-        $file_type = $_FILES['complaint-image']['type'];
-        $file_size = $_FILES['complaint-image']['size'];
+            // Handle file upload
+            if (isset($_FILES['complaint-image']) && $_FILES['complaint-image']['error'] === UPLOAD_ERR_OK) {
+                $file_tmp = $_FILES['complaint-image']['tmp_name'];
+                $file_extension = strtolower(pathinfo($_FILES['complaint-image']['name'], PATHINFO_EXTENSION));
+                $file_size = $_FILES['complaint-image']['size'];
 
-        // Validate file type and size (e.g., max 40MB)
-        $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-        $max_size = 40 * 1024 * 1024; // 40MB
+                // Debugging information
+                echo "File Extension: " . $file_extension . "<br>";
+                echo "File Size: " . $file_size . "<br>";
 
-        if (in_array($file_type, $allowed_types) && $file_size <= $max_size) {
-            $image = file_get_contents($file_tmp);
+                // Validate file type and size (e.g., max 5MB)
+                $allowed_extensions = ['jpeg', 'jpg', 'png', 'gif'];
+                $max_size = 5 * 1024 * 1024; // 5MB
+
+                if (in_array($file_extension, $allowed_extensions) && $file_size <= $max_size) {
+                    $image = file_get_contents($file_tmp);
+                } else {
+                    $error_msg = 'Invalid file type or size. Allowed types are JPEG, PNG, and GIF, and the maximum size is 5MB.';
+                }
+            } else {
+                // Handle various upload errors
+                switch ($_FILES['complaint-image']['error']) {
+                    case UPLOAD_ERR_INI_SIZE:
+                    case UPLOAD_ERR_FORM_SIZE:
+                        $error_msg = 'File size exceeds the maximum allowed size.';
+                        break;
+                    case UPLOAD_ERR_PARTIAL:
+                        $error_msg = 'File was only partially uploaded.';
+                        break;
+                    case UPLOAD_ERR_NO_FILE:
+                        $error_msg = 'No file was uploaded.';
+                        break;
+                    case UPLOAD_ERR_NO_TMP_DIR:
+                        $error_msg = 'Missing a temporary folder.';
+                        break;
+                    case UPLOAD_ERR_CANT_WRITE:
+                        $error_msg = 'Failed to write file to disk.';
+                        break;
+                    case UPLOAD_ERR_EXTENSION:
+                        $error_msg = 'File upload stopped by extension.';
+                        break;
+                    default:
+                        $error_msg = 'Unknown error occurred during file upload.';
+                        break;
+                }
+            }
+
+            if (!isset($error_msg)) {
+                try {
+                    // Use MySQL connection to insert complaint into the database
+                    $stmt = $mysql_pdo->prepare("INSERT INTO Complaint (Complaint_Type, Complaint_Issue, Description, Image, Date_Created, Student_ID, Room_ID) VALUES (:Complaint_Type, :Complaint_Issue, :Description, :Image, :Date_Created, :Student_ID, :Room_ID)");
+                    $stmt->bindParam(':Complaint_Type', $complaint_type);
+                    $stmt->bindParam(':Complaint_Issue', $issue_type);
+                    $stmt->bindParam(':Description', $description);
+                    $stmt->bindParam(':Image', $image, PDO::PARAM_LOB);
+                    $stmt->bindParam(':Date_Created', $date_created);
+                    $stmt->bindParam(':Student_ID', $student_id);
+                    $stmt->bindParam(':Room_ID', $room_id);
+                    $stmt->execute();
+                    
+                    // Get the last inserted complaint ID
+                    $complaint_id = $mysql_pdo->lastInsertId();
+
+                    // Insert initial status into the Complaint_Status table
+                    $stmt = $mysql_pdo->prepare("INSERT INTO Complaint_Status (Complaint_ID, Complaint_Status, Description) VALUES (:Complaint_ID, 'Pending', NULL)");
+                    $stmt->bindParam(':Complaint_ID', $complaint_id);
+                    $stmt->execute();
+
+                    $_SESSION['success'] = 'Complaint submitted successfully.';
+                    header('Location: complaint-list.php');
+                    exit();
+                } catch (PDOException $e) {
+                    $_SESSION['error'] = 'Database error: ' . $e->getMessage();
+                    header('Location: complaint-list.php');
+                    exit();
+                }
+            } else {
+                $_SESSION['error'] = $error_msg;
+                header('Location: complaint-list.php');
+                exit();
+            }
         } else {
-            $_SESSION['error'] = 'Invalid file type or size.';
+            $_SESSION['error'] = 'Missing form fields.';
             header('Location: complaint-list.php');
             exit();
         }
     }
-
-    try {
-        // Use MySQL connection to insert complaint into the database
-        $stmt = $mysql_pdo->prepare("INSERT INTO Complaint (Complaint_Type, Complaint_Issue, Description, Image, Date_Created, Student_ID, Room_ID) VALUES (:Complaint_Type, :Complaint_Issue, :Description, :Image, :Date_Created, :Student_ID, :Room_ID)");
-        $stmt->bindParam(':Complaint_Type', $complaint_type);
-        $stmt->bindParam(':Complaint_Issue', $issue_type);
-        $stmt->bindParam(':Description', $description);
-        $stmt->bindParam(':Image', $image, PDO::PARAM_LOB);
-        $stmt->bindParam(':Date_Created', $date_created);
-        $stmt->bindParam(':Student_ID', $student_id);
-        $stmt->bindParam(':Room_ID', $room_id);
-        $stmt->execute();
-        
-        // Get the last inserted complaint ID
-        $complaint_id = $mysql_pdo->lastInsertId();
-
-        // Insert initial status into the Complaint_Status table
-        $stmt = $mysql_pdo->prepare("INSERT INTO Complaint_Status (Complaint_ID, Complaint_Status, Description) VALUES (:Complaint_ID, 'Pending', NULL)");
-        $stmt->bindParam(':Complaint_ID', $complaint_id);
-        $stmt->execute();
-
-        $_SESSION['success'] = 'Complaint submitted successfully.';
-        header('Location: complaint-list.php');
-        exit();
-    } catch (PDOException $e) {
-        $_SESSION['error'] = 'Database error: ' . $e->getMessage();
-        header('Location: complaint-list.php');
-        exit();
-    }
+} catch (PDOException $e) {
+    $_SESSION['error'] = 'Database error: ' . $e->getMessage();
+    header('Location: complaint-list.php');
+    exit();
 }
 ?>
