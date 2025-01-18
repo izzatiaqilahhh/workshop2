@@ -32,7 +32,7 @@ if (isset($_POST['loginBtn'])) {
             if (password_verify($password, $user['Password'])) {
                 // Password is already hashed and verified
                 $_SESSION['maintenance_staff'] = $user['Worker_No'];
-                error_log('You have successfully logged in: ' . $_SESSION['maintenance_worker']);
+                error_log('You have successfully logged in: ' . $_SESSION['maintenance_staff']);
                 header('Location: dashboard.php');
                 exit();
             } elseif ($user['Password'] === $password) {

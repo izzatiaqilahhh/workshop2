@@ -9,9 +9,7 @@ if (isset($_SESSION['maintenance_staff'])) {
 
 <?php include('includes/header.php'); ?>
 
-
 <head>
-
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +27,6 @@ if (isset($_SESSION['maintenance_staff'])) {
 
     <!-- Icons CSS -->
     <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
-
 </head>
 
 <!-- App Header -->
@@ -53,7 +50,6 @@ if (isset($_SESSION['maintenance_staff'])) {
         <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
             <div class="card custom-card">
                 <div class="card-body p-5">
-
                     <!-- Display error messages -->
                     <?php
                     if (isset($_SESSION['error'])) {
@@ -82,7 +78,7 @@ if (isset($_SESSION['maintenance_staff'])) {
                                 <button type="submit" name="loginBtn" class="btn btn-lg btn-primary-gradient">Log In</button>
                             </div>
                         </div>
-                            <div class="text-center">
+                        <div class="text-center">
                             <p class="fs-12 text-muted mt-3">Don't have an account yet? <a href="register.php" class="text-primary text-decoration-underline">Register Here</a></p>
                         </div>
                     </form>
@@ -96,10 +92,10 @@ if (isset($_SESSION['maintenance_staff'])) {
 </div>
 
 <!-- Bootstrap JS -->
-<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="hostel-staff-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Show Password JS -->
-<script src="assets/js/show-password.js"></script>
+<script src="hostel-staff-panel/assets/js/show-password.js"></script>
 
 </body>
 

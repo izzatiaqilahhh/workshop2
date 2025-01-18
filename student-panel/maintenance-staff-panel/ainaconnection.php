@@ -1,7 +1,9 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-$host = '172.0.0.1';
+$host = '127.0.0.1'; // Use 127.0.0.1 for localhost
 $db = 'utemhostelcomplaint';
 $user = 'root';
 $pass = '';
@@ -16,8 +18,9 @@ $options = [
 
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
-    echo "Connected successfully";
+    // Connection successful
 } catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+    // Handle connection failure
+    die("Connection failed: " . $e->getMessage());
 }
 ?>
