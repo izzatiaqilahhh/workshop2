@@ -1,5 +1,7 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Check if the user is logged in
 if (!isset($_SESSION['hostel_staff'])) {
@@ -7,56 +9,65 @@ if (!isset($_SESSION['hostel_staff'])) {
     exit();
 }
 
-// Include database configuration
+// Include database configuration and functions
 include('qiladbcon.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $staff_no = $_SESSION['hostel_staff'];
-    $current_password = $_POST['current_password'];
-    $new_password = $_POST['new_password'];
-    $confirm_password = $_POST['confirm_password'];
+// Function to sanitize input data
+function sanitizeInput($data) {
+    return htmlspecialchars(stripslashes(trim($data)));
+}
 
-    // Validate input
-    if (empty($current_password) || empty($new_password) || empty($confirm_password)) {
-        echo "All fields are required.";
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $currentPassword = sanitizeInput($_POST['currentPassword']);
+    $newPassword = sanitizeInput($_POST['newPassword']);
+    $confirmPassword = sanitizeInput($_POST['confirmPassword']);
+
+    // Validate new password
+    if ($newPassword !== $confirmPassword) {
+        $_SESSION['password_error'] = 'New password does not match!';
+        header("Location: profile.php");
         exit();
     }
 
-    if ($new_password !== $confirm_password) {
-        echo "New passwords do not match.";
+    if (strlen($newPassword) < 6) {
+        $_SESSION['password_error'] = 'New password must be at least 6 characters long!';
+        header("Location: profile.php");
         exit();
     }
 
     try {
-        // Fetch the current password from the database
+        // Fetch the user's current password from the database
         $stmt = $pdo->prepare('SELECT password FROM hostel_staff WHERE staff_no = :staff_no');
-        $stmt->bindParam(':staff_no', $staff_no);
+        $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);  // Corrected typo here
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$user) {
-            echo "User not found!";
-            exit();
-        }
-
         // Verify the current password
-        if (!password_verify($current_password, $user['password'])) {
-            echo "Current password is incorrect.";
-            exit();
+        if ($user && password_verify($currentPassword, $user['password'])) {
+            // Hash the new password
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+            // Update the password in the database
+            $stmt = $pdo->prepare('UPDATE hostel_staff SET password = :password WHERE staff_no = :staff_no');
+            $stmt->bindParam(':password', $hashedPassword);
+            $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);
+            $stmt->execute();
+
+            $_SESSION['password_success'] = 'Password successfully updated!';
+        } else {
+            $_SESSION['password_error'] = 'Current password is incorrect!';
         }
-
-        // Hash the new password
-        $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
-
-        // Update the password in the database
-        $stmt = $pdo->prepare('UPDATE hostel_staff SET password = :password WHERE staff_no = :staff_no');
-        $stmt->bindParam(':password', $hashed_password);
-        $stmt->bindParam(':staff_no', $staff_no);
-        $stmt->execute();
-
-        echo "Password updated successfully.";
     } catch (PDOException $e) {
-        echo 'Database query failed: ' . $e->getMessage();
+        $_SESSION['password_error'] = 'Database error: ' . $e->getMessage();
     }
+
+    // Redirect back to the profile page
+    header("Location: profile.php");
+    exit();
+} else {
+    // If form is not submitted, redirect to profile page
+    header("Location: profile.php");
+    exit();
 }
 ?>

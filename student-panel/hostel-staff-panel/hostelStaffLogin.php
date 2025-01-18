@@ -12,13 +12,7 @@ if (isset($_SESSION['hostel_staff'])) {
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>e-HRCS - Log In</title>
-    <!-- Add your CSS files here -->
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
+<title>e-HRCS - Log In</title>
 
 <body>
 

@@ -101,46 +101,88 @@ include('includes/header-.php');
             </form>
         </div>
 
-        <!-- Row 2: Change Password -->
-        <div class="row">
-            <form action="change-password.php" method="POST">
-                <div class="card custom-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            Change Password
-                        </div>
+        <!-- Change Password Section -->
+        <div class="card custom-card">
+            <div class="card-header">
+                <div class="card-title">Change Password</div>
+            </div>
+            <div class="card-body">
+                <?php if (isset($_SESSION['password_error'])): ?>
+                    <div class="alert alert-danger">
+                        <?php
+                        echo $_SESSION['password_error'];
+                        unset($_SESSION['password_error']);
+                        ?>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label>Current Password</label>
-                                    <input type="password" name="current_password" required class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label>New Password</label>
-                                    <input type="password" name="new_password" required class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label>Retype New Password</label>
-                                    <input type="password" name="confirm_password" required class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <button type="submit" name="editProfile1" class="btn btn-primary">Save Changes</button>
-                                </div>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['password_success'])): ?>
+                    <div class="alert alert-success">
+                        <?php
+                        echo $_SESSION['password_success'];
+                        unset($_SESSION['password_success']);
+                        ?>
+                    </div>
+                <?php endif; ?>
+                <form method="POST" action="change-password.php">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="currentPassword">Current Password</label>
+                            <div class="input-group">
+                                <input type="password" id="currentPassword" class="form-control" name="currentPassword" placeholder="Current Password" required>
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('currentPassword')">
+                                    <i class="bi bi-eye-slash" id="toggleCurrentPasswordIcon"></i>
+                                </button>
                             </div>
                         </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="newPassword">New Password</label>
+                            <div class="input-group">
+                                <input type="password" id="newPassword" class="form-control" name="newPassword" placeholder="New Password" required>
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('newPassword')">
+                                    <i class="bi bi-eye-slash" id="toggleNewPasswordIcon"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="confirmPassword">Retype New Password</label>
+                            <div class="input-group">
+                                <input type="password" id="confirmPassword" class="form-control" name="confirmPassword" placeholder="Retype New Password" required>
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('confirmPassword')">
+                                    <i class="bi bi-eye-slash" id="toggleConfirmPasswordIcon"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-start align-items-center">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
+
     </div>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="hostel-staff-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JS for toggling password visibility -->
+<script>
+    function togglePasswordVisibility(id) {
+        const passwordInput = document.getElementById(id);
+        const toggleIcon = document.querySelector(`#${id} + button i`);
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('bi-eye-slash');
+            toggleIcon.classList.add('bi-eye');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('bi-eye');
+            toggleIcon.classList.add('bi-eye-slash');
+        }
+    }
+</script>
 
 <?php include('includes/footer.php'); ?>
