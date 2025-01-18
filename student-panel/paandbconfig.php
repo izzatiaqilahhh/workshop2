@@ -1,20 +1,22 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-// Database credentials
-$servername = "localhost"; // Change to your database server address if not localhost
-$username = "root";        // Replace with your MySQL username
-$password = "";            // Replace with your MySQL password
-$dbname = "workshop2";     // Replace with your database name
+$host = '10.147.20.14'; // ZeroTier IP of your friend's MySQL server
+$dbname = 'Workshop2';
+$port = '3306';
+$username = 'theha';
+$password = 'abc123';
 
-// Create connection using MySQLi
-$conn = new mysqli($servername, $username, $password, $dbname);
+$dsn = "mysql:host=$host;dbname=$dbname;port=$port;charset=utf8mb4";
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+try {
+    $mysql_pdo = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
+    // Connection successful message for debugging (optional)
+    //"Connected successfully to the MySQL database.";
+} catch (PDOException $e) {
+    error_log('MySQL database connection failed: ' . $e->getMessage());
+    echo 'Database connection failed. Please try again later.';
+    exit();
 }
-
-// Close the connection (optional, for good practice)
-//$conn->close();
-?>  
+?>

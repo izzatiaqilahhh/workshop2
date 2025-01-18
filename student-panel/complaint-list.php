@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('teahdbconfig.php');
+include('paandbconfig.php');
 
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
@@ -22,16 +23,16 @@ try {
 
     $student_id = $user['Student_ID'];
 
-    $stmt = $pdo->prepare("SELECT c.*, cs.Complaint_Status, cs.Description as Status_Description, cs.Date_Update_Status 
-                           FROM Complaint c 
-                           LEFT JOIN Complaint_Status cs ON c.Complaint_ID = cs.Complaint_ID 
-                           WHERE c.Student_ID = :Student_ID 
-                           ORDER BY c.Date_Created DESC");
-    $stmt->bindParam(':Student_ID', $student_id);
+    $stmt = $mysql_pdo->prepare("SELECT c.*, cs.Complaint_Status, cs.Description as Status_Description, cs.Date_Update_Status 
+                                 FROM Complaint c 
+                                 LEFT JOIN Complaint_Status cs ON c.Complaint_ID = cs.Complaint_ID 
+                                 WHERE c.Student_ID = :Student_ID 
+                                 ORDER BY c.Date_Created DESC");
+    $stmt->bindParam(':Student_ID', $student_id, PDO::PARAM_INT);
     $stmt->execute();
     $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echo 'Database connection failed: ' . $e->getMessage();
+    echo 'MySQL database connection failed: ' . htmlspecialchars($e->getMessage());
     exit();
 }
 ?>
