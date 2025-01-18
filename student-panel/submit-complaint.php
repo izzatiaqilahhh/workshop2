@@ -1,6 +1,7 @@
 <?php
 session_start();
-include('teahdbconfig.php'); // Include your database configuration file
+include('teahdbconfig.php'); // Include MariaDB config for student verification
+include('paandbconfig.php'); // Include MySQL config for complaint submission
 
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
@@ -8,7 +9,7 @@ if (!isset($_SESSION['student'])) {
     exit();
 }
 
-// Fetch student ID using matric number
+// Fetch student ID using matric number from MariaDB
 try {
     $stmt = $pdo->prepare("SELECT Student_ID, Room_ID FROM student WHERE Matric_No = :Matric_No");
     $stmt->bindParam(':Matric_No', $_SESSION['student']);
@@ -48,8 +49,8 @@ try {
             }
         }
 
-        // Insert complaint into the database
-        $stmt = $pdo->prepare("INSERT INTO Complaint (Complaint_Type, Complaint_Issue, Description, Image, Date_Created, Student_ID, Room_ID) VALUES (:Complaint_Type, :Complaint_Issue, :Description, :Image, :Date_Created, :Student_ID, :Room_ID)");
+        // Use MySQL connection to insert complaint into the database
+        $stmt = $mysql_pdo->prepare("INSERT INTO Complaint (Complaint_Type, Complaint_Issue, Description, Image, Date_Created, Student_ID, Room_ID) VALUES (:Complaint_Type, :Complaint_Issue, :Description, :Image, :Date_Created, :Student_ID, :Room_ID)");
         $stmt->bindParam(':Complaint_Type', $complaint_type);
         $stmt->bindParam(':Complaint_Issue', $issue_type);
         $stmt->bindParam(':Description', $description);
@@ -60,10 +61,10 @@ try {
         $stmt->execute();
         
         // Get the last inserted complaint ID
-        $complaint_id = $pdo->lastInsertId();
+        $complaint_id = $mysql_pdo->lastInsertId();
 
         // Insert initial status into the Complaint_Status table
-        $stmt = $pdo->prepare("INSERT INTO Complaint_Status (Complaint_ID, Complaint_Status, Description) VALUES (:Complaint_ID, 'Pending', NULL)");
+        $stmt = $mysql_pdo->prepare("INSERT INTO Complaint_Status (Complaint_ID, Complaint_Status, Description) VALUES (:Complaint_ID, 'Pending', NULL)");
         $stmt->bindParam(':Complaint_ID', $complaint_id);
         $stmt->execute();
 

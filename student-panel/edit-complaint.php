@@ -1,6 +1,7 @@
 <?php
 session_start();
-include('teahdbconfig.php'); // Include your database configuration file
+include('teahdbconfig.php'); // Include MariaDB config for student verification
+include('paandbconfig.php'); // Include MySQL config for complaint handling
 
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
@@ -8,7 +9,7 @@ if (!isset($_SESSION['student'])) {
     exit();
 }
 
-// Fetch student ID using matric number
+// Fetch student ID using matric number from MariaDB
 try {
     $stmt = $pdo->prepare("SELECT Student_ID FROM student WHERE Matric_No = :Matric_No");
     $stmt->bindParam(':Matric_No', $_SESSION['student']);
@@ -32,7 +33,7 @@ try {
 if (isset($_GET['complaint_id'])) {
     try {
         $complaint_id = $_GET['complaint_id'];
-        $stmt = $pdo->prepare("SELECT * FROM Complaint WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
+        $stmt = $mysql_pdo->prepare("SELECT * FROM Complaint WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
         $stmt->bindParam(':Complaint_ID', $complaint_id);
         $stmt->bindParam(':Student_ID', $student_id);
         $stmt->execute();
@@ -73,12 +74,12 @@ if (isset($_GET['complaint_id'])) {
     }
 
     try {
-        // Update complaint details
+        // Use MySQL connection to update complaint details
         if ($image) {
-            $stmt = $pdo->prepare("UPDATE Complaint SET Complaint_Type = :Complaint_Type, Complaint_Issue = :Complaint_Issue, Description = :Description, Image = :Image WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
+            $stmt = $mysql_pdo->prepare("UPDATE Complaint SET Complaint_Type = :Complaint_Type, Complaint_Issue = :Complaint_Issue, Description = :Description, Image = :Image WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
             $stmt->bindParam(':Image', $image, PDO::PARAM_LOB);
         } else {
-            $stmt = $pdo->prepare("UPDATE Complaint SET Complaint_Type = :Complaint_Type, Complaint_Issue = :Complaint_Issue, Description = :Description WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
+            $stmt = $mysql_pdo->prepare("UPDATE Complaint SET Complaint_Type = :Complaint_Type, Complaint_Issue = :Complaint_Issue, Description = :Description WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
         }
         $stmt->bindParam(':Complaint_Type', $complaint_type);
         $stmt->bindParam(':Complaint_Issue', $issue_type);

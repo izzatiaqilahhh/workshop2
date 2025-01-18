@@ -1,6 +1,6 @@
 <?php
 $host = getenv('DB_HOST') ?: '127.0.0.1'; // or your actual host, e.g., 'localhost'
-$dbname = getenv('DB_NAME') ?: 'utemhostelcomplaint'; // your actual database name
+$dbname = getenv('DB_NAME') ?: 'hostelcomplaint'; // your actual database name
 $username = getenv('DB_USER') ?: 'root'; // your actual database username
 $password = getenv('DB_PASS') ?: 'password'; // your actual database password
 

@@ -1,6 +1,7 @@
 <?php
 session_start();
-include('teahdbconfig.php'); // Include your database configuration file
+include('teahdbconfig.php'); // Include MariaDB config for student verification
+include('paandbconfig.php'); // Include MySQL config for complaint handling
 
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
@@ -8,7 +9,7 @@ if (!isset($_SESSION['student'])) {
     exit();
 }
 
-// Fetch student ID using matric number
+// Fetch student ID using matric number from MariaDB
 try {
     $stmt = $pdo->prepare("SELECT Student_ID FROM student WHERE Matric_No = :Matric_No");
     $stmt->bindParam(':Matric_No', $_SESSION['student']);
@@ -33,28 +34,28 @@ if (isset($_GET['complaint_id'])) {
 
     try {
         // Start a transaction
-        $pdo->beginTransaction();
+        $mysql_pdo->beginTransaction();
 
-        // Delete related entries from Complaint_Status
-        $stmt = $pdo->prepare("DELETE FROM Complaint_Status WHERE Complaint_ID = :Complaint_ID");
+        // Delete related entries from Complaint_Status in MySQL
+        $stmt = $mysql_pdo->prepare("DELETE FROM Complaint_Status WHERE Complaint_ID = :Complaint_ID");
         $stmt->bindParam(':Complaint_ID', $complaint_id);
         $stmt->execute();
 
-        // Delete the complaint
-        $stmt = $pdo->prepare("DELETE FROM Complaint WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
+        // Delete the complaint in MySQL
+        $stmt = $mysql_pdo->prepare("DELETE FROM Complaint WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
         $stmt->bindParam(':Complaint_ID', $complaint_id);
         $stmt->bindParam(':Student_ID', $student_id);
         $stmt->execute();
 
         // Commit the transaction
-        $pdo->commit();
+        $mysql_pdo->commit();
 
         $_SESSION['success'] = 'Complaint deleted successfully.';
         header('Location: complaint-list.php');
         exit();
     } catch (PDOException $e) {
         // Rollback the transaction on error
-        $pdo->rollBack();
+        $mysql_pdo->rollBack();
         $_SESSION['error'] = 'Database error: ' . $e->getMessage();
         header('Location: complaint-list.php');
         exit();
