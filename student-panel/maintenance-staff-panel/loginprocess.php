@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('teahdbconfig.php'); // Include your database configuration file
+include 'ainaconnection.php'; // Include your database configuration file
 
 if (isset($_POST['loginBtn'])) {
     $worker_no = $_POST['Worker_No'];
@@ -11,14 +11,12 @@ if (isset($_POST['loginBtn'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-    // Ensure $pdo is defined
-    if (!isset($pdo)) {
-        $_SESSION['error'] = 'Database connection is not established!';
-        header('Location: maintenanceStaffLogin.php');
-        exit();
-    }
-
     try {
+        // Check if the $pdo object is defined
+        if (!isset($pdo)) {
+            throw new Exception('Database connection is not established!');
+        }
+
         // Prepare and execute the query
         $stmt = $pdo->prepare('SELECT * FROM maintenance_worker WHERE Worker_No = :Worker_No');
         $stmt->bindParam(':Worker_No', $worker_no);
@@ -34,7 +32,7 @@ if (isset($_POST['loginBtn'])) {
             if (password_verify($password, $user['Password'])) {
                 // Password is already hashed and verified
                 $_SESSION['maintenance_staff'] = $user['Worker_No'];
-                error_log('You have successfully logged in: ' . $_SESSION['maintenance_staff']);
+                error_log('You have successfully logged in: ' . $_SESSION['maintenance_worker']);
                 header('Location: dashboard.php');
                 exit();
             } elseif ($user['Password'] === $password) {
@@ -64,6 +62,10 @@ if (isset($_POST['loginBtn'])) {
         // Handle database connection errors
         $_SESSION['error'] = 'Database connection failed!';
         error_log('Database connection failed!: ' . $e->getMessage());
+    } catch (Exception $e) {
+        // Handle other errors
+        $_SESSION['error'] = $e->getMessage();
+        error_log('Error: ' . $e->getMessage());
     }
 
     // Redirect back to the login page with an error message
