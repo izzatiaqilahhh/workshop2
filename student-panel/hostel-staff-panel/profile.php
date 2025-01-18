@@ -3,27 +3,29 @@ session_start();
 
 // Check if the user is logged in
 if (!isset($_SESSION['hostel_staff'])) {
-    // If not logged in, redirect to the login page
     header("Location: hostelStaffLogin.php");
     exit();
 }
 
-// Include database configuration and functions
-include('teahdbconfig.php');
+// Include database configuration and fetch user data
+include('qiladbcon.php');
 
-// Fetch user-specific data
 try {
-    // Fetch user profile information
-    $stmt = $pdo->prepare('SELECT * FROM hostel_staff WHERE Staff_No = :Staff_No');
-    $stmt->bindParam(':Staff_No', $_SESSION['hostel_staff']);
+    $stmt = $pdo->prepare('SELECT * FROM hostel_staff WHERE staff_no = :staff_no');
+    $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+        echo "User not found!";
+        exit();
+    }
 } catch (PDOException $e) {
-    echo 'Database connection failed: ' . $e->getMessage();
+    echo 'Database query failed: ' . $e->getMessage();
     exit();
 }
 
-include('includes/header-.php'); 
+include('includes/header-.php');
 ?>
 
 <title>e-HRCS - My Profile</title>
@@ -33,7 +35,7 @@ include('includes/header-.php');
     <div class="container">
 
         <!-- Page Header -->
-        <div class="d-md-flex d-block align-items-center justify-content-between my-4  page-header-breadcrumb">
+        <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
             <h1 class="page-title fw-semibold fs-22 mb-0">Profile</h1>
             <div class="ms-md-1 ms-0">
                 <nav>
@@ -53,7 +55,7 @@ include('includes/header-.php');
             </a>
         </div>
 
-        <!-- Row 1 -->
+        <!-- Row 1: Profile Details -->
         <div class="row">
             <form action="update-profile.php" method="POST">
                 <div class="card custom-card">
@@ -67,25 +69,25 @@ include('includes/header-.php');
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label>Staff Name</label>
-                                    <input type="text" name="name" value="<?php echo htmlspecialchars($user['Name']); ?>" required class="form-control">
+                                    <input type="text" name="name" value="<?php echo htmlspecialchars($user['name']); ?>" required class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label>Staff Number</label>
-                                    <input type="text" name="staffno" value="<?php echo htmlspecialchars($user['Staff_No']); ?>" required class="form-control" readonly>
+                                    <input type="text" name="staffno" value="<?php echo htmlspecialchars($user['staff_no']); ?>" required class="form-control" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label>Email Address</label>
-                                    <input type="email" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>" required class="form-control">
+                                    <input type="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label>Phone Number</label>
-                                    <input type="text" name="phone" value="<?php echo htmlspecialchars($user['Phone_No']); ?>" required class="form-control">
+                                    <input type="text" name="phone" value="<?php echo htmlspecialchars($user['phone_no']); ?>" required class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -99,9 +101,9 @@ include('includes/header-.php');
             </form>
         </div>
 
-        <!-- Row 2 -->
+        <!-- Row 2: Change Password -->
         <div class="row">
-            <form action="your-password-action.php" method="POST">
+            <form action="change-password.php" method="POST">
                 <div class="card custom-card">
                     <div class="card-header">
                         <div class="card-title">
@@ -112,17 +114,23 @@ include('includes/header-.php');
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label>Password</label>
-                                    <input type="password" name="password" required class="form-control">
+                                    <label>Current Password</label>
+                                    <input type="password" name="current_password" required class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label>Confirm Password</label>
-                                    <input type="password" name="cpassword" required class="form-control">
+                                    <label>New Password</label>
+                                    <input type="password" name="new_password" required class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label>Retype New Password</label>
+                                    <input type="password" name="confirm_password" required class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
                                 <div class="mb-3">
                                     <button type="submit" name="editProfile1" class="btn btn-primary">Save Changes</button>
                                 </div>

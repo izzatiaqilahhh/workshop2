@@ -37,14 +37,14 @@ include 'includes/header-.php';
                 </thead>
                 <tbody>
                     <?php
-                    // Query to fetch maintenance worker details
+                    // Query to fetch maintenance worker details using PDO
                     $query = 'SELECT "worker_no", "name", "phone_no", "specialization", "email", "worker_id"
                               FROM "maintenance_worker"';
-                    $result = pg_query($connection, $query); // PostgreSQL query execution
+                    $stmt = $pdo->query($query);
 
-                    if ($result) {
+                    if ($stmt) {
                         $counter = 1;
-                        while ($staff_member = pg_fetch_assoc($result)) {
+                        while ($staff_member = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     ?>
                             <tr>
                                 <td><?= $counter++; ?></td>

@@ -123,9 +123,9 @@
                                     </svg>
                                 </div>
                                 <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p> <!-- Display Full Name -->
-                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span> <!-- Display Email -->
-                            </div>
+                                    <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['name']); ?></p> <!-- Display Full Name -->
+                                    <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['email']); ?></span> <!-- Display Email -->
+                                </div>
                         </a>
 
                         <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
@@ -171,6 +171,14 @@
                             </a>
                         </li>
 
+                        <!-- Slide -->
+                        <li class="slide">
+                            <a href="statistics_analysis.php" class="side-menu__item">
+                                <i class='bx bx-bar-chart-alt-2 side-menu__icon'></i>
+                                <span class="side-menu__label">Statistics & Analysis</span>
+                            </a>
+                        </li>
+
                         <!-- Slide Category -->
                         <li class="slide__category"><span class="category-name">Complaint Management</span></li>
 
@@ -178,7 +186,7 @@
                         <li class="slide">
                             <a href="view-complaint.php" class="side-menu__item">
                                 <i class='bx bx-detail side-menu__icon'></i>
-                                <span class="side-menu__label">Complaint List</span>
+                                <span class="side-menu__label">Pending Complaint</span>
                             </a>
                         </li>
 
@@ -203,25 +211,17 @@
 
                         <!-- Slide -->
                         <li class="slide">
-                            <a href="view-maintenance-staff.php" class="side-menu__item">
-                                <i class='bx bxs-user side-menu__icon'></i>
-                                <span class="side-menu__label">Maintenance Staff</span>
-                            </a>
-                        </li>
-
-                        <!-- Slide -->
-                        <li class="slide">
                             <a href="view-hostel-staff.php" class="side-menu__item">
-                                <i class='bx bxs-user-rectangle side-menu__icon'></i>
+                            <i class='bx bxs-user side-menu__icon'></i>
                                 <span class="side-menu__label">Hostel Staff</span>
                             </a>
                         </li>
 
                         <!-- Slide -->
                         <li class="slide">
-                            <a href="statistics_analysis.php" class="side-menu__item">
-                                <i class='bx bx-bar-chart-alt-2 side-menu__icon'></i>
-                                <span class="side-menu__label">Statistics & Analysis</span>
+                            <a href="view-maintenance-staff.php" class="side-menu__item">
+                                <i class='bx bxs-user-rectangle side-menu__icon'></i>
+                                <span class="side-menu__label">Maintenance Staff</span>
                             </a>
                         </li>
 

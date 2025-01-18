@@ -6,24 +6,28 @@ include 'includes/header-.php';
 // Handle Assign Complaint form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
     $complaint_id = intval($_POST['complaint_id']);
-    $worker_id = pg_escape_string($connection, $_POST['assigned_to'] ?? '');
-    $remarks = pg_escape_string($connection, $_POST['remarks'] ?? '');
+    $worker_id = $_POST['assigned_to'] ?? '';
+    $remarks = $_POST['remarks'] ?? '';
 
     if (!empty($complaint_id) && !empty($worker_id)) {
-        // Insert into Complaint_Assignment table
-        $assign_query = "INSERT INTO \"Complaint_Assignment\" (\"Complaint_Id\", \"Worker_Id\", \"Remarks\") 
-                         VALUES ($complaint_id, $worker_id, '$remarks')";
-        if (pg_query($connection, $assign_query)) {
+        try {
+            // Insert into Complaint_Assignment table
+            $assign_query = $pdo->prepare("INSERT INTO \"Complaint_Assignment\" (\"Complaint_Id\", \"Worker_Id\", \"Remarks\") 
+                                           VALUES (:complaint_id, :worker_id, :remarks)");
+            $assign_query->execute([
+                ':complaint_id' => $complaint_id,
+                ':worker_id' => $worker_id,
+                ':remarks' => $remarks
+            ]);
+
             // Insert into Complaint_Status table
-            $status_query = "INSERT INTO \"Complaint_Status\" (\"Complaint_Status\", \"Description\", \"Date_Update_Status\", \"Complaint_ID\") 
-                             VALUES ('Assigned', 'Complaint has been assigned to a worker', NOW(), $complaint_id)";
-            if (pg_query($connection, $status_query)) {
-                echo "<script>alert('Complaint assigned successfully, and status updated!');</script>";
-            } else {
-                echo "<script>alert('Complaint assigned, but failed to update status: " . pg_last_error($connection) . "');</script>";
-            }
-        } else {
-            echo "<script>alert('Error assigning complaint: " . pg_last_error($connection) . "');</script>";
+            $status_query = $pdo->prepare("INSERT INTO \"Complaint_Status\" (\"Complaint_Status\", \"Description\", \"Date_Update_Status\", \"Complaint_ID\") 
+                                           VALUES ('Assigned', 'Complaint has been assigned to a worker', NOW(), :complaint_id)");
+            $status_query->execute([':complaint_id' => $complaint_id]);
+
+            echo "<script>alert('Complaint assigned successfully, and status updated!');</script>";
+        } catch (PDOException $e) {
+            echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
         }
     } else {
         echo "<script>alert('Please fill in all required fields.');</script>";
@@ -38,7 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
 
         <!-- Page Header -->
         <div class="d-md-flex d-block align-items-center justify-content-between mb-2 my-4 page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-22 mb-0">Complaint Management</h1>
+            <h1 class="page-title fw-semibold fs-22 mb-0">Pending Complaint Management</h1>
+            <div class="ms-md-1 ms-0">
+                <nav>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="view-complaint.php"> Pending Complaint Management</a></li>
+                    </ol>
+                </nav>
+            </div>
         </div>
 
         <!-- Complaints Table -->
@@ -67,10 +78,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                         WHERE ca.\"complaint_id\" = c.\"complaint_id\"
                     )";
 
-                    $result = pg_query($connection, $query);
+                    $result = $pdo->query($query);
                     $counter = 1;
 
-                    while ($complaint = pg_fetch_assoc($result)) {
+                    while ($complaint = $result->fetch(PDO::FETCH_ASSOC)) {
                     ?>
                         <tr>
                             <td><?= $counter++; ?></td>
@@ -115,8 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                             <?php
                             // Fetching maintenance workers for assignment
                             $worker_query = "SELECT \"Worker_Id\", \"Name\", \"Specialization\" FROM \"Maintenance_Worker\"";
-                            $worker_result = pg_query($connection, $worker_query);
-                            while ($worker = pg_fetch_assoc($worker_result)) {
+                            $worker_result = $pdo->query($worker_query);
+                            while ($worker = $worker_result->fetch(PDO::FETCH_ASSOC)) {
                                 echo "<option value='" . htmlspecialchars($worker['Worker_Id']) . "'>" . htmlspecialchars($worker['Name']) . " - " . htmlspecialchars($worker['Specialization']) . "</option>";
                             }
                             ?>

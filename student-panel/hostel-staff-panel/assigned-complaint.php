@@ -2,7 +2,7 @@
 include('qiladbcon.php');
 include('includes/header-.php');
 
-// Fetch data from the Complaint_Status table
+// Fetch data from the Complaint_Status table using PDO
 $query = "
     SELECT cs.*, c.complaint_type, w.name, m.company_name
     FROM complaint_status cs
@@ -11,7 +11,14 @@ $query = "
     JOIN maintenance_worker w ON ca.worker_id = w.worker_id
     JOIN maintenance_company m ON w.company_id = m.company_id;
 ";
-$result = pg_query($connection, $query); // Using pg_query for PostgreSQL
+
+try {
+    $stmt = $pdo->query($query); // Using PDO query
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all results as associative array
+} catch (PDOException $e) {
+    echo 'Query failed: ' . $e->getMessage();
+    exit;
+}
 ?>
 
 <title>e-HRCS - Assigned Complaint Management</title>
@@ -49,9 +56,9 @@ $result = pg_query($connection, $query); // Using pg_query for PostgreSQL
                 <tbody>
                     <?php
                     // Check if there are records
-                    if (pg_num_rows($result) > 0) {
+                    if (count($result) > 0) {
                         $counter = 1; // Initialize row counter
-                        while ($row = pg_fetch_assoc($result)) {
+                        foreach ($result as $row) {
                             $statusClass = '';
                             if (strcasecmp($row['complaint_status'], 'In Progress') === 0) {
                                 $statusClass = 'text-warning fw-bold'; // Highlight with yellow color
@@ -71,7 +78,7 @@ $result = pg_query($connection, $query); // Using pg_query for PostgreSQL
                             $counter++;
                         }
                     } else {
-                        echo "<tr><td colspan='9' class='text-center'>No records found</td></tr>";
+                        echo "<tr><td colspan='8' class='text-center'>No records found</td></tr>";
                     }
                     ?>
                 </tbody>
