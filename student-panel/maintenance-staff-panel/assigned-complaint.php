@@ -1,10 +1,13 @@
 <?php 
+// Include the header
 include('includes/header-.php'); 
-include 'ainaconnection.php'; ?>
+
+// Include the database connection file
+include 'ainaconnection.php'; 
 
 // Fetch data from the database
 $query = "SELECT * FROM complaint_assignment";
-$result = mysqli_query($conn, $query); 
+$stmt = $pdo->query($query);
 
 ?>
 <title>e-HRCS - Assigned Complaint Management</title>
@@ -41,25 +44,25 @@ $result = mysqli_query($conn, $query);
                 </thead>
                 <tbody>
                     <?php
-                    if ($result && mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
+                    if ($stmt->rowCount() > 0) {
+                        while ($row = $stmt->fetch()) {
                             echo "<tr>
-                                <td>{$row['Assignment_Id']}</td>
-                                <td>{$row['Complaint_Id']}</td>
-                                <td>{$row['Worker_Id']}</td>
-                                <td>{$row['Date_Assigned']}</td>
-                                <td>" . ($row['Date_Resolved'] ? $row['Date_Resolved'] : 'N/A') . "</td>
-                                <td>{$row['Status']}</td>
-                                <td>{$row['Remarks']}</td>
+                                <td>" . htmlspecialchars($row['Assignment_Id']) . "</td>
+                                <td>" . htmlspecialchars($row['Complaint_Id']) . "</td>
+                                <td>" . htmlspecialchars($row['Worker_Id']) . "</td>
+                                <td>" . htmlspecialchars($row['Date_Assigned']) . "</td>
+                                <td>" . htmlspecialchars($row['Date_Resolved'] ? $row['Date_Resolved'] : 'N/A') . "</td>
+                                <td>" . htmlspecialchars($row['Status']) . "</td>
+                                <td>" . htmlspecialchars($row['Remarks']) . "</td>
                                 <td>
                                     <form method='POST' action='update_assignment.php'>
-                                        <input type='hidden' name='assignment_id' value='{$row['Assignment_Id']}'>
+                                        <input type='hidden' name='assignment_id' value='" . htmlspecialchars($row['Assignment_Id']) . "'>
                                         <select name='status' class='form-control mb-2'>
                                             <option value='Pending'" . ($row['Status'] == 'Pending' ? ' selected' : '') . ">Pending</option>
                                             <option value='In Progress'" . ($row['Status'] == 'In Progress' ? ' selected' : '') . ">In Progress</option>
                                             <option value='Resolved'" . ($row['Status'] == 'Resolved' ? ' selected' : '') . ">Resolved</option>
                                         </select>
-                                        <input type='text' name='remarks' class='form-control mb-2' placeholder='Add remarks (optional)' value='{$row['Remarks']}'>
+                                        <input type='text' name='remarks' class='form-control mb-2' placeholder='Add remarks (optional)' value='" . htmlspecialchars($row['Remarks']) . "'>
                                         <button type='submit' class='btn btn-success btn-sm'>Update</button>
                                     </form>
                                 </td>

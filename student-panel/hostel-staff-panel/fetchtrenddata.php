@@ -30,4 +30,3 @@ echo json_encode([
     'dates' => $dates,
     'counts' => $counts
 ]);
-?>

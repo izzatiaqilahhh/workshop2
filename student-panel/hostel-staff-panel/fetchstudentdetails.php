@@ -23,4 +23,3 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
 } else {
     echo json_encode(['error' => 'Invalid action']);
 }
-?>

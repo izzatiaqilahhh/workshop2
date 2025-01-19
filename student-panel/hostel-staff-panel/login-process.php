@@ -37,6 +37,9 @@ if (isset($_POST['loginBtn'])) {
             if ($password === $user['password']) {
                 // Password is correct, start the session
                 $_SESSION['hostel_staff'] = $user['staff_no'];
+                $_SESSION['name'] = $user['name'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['phone_no'] = $user['phone_no'];
                 error_log('You have successfully logged in.: ' . $_SESSION['hostel_staff']);
                 header('Location: dashboard.php');
                 exit();

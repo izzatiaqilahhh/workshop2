@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('teahdbconfig.php'); // Include your database configuration file
+include('ainaconnection.php'); // Include your database configuration file
 
 if (!isset($_SESSION['maintenance_staff'])) {
     header('HTTP/1.1 401 Unauthorized');

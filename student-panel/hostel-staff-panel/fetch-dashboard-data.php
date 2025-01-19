@@ -1,31 +1,31 @@
 <!-- <?php
-include('qiladbcon.php');
+        include('qiladbcon.php');
 
-try {
-    // Fetch counts for the dashboard
-    $totalComplaintStmt = $pdo->query('SELECT COUNT(*) FROM complaint');
-    $totalComplaint = $totalComplaintStmt->fetchColumn();
+        try {
+            // Fetch counts for the dashboard
+            $totalComplaintStmt = $pdo->query('SELECT COUNT(*) FROM complaint');
+            $totalComplaint = $totalComplaintStmt->fetchColumn();
 
-    $totalStudentStmt = $pdo->query('SELECT COUNT(*) FROM student');
-    $totalStudent = $totalStudentStmt->fetchColumn();
+            $totalStudentStmt = $pdo->query('SELECT COUNT(*) FROM student');
+            $totalStudent = $totalStudentStmt->fetchColumn();
 
-    $totalHostelStaffStmt = $pdo->query('SELECT COUNT(*) FROM hostel_staff');
-    $totalHostelStaff = $totalHostelStaffStmt->fetchColumn();
+            $totalHostelStaffStmt = $pdo->query('SELECT COUNT(*) FROM hostel_staff');
+            $totalHostelStaff = $totalHostelStaffStmt->fetchColumn();
 
-    $totalMaintenanceStaffStmt = $pdo->query('SELECT COUNT(*) FROM maintenance_worker');
-    $totalMaintenanceStaff = $totalMaintenanceStaffStmt->fetchColumn();
+            $totalMaintenanceStaffStmt = $pdo->query('SELECT COUNT(*) FROM maintenance_worker');
+            $totalMaintenanceStaff = $totalMaintenanceStaffStmt->fetchColumn();
 
-    // Return data as JSON
-    echo json_encode([
-        'totalComplaint' => $totalComplaint,
-        'totalStudent' => $totalStudent,
-        'totalHostelStaff' => $totalHostelStaff,
-        'totalMaintenanceStaff' => $totalMaintenanceStaff,
-    ]);
-} catch (PDOException $e) {
-    echo json_encode(['error' => $e->getMessage()]);
-}
-?>
+            // Return data as JSON
+            echo json_encode([
+                'totalComplaint' => $totalComplaint,
+                'totalStudent' => $totalStudent,
+                'totalHostelStaff' => $totalHostelStaff,
+                'totalMaintenanceStaff' => $totalMaintenanceStaff,
+            ]);
+        } catch (PDOException $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+        ?>
 
 <?php
 session_start();
