@@ -50,21 +50,6 @@ try {
     echo "Connection failed: " . $e->getMessage();
 }
 
-<<<<<<< HEAD
-// Close the connection (optional, for good practice)
-//$conn->close();
-=======
-
-
-
-
-
-
-
-
-
-
-
 /*error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -159,4 +144,3 @@ try {
 }*/
 
 ?>
->>>>>>> ea15f5d4 (update)
