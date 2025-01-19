@@ -1,6 +1,6 @@
 <?php
-session_start();
 
+include('includes/header-.php');
 // Check if the user is logged in
 if (!isset($_SESSION['hostel_staff'])) {
     // If not logged in, redirect to the login page
@@ -34,8 +34,6 @@ try {
     exit();
 }
 ?>
-
-<?php include('includes/header-.php'); ?>
 
 <title>e-HRCS - Dashboard Overview</title>
 

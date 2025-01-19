@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="gradient" data-toggled="close">
+<?php
+session_start();
+?>
 
 <head>
 
@@ -30,11 +33,6 @@
     <!-- Choices Css -->
     <link rel="stylesheet" href="../assets/libs/choices.js/public/assets/styles/choices.min.css">
 
-    <!-- DataTables CSS
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.7/css/buttons.bootstrap5.min.css"> -->
-
     <!-- Style Css -->
     <link href="../assets/css/styles.min.css" rel="stylesheet">
 
@@ -44,12 +42,40 @@
     <!-- Main Theme JS -->
     <script src="../assets/js/main.js"></script>
 
-    <!-- jQuery and Other Libraries -->
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+
+    <!-- DataTables Buttons extension -->
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+
+    <!-- Required libraries for Excel and PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
+    <!-- DataTables Column Visibility (ColVis) -->
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.colVis.min.js"></script>
 
     <style>
+        .dataTables_wrapper .dt-buttons {
+            margin-bottom: 20px;
+            /* Adds space below the buttons */
+        }
+
         @media print {
             @page {
                 width: 100%;
@@ -123,8 +149,8 @@
                                     </svg>
                                 </div>
                                 <div class="d-sm-block d-none">
-                                    <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['name']); ?></p> <!-- Display Full Name -->
-                                    <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['email']); ?></span> <!-- Display Email -->
+                                    <p class="fw-semibold mb-0 lh-1"><?= $_SESSION['name'] ?></p> <!-- Display Full Name -->
+                                    <span class="op-7 fw-normal d-block fs-11"><?= $_SESSION['email'] ?></span> <!-- Display Email -->
                                 </div>
                         </a>
 
@@ -212,7 +238,7 @@
                         <!-- Slide -->
                         <li class="slide">
                             <a href="view-hostel-staff.php" class="side-menu__item">
-                            <i class='bx bxs-user side-menu__icon'></i>
+                                <i class='bx bxs-user side-menu__icon'></i>
                                 <span class="side-menu__label">Hostel Staff</span>
                             </a>
                         </li>

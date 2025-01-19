@@ -151,4 +151,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
     });
 </script>
 
+<script>
+    $(document).ready(function() {
+        let table = new DataTable('.table', {
+            dom: 'Bfrtip', // To specify where the buttons should be placed
+            buttons: [{
+                    extend: 'excelHtml5', // Export to Excel
+                    title: 'Data Export'
+                },
+                {
+                    extend: 'pdfHtml5', // Export to PDF
+                    title: 'Data Export'
+                },
+                {
+                    extend: 'print', // Export to PDF
+                    title: 'Data Export'
+                }
+            ]
+        });
+    });
+</script>
+
+
 <?php include('includes/footer-.php'); ?>

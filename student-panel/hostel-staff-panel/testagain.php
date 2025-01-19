@@ -15,6 +15,7 @@ $result = $conn->query($sql);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,15 +26,21 @@ $result = $conn->query($sql);
             margin: 20px auto;
             border-collapse: collapse;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid black;
         }
-        th, td {
+
+        th,
+        td {
             padding: 10px;
             text-align: left;
         }
     </style>
 </head>
+
 <body>
     <h1 style="text-align: center;">Block Table Data</h1>
     <table>
@@ -66,6 +73,7 @@ $result = $conn->query($sql);
         </tbody>
     </table>
 </body>
+
 </html>
 
 <?php

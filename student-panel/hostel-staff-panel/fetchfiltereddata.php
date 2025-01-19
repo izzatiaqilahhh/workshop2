@@ -28,4 +28,3 @@ $result = $conn->query($query);
 $data = $result->fetch_assoc();
 
 echo json_encode($data);
-?>

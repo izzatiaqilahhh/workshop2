@@ -13,7 +13,8 @@ if (!isset($_SESSION['hostel_staff'])) {
 include('qiladbcon.php');
 
 // Function to sanitize input data
-function sanitizeInput($data) {
+function sanitizeInput($data)
+{
     return htmlspecialchars(stripslashes(trim($data)));
 }
 
@@ -70,4 +71,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: profile.php");
     exit();
 }
-?>
