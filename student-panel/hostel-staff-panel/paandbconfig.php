@@ -3,25 +3,64 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Database credentials
-$servername = "localhost"; // Change to your database server address if not localhost
-$username = "root";        // Replace with your MySQL username
-$password = "";            // Replace with your MySQL password
-$dbname = "WS2";           // Replace with your database name
+$dsn = "pgsql:host=10.147.20.11;dbname=ehrcs"; // Data Source Name
+$user = "paan";        // Replace with your PostgreSQL username
+$password = "password"; // Replace with your PostgreSQL password
 
-// Create connection using MySQLi
-$conn = new mysqli($servername, $username, $password, $dbname);
+try {
+    // Create a PDO instance
+    $conn = new PDO($dsn, $user, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connection successful!<br>";
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} else {
-    echo "Connection successful!";
+    // Table to query
+    $tableName = "complaint"; // Replace with your table name
+
+    // Query to fetch all data from the table
+    $query = "SELECT * FROM $tableName";
+
+    // Prepare and execute the query
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+
+    // Fetch all rows as an associative array
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Check if the table contains any data
+    if (!empty($result)) {
+        // Display the results
+        echo "<table border='1' cellpadding='5' cellspacing='0'>";
+        echo "<tr>";
+        foreach (array_keys($result[0]) as $column) {
+            echo "<th>$column</th>";
+        }
+        echo "</tr>";
+        foreach ($result as $row) {
+            echo "<tr>";
+            foreach ($row as $cell) {
+                echo "<td>$cell</td>";
+            }
+            echo "</tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "The table '$tableName' is empty.";
+    }
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
 }
 
 <<<<<<< HEAD
 // Close the connection (optional, for good practice)
 //$conn->close();
 =======
+
+
+
+
+
+
+
 
 
 
