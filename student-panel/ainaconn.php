@@ -1,6 +1,6 @@
 <?php
 $host = '10.147.20.16'; // ZeroTier IP of your friend's MySQL server
-$dbname = 'utemhostelcomplaint';
+$dbname = 'hostelcomplaint';
 $port = '3306';
 $username = 'tehah';
 $password = 'password123';

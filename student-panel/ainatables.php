@@ -1,7 +1,7 @@
 <?php
 $host = '10.147.20.16';
 $port = '3306';
-$dbname = 'utemhostelcomplaint';
+$dbname = 'hostelcomplaint';
 $user = 'tehah';
 $password = 'password123';
 
