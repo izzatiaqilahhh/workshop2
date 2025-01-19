@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('teahdbconfig.php');
-include('paandbconfig.php');
+include('paanconn.php');
 
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
