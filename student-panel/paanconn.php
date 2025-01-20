@@ -13,7 +13,7 @@ try {
         PDO::ATTR_EMULATE_PREPARES => false,
     ]);
     // Connection successful message for debugging (optional)
-    //"Connected successfully to the MySQL database.";
+    echo "Connected successfully to the MySQL database.";
 } catch (PDOException $e) {
     error_log('MySQL database connection failed: ' . $e->getMessage());
     echo 'Database connection failed. Please try again later.';

@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('teahdbconfig.php'); // Include MariaDB config for student verification
-include('paandbconfig.php'); // Include MySQL config for complaint handling
+include('paanconn.php'); // Include MySQL config for complaint handling
 
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
