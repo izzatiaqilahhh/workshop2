@@ -1,7 +1,7 @@
 <?php
 session_start();
-include('teahdbconfig.php'); // Include MariaDB config for student verification
-include('paanconn.php'); // Include MySQL config for complaint handling
+include('teahdbconfig.php');
+include('paanconn.php');
 
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
@@ -9,96 +9,64 @@ if (!isset($_SESSION['student'])) {
     exit();
 }
 
-// Fetch student ID using matric number from MariaDB
+// Fetch user-specific data
 try {
-    $stmt = $pdo->prepare("SELECT Student_ID FROM student WHERE Matric_No = :Matric_No");
+    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
     $stmt->bindParam(':Matric_No', $_SESSION['student']);
     $stmt->execute();
-    $student = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$student) {
-        $_SESSION['error'] = 'Student not found.';
-        header('Location: complaint-list.php');
+    if (!$user) {
+        echo 'User not found';
         exit();
     }
 
-    $student_id = $student['Student_ID'];
+    // Check if complaint_id is provided
+    if (!isset($_GET['complaint_id'])) {
+        echo 'Complaint ID not provided';
+        exit();
+    }
+
+    $complaint_id = $_GET['complaint_id'];
+
+    // Fetch complaint data
+    $stmt = $mysql_pdo->prepare('SELECT * FROM complaint WHERE complaint_id = :complaint_id AND student_id = :student_id');
+    $stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+    $stmt->bindParam(':student_id', $user['Student_ID'], PDO::PARAM_INT);
+    $stmt->execute();
+    $complaint = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$complaint) {
+        echo 'Complaint not found or access denied';
+        exit();
+    }
+
+    // Update complaint
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $complaintType = $_POST['complaint-type'];
+        $issueType = $_POST['issue-type'];
+        $description = $_POST['complaint-description'];
+
+        // Handle image upload
+        $image = $complaint['image'];
+        if (isset($_FILES['complaint-image']) && $_FILES['complaint-image']['error'] == UPLOAD_ERR_OK) {
+            $image = file_get_contents($_FILES['complaint-image']['tmp_name']);
+        }
+
+        $stmt = $mysql_pdo->prepare('UPDATE complaint SET complaint_type = :complaint_type, complaint_issue = :complaint_issue, description = :description, image = :image WHERE complaint_id = :complaint_id');
+        $stmt->bindParam(':complaint_type', $complaintType);
+        $stmt->bindParam(':complaint_issue', $issueType);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':image', $image, PDO::PARAM_LOB);
+        $stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        header("Location: complaint-list.php");
+        exit();
+    }
+
 } catch (PDOException $e) {
-    $_SESSION['error'] = 'Database error: ' . $e->getMessage();
-    header('Location: complaint-list.php');
-    exit();
-}
-
-// Fetch complaint details for editing
-if (isset($_GET['complaint_id'])) {
-    try {
-        $complaint_id = $_GET['complaint_id'];
-        $stmt = $mysql_pdo->prepare("SELECT * FROM Complaint WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
-        $stmt->bindParam(':Complaint_ID', $complaint_id);
-        $stmt->bindParam(':Student_ID', $student_id);
-        $stmt->execute();
-        $complaint = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$complaint) {
-            $_SESSION['error'] = 'Complaint not found.';
-            header('Location: complaint-list.php');
-            exit();
-        }
-    } catch (PDOException $e) {
-        $_SESSION['error'] = 'Database error: ' . $e->getMessage();
-        header('Location: complaint-list.php');
-        exit();
-    }
-} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Update complaint details
-    $complaint_id = $_POST['complaint-id'];
-    $complaint_type = $_POST['complaint-type'];
-    $issue_type = $_POST['issue-type'];
-    $description = $_POST['complaint-description'];
-    $image = null;
-
-    // Handle file upload
-    if (isset($_FILES['complaint-image']) && $_FILES['complaint-image']['error'] === UPLOAD_ERR_OK) {
-        $file_tmp = $_FILES['complaint-image']['tmp_name'];
-        $file_type = $_FILES['complaint-image']['type'];
-        $file_size = $_FILES['complaint-image']['size'];
-
-        // Validate file type and size (e.g., max 5MB)
-        if (in_array($file_type, ['image/jpeg', 'image/png', 'image/gif']) && $file_size <= 5 * 1024 * 1024) {
-            $image = file_get_contents($file_tmp);
-        } else {
-            $_SESSION['error'] = 'Invalid file type or size.';
-            header('Location: edit-complaint.php?complaint_id=' . $complaint_id);
-            exit();
-        }
-    }
-
-    try {
-        // Use MySQL connection to update complaint details
-        if ($image) {
-            $stmt = $mysql_pdo->prepare("UPDATE Complaint SET Complaint_Type = :Complaint_Type, Complaint_Issue = :Complaint_Issue, Description = :Description, Image = :Image WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
-            $stmt->bindParam(':Image', $image, PDO::PARAM_LOB);
-        } else {
-            $stmt = $mysql_pdo->prepare("UPDATE Complaint SET Complaint_Type = :Complaint_Type, Complaint_Issue = :Complaint_Issue, Description = :Description WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
-        }
-        $stmt->bindParam(':Complaint_Type', $complaint_type);
-        $stmt->bindParam(':Complaint_Issue', $issue_type);
-        $stmt->bindParam(':Description', $description);
-        $stmt->bindParam(':Complaint_ID', $complaint_id);
-        $stmt->bindParam(':Student_ID', $student_id);
-        $stmt->execute();
-
-        $_SESSION['success'] = 'Complaint updated successfully.';
-        header('Location: complaint-list.php');
-        exit();
-    } catch (PDOException $e) {
-        $_SESSION['error'] = 'Database error: ' . $e->getMessage();
-        header('Location: edit-complaint.php?complaint_id=' . $complaint_id);
-        exit();
-    }
-} else {
-    $_SESSION['error'] = 'Invalid request method.';
-    header('Location: complaint-list.php');
+    echo 'MySQL database connection failed: ' . htmlspecialchars($e->getMessage());
     exit();
 }
 ?>
@@ -109,19 +77,20 @@ if (isset($_GET['complaint_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Edit Complaint</title>
+    <title>e-HRCS - Edit Complaint</title>
     <link rel="icon" href="images/logo.png" type="image/x-icon">
-    <link id="style" href="hostel-staff-panel/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="hostel-staff-panel/assets/css/styles.min.css" rel="stylesheet">
-    <link href="hostel-staff-panel/assets/css/icons.min.css" rel="stylesheet">
+    <link id="style" href="assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/styles.min.css" rel="stylesheet">
+    <link href="assets/css/icons.min.css" rel="stylesheet">
 </head>
 <body>
+
     <header class="app-header">
         <div class="main-header-container container-fluid">
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="complaint-list.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
+                        <a href="dashboard.php" class="text-black fw-bolder fs-20">E-Hostel Room Complaint System</a>
                     </div>
                 </div>
             </div>
@@ -135,13 +104,13 @@ if (isset($_GET['complaint_id'])) {
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"></p>
-                                <span class="op-7 fw-normal d-block fs-11"></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p>
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span>
                             </div>
                         </div>
                     </a>
-                    <ul class="dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
-                        <li><a class="dropdown-item d-flex" href="#"><i class="ti ti-logout fs-18 me-2 op-7"></i>Logout</a></li>
+                    <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
+                        <li><a class="dropdown-item d-flex" href="logout.php"><i class="ti ti-logout fs-18 me-2 op-7"></i>Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -155,7 +124,7 @@ if (isset($_GET['complaint_id'])) {
                 <div class="ms-md-1 ms-0">
                     <nav>
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="complaint-list.php">My Complaints</a></li>
+                            <li class="breadcrumb-item"><a href="#"></a></li>
                             <li class="breadcrumb-item active" aria-current="page">Edit Complaint</li>
                         </ol>
                     </nav>
@@ -163,25 +132,31 @@ if (isset($_GET['complaint_id'])) {
             </div>
 
             <div class="row mt-4">
+                <div class="d-flex my-3">
+                    <a href="complaint-list.php" class="btn btn-primary btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill me-2" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+                        </svg>
+                        Back to Complaints
+                    </a>
+                </div>
                 <div class="col-md-12">
                     <div class="card custom-card">
                         <div class="card-header">
                             <div class="card-title">Edit Complaint</div>
                         </div>
                         <div class="card-body">
-                            <form action="edit-complaint.php" method="POST" enctype="multipart/form-data">
-                                <input type="hidden" name="complaint-id" value="<?= htmlspecialchars($complaint['Complaint_ID']) ?>">
-
+                            <form action="" method="POST" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="complaint-type">Complaint Type</label>
                                     <select class="form-control" id="complaint-type" name="complaint-type" required onchange="filterIssueType()">
                                         <option value="">Select Complaint Type</option>
-                                        <option value="facility" <?= $complaint['Complaint_Type'] == 'facility' ? 'selected' : '' ?>>Facility Maintenance Issues</option>
-                                        <option value="cleanliness" <?= $complaint['Complaint_Type'] == 'cleanliness' ? 'selected' : '' ?>>Cleanliness and Hygiene Complaints</option>
-                                        <option value="security" <?= $complaint['Complaint_Type'] == 'security' ? 'selected' : '' ?>>Security Issues</option>
-                                        <option value="internet" <?= $complaint['Complaint_Type'] == 'internet' ? 'selected' : '' ?>>Internet Connectivity Issues</option>
-                                        <option value="roommate" <?= $complaint['Complaint_Type'] == 'roommate' ? 'selected' : '' ?>>Roommate or Neighbor Issues</option>
-                                        <option value="general" <?= $complaint['Complaint_Type'] == 'general' ? 'selected' : '' ?>>General Complaints</option>
+                                        <option value="facility" <?= $complaint['complaint_type'] == 'facility' ? 'selected' : '' ?>>Facility Maintenance Issues</option>
+                                        <option value="cleanliness" <?= $complaint['complaint_type'] == 'cleanliness' ? 'selected' : '' ?>>Cleanliness and Hygiene Complaints</option>
+                                        <option value="security" <?= $complaint['complaint_type'] == 'security' ? 'selected' : '' ?>>Security Issues</option>
+                                        <option value="internet" <?= $complaint['complaint_type'] == 'internet' ? 'selected' : '' ?>>Internet Connectivity Issues</option>
+                                        <option value="roommate" <?= $complaint['complaint_type'] == 'roommate' ? 'selected' : '' ?>>Roommate or Neighbor Issues</option>
+                                        <option value="general" <?= $complaint['complaint_type'] == 'general' ? 'selected' : '' ?>>General Complaints</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -214,22 +189,27 @@ if (isset($_GET['complaint_id'])) {
                                         }
                                     }
 
-                                    // Pre-fill issue type
-                                    document.addEventListener('DOMContentLoaded', function () {
+                                    // Prepopulate issue type on page load
+                                    document.addEventListener('DOMContentLoaded', function() {
                                         filterIssueType();
-                                        document.getElementById("issue-type").value = "<?= strtolower(str_replace(' ', '-', $complaint['Complaint_Issue'])) ?>";
+                                        document.getElementById("issue-type").value = "<?= htmlspecialchars($complaint['complaint_issue']) ?>";
                                     });
                                 </script>
                                 <div class="mb-3">
                                     <label for="complaint-description">Complaint Description</label>
-                                    <textarea class="form-control" id="complaint-description" name="complaint-description" rows="4" placeholder="Describe your complaint here..." required><?= htmlspecialchars($complaint['Description']) ?></textarea>
+                                    <textarea class="form-control" id="complaint-description" name="complaint-description" rows="4" placeholder="Describe your complaint here..." required><?= htmlspecialchars($complaint['description']) ?></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="complaint-image">Upload Image</label>
-                                    <input type="file" class="form-control" id="complaint-image" name="complaint-image" accept="image/*">
-                                    <?php if(!empty($complaint['Image'])): ?>
-                                        <img src="data:image/jpeg;base64,<?= base64_encode($complaint['Image']) ?>" alt="Complaint Image" class="img-fluid mt-3" style="max-width: 200px;">
+                                    <label for="existing-complaint-image">Existing Image</label>
+                                    <?php if ($complaint['image']): ?>
+                                        <img src="data:image/jpeg;base64,<?= base64_encode($complaint['image']) ?>" alt="Complaint Image" class="img-fluid mb-3">
+                                    <?php else: ?>
+                                        <p>No image uploaded.</p>
                                     <?php endif; ?>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="complaint-image">Upload New Image</label>
+                                    <input type="file" class="form-control" id="complaint-image" name="complaint-image" accept="image/*">
                                 </div>
                                 <div class="mb-3">
                                     <button type="submit" class="btn btn-primary">Update Complaint</button>
@@ -242,6 +222,7 @@ if (isset($_GET['complaint_id'])) {
         </div>
     </div>
 
-    <script src="hostel-staff-panel/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

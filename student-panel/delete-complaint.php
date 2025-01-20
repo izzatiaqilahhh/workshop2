@@ -37,13 +37,13 @@ if (isset($_GET['complaint_id'])) {
         $mysql_pdo->beginTransaction();
 
         // Delete related entries from Complaint_Status in MySQL
-        $stmt = $mysql_pdo->prepare("DELETE FROM Complaint_Status WHERE Complaint_ID = :Complaint_ID");
-        $stmt->bindParam(':Complaint_ID', $complaint_id);
+        $stmt = $mysql_pdo->prepare("DELETE FROM complaint_status WHERE complaint_id = :complaint_id");
+        $stmt->bindParam(':complaint_id', $complaint_id);
         $stmt->execute();
 
         // Delete the complaint in MySQL
-        $stmt = $mysql_pdo->prepare("DELETE FROM Complaint WHERE Complaint_ID = :Complaint_ID AND Student_ID = :Student_ID");
-        $stmt->bindParam(':Complaint_ID', $complaint_id);
+        $stmt = $mysql_pdo->prepare("DELETE FROM complaint WHERE complaint_id = :complaint_id AND Student_ID = :Student_ID");
+        $stmt->bindParam(':complaint_id', $complaint_id);
         $stmt->bindParam(':Student_ID', $student_id);
         $stmt->execute();
 
