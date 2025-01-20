@@ -1,9 +1,9 @@
 <?php
-$host = '10.147.20.16';
+$host = '10.147.20.12';
 $port = '3306';
-$dbname = 'utemhostelcomplaint';
-$user = 'aqilah';
-$password = 'password123';
+$dbname = 'hostelcomplaint';
+$user = 'aina';
+$password = 'password';
 
 try {
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);

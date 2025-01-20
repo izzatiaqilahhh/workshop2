@@ -1,13 +1,15 @@
 <?php
 session_start();
+
+// If already logged in, redirect to the dashboard
 if (isset($_SESSION['maintenance_staff'])) {
-    // Redirect logged-in workers to the dashboard
     header("Location: dashboard.php");
     exit();
 }
-?>
 
-<?php include('includes/header.php'); ?>
+// Include the header
+include('includes/header.php'); 
+?>
 
 <title>e-HRSC - Log In</title>
 
@@ -21,12 +23,14 @@ if (isset($_SESSION['maintenance_staff'])) {
                         <!-- Display error messages -->
                         <?php
                         if (isset($_SESSION['error'])) {
-                            echo "<div class='alert alert-danger text-center'>" . $_SESSION['error'] . "</div>";
+                            echo "<div class='alert alert-danger text-center'>" . htmlspecialchars($_SESSION['error']) . "</div>";
                             unset($_SESSION['error']);
                         }
                         ?>
+                        
                         <p class="h5 fw-semibold mb-2 text-center">Log In</p>
                         <p class="mb-4 text-muted op-7 fw-normal text-center">Please log in using your staff number and password.</p>
+                        
                         <form action="loginprocess.php" method="POST">
                             <div class="row gy-3">
                                 <div class="col-xl-12">
@@ -65,8 +69,6 @@ if (isset($_SESSION['maintenance_staff'])) {
 
 <!-- Show Password JS -->
 <script src="hostel-staff-panel/assets/js/show-password.js"></script>
-
-</body>
 
 </html>
 
