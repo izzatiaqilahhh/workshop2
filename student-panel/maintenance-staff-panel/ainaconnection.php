@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $host = '127.0.0.1'; // Use 127.0.0.1 for localhost
-$db = 'utemhostelcomplaint';
+$db = 'hostelcomplaint';
 $user = 'root';
 $pass = '';
 $charset = 'utf8mb4';
