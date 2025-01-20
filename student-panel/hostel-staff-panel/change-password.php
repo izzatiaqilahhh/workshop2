@@ -40,18 +40,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Fetch the user's current password from the database
         $stmt = $pdo->prepare('SELECT password FROM hostel_staff WHERE staff_no = :staff_no');
-        $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);  // Corrected typo here
+        $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Verify the current password
-        if ($user && password_verify($currentPassword, $user['password'])) {
-            // Hash the new password
-            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-
+        if ($user && $currentPassword == $user['password']) { // Direct comparison without hashing
             // Update the password in the database
             $stmt = $pdo->prepare('UPDATE hostel_staff SET password = :password WHERE staff_no = :staff_no');
-            $stmt->bindParam(':password', $hashedPassword);
+            $stmt->bindParam(':password', $newPassword); // Store the new password directly
             $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);
             $stmt->execute();
 
@@ -71,3 +68,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: profile.php");
     exit();
 }
+?>

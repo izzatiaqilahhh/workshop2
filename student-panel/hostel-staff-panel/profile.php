@@ -1,5 +1,5 @@
 <?php
-session_start();
+include('includes/header-.php');
 
 // Check if the user is logged in
 if (!isset($_SESSION['hostel_staff'])) {
@@ -24,11 +24,10 @@ try {
     echo 'Database query failed: ' . $e->getMessage();
     exit();
 }
-
-include('includes/header-.php');
 ?>
 
 <title>e-HRCS - My Profile</title>
+
 
 <!-- App Content -->
 <div class="main-content app-content">

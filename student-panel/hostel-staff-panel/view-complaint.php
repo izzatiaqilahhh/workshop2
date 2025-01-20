@@ -58,11 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Room Number</th>
                         <th>Complaint Type</th>
                         <th>Complaint Issue</th>
                         <th>Description</th>
                         <th>Date Created</th>
-                        <th>Room No</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -85,11 +85,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                     ?>
                         <tr>
                             <td><?= $counter++; ?></td>
+                            <td><?= htmlspecialchars($complaint['room_no']); ?></td>
                             <td><?= htmlspecialchars($complaint['complaint_type']); ?></td>
                             <td><?= htmlspecialchars($complaint['complaint_issue']); ?></td>
                             <td><?= htmlspecialchars($complaint['description']); ?></td>
                             <td><?= htmlspecialchars($complaint['date_created']); ?></td>
-                            <td><?= htmlspecialchars($complaint['room_no']); ?></td>
                             <td>
                                 <button class="btn btn-success assign-complaint-btn"
                                     data-bs-toggle="modal"

@@ -120,7 +120,7 @@ session_start();
                     <!-- Header Element -->
                     <div class="header-element">
                         <div class="horizontal-logo">
-                            <a href="#" class=" fw-bolder text-black me-2  fs-20">Hostel Room Complaint System</a>
+                            <a href="#" class=" fw-bolder text-black me-2  fs-20">E-Hostel Room Complaint System</a>
                         </div>
                     </div>
 
@@ -149,8 +149,8 @@ session_start();
                                     </svg>
                                 </div>
                                 <div class="d-sm-block d-none">
-                                    <p class="fw-semibold mb-0 lh-1"><?= $_SESSION['name'] ?></p> <!-- Display Full Name -->
-                                    <span class="op-7 fw-normal d-block fs-11"><?= $_SESSION['email'] ?></span> <!-- Display Email -->
+                                    <p class="fw-semibold mb-0 lh-1"><?= $_SESSION['name'] ?></p>
+                                    <span class="op-7 fw-normal d-block fs-11"><?= $_SESSION['email'] ?></span>
                                 </div>
                         </a>
 

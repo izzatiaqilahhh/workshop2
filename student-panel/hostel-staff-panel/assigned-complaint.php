@@ -4,9 +4,10 @@ include('includes/header-.php');
 
 // Fetch data from the Complaint_Status table using PDO
 $query = "
-    SELECT cs.*, c.complaint_type, w.name, m.company_name
+    SELECT cs.*, c.complaint_type, r.room_no, w.name, m.company_name
     FROM complaint_status cs
     JOIN complaint c ON cs.complaint_id = c.complaint_id
+    JOIN room r ON c.room_id = r.room_id
     JOIN complaint_assignment ca ON c.complaint_id = ca.complaint_id
     JOIN maintenance_worker w ON ca.worker_id = w.worker_id
     JOIN maintenance_company m ON w.company_id = m.company_id;
@@ -44,7 +45,7 @@ try {
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Complaint ID</th>
+                        <th>Room Number</th>
                         <th>Complaint Type</th>
                         <th>Assigned To</th>
                         <th>Company</th>
@@ -67,7 +68,7 @@ try {
                             }
                             echo "<tr>";
                             echo "<td>" . $counter . "</td>";
-                            echo "<td>" . htmlspecialchars($row['complaint_id']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['room_no']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['complaint_type']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['company_name']) . "</td>";
@@ -91,7 +92,8 @@ try {
     $(document).ready(function() {
         let table = new DataTable('.table', {
             dom: 'Bfrtip', // To specify where the buttons should be placed
-            buttons: [{
+            buttons: [ 
+                {
                     extend: 'excelHtml5', // Export to Excel
                     title: 'Data Export'
                 },
@@ -100,7 +102,7 @@ try {
                     title: 'Data Export'
                 },
                 {
-                    extend: 'print', // Export to PDF
+                    extend: 'print', // Print data
                     title: 'Data Export'
                 }
             ]
