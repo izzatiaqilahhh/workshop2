@@ -98,6 +98,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
             </div>
         </div>
     </div>
+    
     <script>
         $(document).ready(function() {
             let table = new DataTable('.table', {
@@ -118,9 +119,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'fetch_student') {
             });
         });
     </script>
-    <?php
-    include 'includes/footer-.php';
-    ?>
+
+    <?php include 'includes/footer-.php'; ?>
 
 </body>
 

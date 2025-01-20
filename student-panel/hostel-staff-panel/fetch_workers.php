@@ -1,16 +1,14 @@
 <?php
-include 'paandbconfig.php';
+// Include database configuration
+include 'qiladbcon.php';
 
-if (isset($_POST['company_id'])) {
-    $company_id = $_POST['company_id'];
+$worker_query = "SELECT \"worker_id\", \"Name\", \"specialization\" FROM \"maintenance_worker\"";
+$worker_result = $pdo->query($worker_query);
 
-    // Fetch workers based on company
-    $query = "SELECT Worker_ID, Name FROM Maintenance_Worker WHERE Company_ID = '$company_id'";
-
-    $result = mysqli_query($conn, $query);
-
-    echo '<option value="">Select Worker</option>';
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo '<option value="' . $row['Worker_ID'] . '">' . $row['Name'] . '</option>';
-    }
+$options = "<option value=''>Select Maintenance Worker</option>";
+while ($worker = $worker_result->fetch(PDO::FETCH_ASSOC)) {
+    $options .= "<option value='" . htmlspecialchars($worker['worker_id']) . "'>" . htmlspecialchars($worker['Name']) . " - " . htmlspecialchars($worker['specialization']) . "</option>";
 }
+
+echo $options;
+?>
