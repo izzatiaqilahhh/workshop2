@@ -12,7 +12,7 @@ if (!isset($_SESSION['student'])) {
 // Fetch user-specific data
 try {
     $stmt = $pdo->prepare('SELECT * FROM student WHERE matric_no = :matric_no');
-    $stmt->bindParam(':matric_no', $_SESSION['student']);
+    $stmt->bindParam(':Matric_No', $_SESSION['student']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -32,7 +32,7 @@ try {
     // Fetch complaint data
     $stmt = $mysql_pdo->prepare('SELECT * FROM complaint WHERE complaint_id = :complaint_id AND student_id = :student_id');
     $stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
-    $stmt->bindParam(':student_id', $user['student_id'], PDO::PARAM_INT);
+    $stmt->bindParam(':student_id', $user['Student_ID'], PDO::PARAM_INT);
     $stmt->execute();
     $complaint = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -104,8 +104,8 @@ try {
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['name']); ?></p>
-                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['email']); ?></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p>
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span>
                             </div>
                         </div>
                     </a>

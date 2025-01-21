@@ -7,7 +7,6 @@ session_start();
 include('teahdbconfig.php'); // Include MariaDB config for student verification
 include('paanconn.php'); // Include MySQL config for complaint submission
 
-
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
     header("Location: studentLogin.php");
@@ -131,7 +130,4 @@ try {
     header('Location: complaint-list.php');
     exit();
 }
-
 ?>
-
-

@@ -3,8 +3,6 @@ session_start();
 include('teahdbconfig.php');
 include('paanconn.php');
 
-
-
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
     header("Location: studentLogin.php");
@@ -14,7 +12,7 @@ if (!isset($_SESSION['student'])) {
 // Fetch user-specific data
 try {
     $stmt = $pdo->prepare('SELECT * FROM student WHERE matric_no = :matric_no');
-    $stmt->bindParam(':matric_no', $_SESSION['student']);
+    $stmt->bindParam(':Matric_No', $_SESSION['student']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -23,7 +21,7 @@ try {
         exit();
     }
 
-    $student_id = $user['student_id'];
+    $student_id = $user['Student_ID'];
 
     $stmt = $mysql_pdo->prepare("SELECT c.*, cs.complaint_status, cs.description as status_description, cs.date_update_status 
                                  FROM complaint c 
@@ -37,8 +35,6 @@ try {
     echo 'MySQL database connection failed: ' . htmlspecialchars($e->getMessage());
     exit();
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -74,8 +70,8 @@ try {
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['name']); ?></p>
-                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['email']); ?></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p>
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span>
                             </div>
                         </div>
                     </a>
