@@ -187,4 +187,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
     });
 </script>
 
+<<<<<<< HEAD
 <?php include('includes/footer-.php'); ?>
+=======
+<?php include('includes/footer-.php'); ?>
+>>>>>>> 82499bd6 (update)
