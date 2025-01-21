@@ -7,6 +7,7 @@ session_start();
 include('teahdbconfig.php'); // Include MariaDB config for student verification
 include('paanconn.php'); // Include MySQL config for complaint submission
 
+
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
     header("Location: studentLogin.php");
@@ -15,8 +16,8 @@ if (!isset($_SESSION['student'])) {
 
 // Fetch student ID using matric number from MariaDB
 try {
-    $stmt = $pdo->prepare("SELECT Student_ID, Room_ID FROM student WHERE Matric_No = :Matric_No");
-    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt = $pdo->prepare("SELECT student_id, room_id FROM student WHERE matric_no = :matric_no");
+    $stmt->bindParam(':matric_no', $_SESSION['student']);
     $stmt->execute();
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -26,8 +27,8 @@ try {
         exit();
     }
 
-    $student_id = $student['Student_ID'];
-    $room_id = $student['Room_ID'];
+    $student_id = $student['student_id'];
+    $room_id = $student['room_id'];
 
     // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -130,4 +131,7 @@ try {
     header('Location: complaint-list.php');
     exit();
 }
+
 ?>
+
+

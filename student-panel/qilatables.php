@@ -31,7 +31,18 @@ try {
         while ($data = $dataQuery->fetch(PDO::FETCH_ASSOC)) {
             echo "<tr>";
             foreach ($columns as $column) {
-                echo "<td>" . htmlspecialchars($data[$column]) . "</td>";
+                $value = $data[$column];
+                if (is_string($value)) {
+                    echo "<td>" . htmlspecialchars($value) . "</td>";
+                } elseif (is_null($value)) {
+                    echo "<td>NULL</td>";
+                } elseif (is_bool($value)) {
+                    echo "<td>" . ($value ? 'TRUE' : 'FALSE') . "</td>";
+                } elseif (is_resource($value)) {
+                    echo "<td>Resource</td>";
+                } else {
+                    echo "<td>" . htmlspecialchars((string)$value) . "</td>";
+                }
             }
             echo "</tr>";
         }

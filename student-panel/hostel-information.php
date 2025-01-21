@@ -16,8 +16,8 @@ if (!isset($_SESSION['student'])) {
 // Fetch student and room details
 try {
     // Fetch student details
-    $stmt = $pdo->prepare("SELECT * FROM Student WHERE Matric_No = :Matric_No");
-    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt = $pdo->prepare("SELECT * FROM student WHERE matric_no = :matric_no");
+    $stmt->bindParam(':matric_no', $_SESSION['student']);
     $stmt->execute();
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -25,10 +25,10 @@ try {
         $error = 'No student information found.';
     } else {
         // Fetch room details for the logged-in student
-        $stmt = $pdo->prepare("SELECT Room.Room_No, Room.Hostel_Block, Room.Current_Occupants
-                               FROM Room
-                               WHERE Room.Room_ID = :room_id");
-        $stmt->bindParam(':room_id', $student['Room_ID']);
+        $stmt = $pdo->prepare("SELECT room.room_no, room.hostel_block, room.current_occupants
+                               FROM room
+                               WHERE room.room_id = :room_id");
+        $stmt->bindParam(':room_id', $student['room_id']);
         $stmt->execute();
         $room = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -36,9 +36,9 @@ try {
             $error = 'No room information found for the student.';
         } else {
             // Fetch roommates details
-            $stmt = $pdo->prepare("SELECT Name, Phone_No FROM Student WHERE Room_ID = :room_id AND Matric_No != :Matric_No");
-            $stmt->bindParam(':room_id', $student['Room_ID']);
-            $stmt->bindParam(':Matric_No', $_SESSION['student']);
+            $stmt = $pdo->prepare("SELECT name, phone_no FROM student WHERE room_id = :room_id AND matric_no != :matric_no");
+            $stmt->bindParam(':room_id', $student['room_id']);
+            $stmt->bindParam(':matric_no', $_SESSION['student']);
             $stmt->execute();
             $roommates = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -95,8 +95,8 @@ try {
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($student['Name'] ?? ''); ?></p>
-                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($student['Email'] ?? ''); ?></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($student['name'] ?? ''); ?></p>
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($student['email'] ?? ''); ?></span>
                             </div>
                         </div>
                     </a>
@@ -154,15 +154,15 @@ try {
                                     <table class="table">
                                         <tr>
                                             <th>Room Number</th>
-                                            <td><?= htmlspecialchars($room['Room_No'] ?? '') ?></td>
+                                            <td><?= htmlspecialchars($room['room_no'] ?? '') ?></td>
                                         </tr>
                                         <tr>
                                             <th>Hostel Block</th>
-                                            <td><?= htmlspecialchars($room['Hostel_Block'] ?? '') ?></td>
+                                            <td><?= htmlspecialchars($room['hostel_block'] ?? '') ?></td>
                                         </tr>
                                         <tr>
                                             <th>Current Occupants</th>
-                                            <td><?= htmlspecialchars($room['Current_Occupants'] ?? '') ?></td>
+                                            <td><?= htmlspecialchars($room['current_occupants'] ?? '') ?></td>
                                         </tr>
                                     </table>
                                 <?php endif; ?>
@@ -191,8 +191,8 @@ try {
                                         <tbody>
                                             <?php foreach ($roommates as $roommate): ?>
                                                 <tr>
-                                                    <td><?= htmlspecialchars($roommate['Name']) ?></td>
-                                                    <td><?= htmlspecialchars($roommate['Phone_No']) ?></td>
+                                                    <td><?= htmlspecialchars($roommate['name']) ?></td>
+                                                    <td><?= htmlspecialchars($roommate['phone_no']) ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>

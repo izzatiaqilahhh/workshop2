@@ -3,6 +3,7 @@ session_start();
 include('teahdbconfig.php'); // Include MariaDB config for student verification
 include('paanconn.php'); // Include MySQL config for complaint handling
 
+
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
     header("Location: studentLogin.php");
@@ -11,8 +12,8 @@ if (!isset($_SESSION['student'])) {
 
 // Fetch student ID using matric number from MariaDB
 try {
-    $stmt = $pdo->prepare("SELECT Student_ID FROM student WHERE Matric_No = :Matric_No");
-    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt = $pdo->prepare("SELECT student_id FROM student WHERE matric_no = :matric_no");
+    $stmt->bindParam(':matric_no', $_SESSION['student']);
     $stmt->execute();
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -22,7 +23,7 @@ try {
         exit();
     }
 
-    $student_id = $student['Student_ID'];
+    $student_id = $student['student_id'];
 } catch (PDOException $e) {
     $_SESSION['error'] = 'Database error: ' . $e->getMessage();
     header('Location: complaint-list.php');
@@ -42,9 +43,9 @@ if (isset($_GET['complaint_id'])) {
         $stmt->execute();
 
         // Delete the complaint in MySQL
-        $stmt = $mysql_pdo->prepare("DELETE FROM complaint WHERE complaint_id = :complaint_id AND Student_ID = :Student_ID");
+        $stmt = $mysql_pdo->prepare("DELETE FROM complaint WHERE complaint_id = :complaint_id AND student_id = :student_id");
         $stmt->bindParam(':complaint_id', $complaint_id);
-        $stmt->bindParam(':Student_ID', $student_id);
+        $stmt->bindParam(':student_id', $student_id);
         $stmt->execute();
 
         // Commit the transaction

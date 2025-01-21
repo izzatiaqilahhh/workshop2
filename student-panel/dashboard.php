@@ -14,8 +14,8 @@ include('teahdbconfig.php');
 // Fetch user-specific data
 try {
     // Fetch user profile information
-    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
-    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt = $pdo->prepare('SELECT * FROM student WHERE matric_no = :matric_no');
+    $stmt->bindParam(':matric_no', $_SESSION['student']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -70,8 +70,8 @@ try {
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p> <!-- Display Full Name -->
-                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span> <!-- Display Email -->
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['name']); ?></p> <!-- Display Full Name -->
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['email']); ?></span> <!-- Display Email -->
                             </div>
                         </div>
                     </a>
