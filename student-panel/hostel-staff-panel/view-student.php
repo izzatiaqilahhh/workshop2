@@ -1,6 +1,6 @@
 <?php
 
-include 'qiladbcon.php';
+include 'paandbconfig.php';
 include 'includes/header-.php';
 
 // Check if the 'fetch_student' action is triggered

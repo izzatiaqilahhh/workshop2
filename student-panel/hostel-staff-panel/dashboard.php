@@ -1,6 +1,7 @@
 <?php
-
+session_start();
 include('includes/header-.php');
+
 // Check if the user is logged in
 if (!isset($_SESSION['hostel_staff'])) {
     // If not logged in, redirect to the login page
@@ -9,27 +10,29 @@ if (!isset($_SESSION['hostel_staff'])) {
 }
 
 // Include database configuration and fetch user data
-include('qiladbcon.php');
+include('paandbconfig.php');
 
 try {
-    $stmt = $pdo->prepare('SELECT * FROM hostel_staff WHERE staff_no = :staff_no');
-    $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);
+    // Prepare and execute query to fetch user data
+    $stmt = $mysqli->prepare('SELECT * FROM hostel_staff WHERE staff_no = ?');
+    $stmt->bind_param('s', $_SESSION['hostel_staff']);
     $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
 
     // Fetch counts for the dashboard
-    $totalComplaintStmt = $pdo->query('SELECT COUNT(*) FROM complaint');
-    $totalComplaint = $totalComplaintStmt->fetchColumn();
+    $totalComplaintStmt = $mysqli->query('SELECT COUNT(*) FROM complaint');
+    $totalComplaint = $totalComplaintStmt->fetch_row()[0];
 
-    $totalStudentStmt = $pdo->query('SELECT COUNT(*) FROM student');
-    $totalStudent = $totalStudentStmt->fetchColumn();
+    $totalStudentStmt = $mysqli->query('SELECT COUNT(*) FROM student');
+    $totalStudent = $totalStudentStmt->fetch_row()[0];
 
-    $totalHostelStaffStmt = $pdo->query('SELECT COUNT(*) FROM hostel_staff');
-    $totalHostelStaff = $totalHostelStaffStmt->fetchColumn();
+    $totalHostelStaffStmt = $mysqli->query('SELECT COUNT(*) FROM hostel_staff');
+    $totalHostelStaff = $totalHostelStaffStmt->fetch_row()[0];
 
-    $totalMaintenanceStaffStmt = $pdo->query('SELECT COUNT(*) FROM maintenance_worker');
-    $totalMaintenanceStaff = $totalMaintenanceStaffStmt->fetchColumn();
-} catch (PDOException $e) {
+    $totalMaintenanceStaffStmt = $mysqli->query('SELECT COUNT(*) FROM maintenance_worker');
+    $totalMaintenanceStaff = $totalMaintenanceStaffStmt->fetch_row()[0];
+} catch (Exception $e) {
     echo 'Database query failed: ' . $e->getMessage();
     exit();
 }
@@ -145,4 +148,4 @@ try {
     }
 </script>
 
-<?php include('includes/footer-.php'); ?>
+<?php include('includes/footer-.php'); ?>   

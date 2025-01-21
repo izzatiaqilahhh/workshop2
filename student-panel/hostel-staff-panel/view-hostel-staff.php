@@ -1,5 +1,5 @@
 <?php
-include 'qiladbcon.php';
+include 'paandbconfig.php';
 include('includes/header-.php');
 ?>
 

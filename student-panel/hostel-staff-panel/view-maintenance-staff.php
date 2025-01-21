@@ -1,5 +1,5 @@
 <?php
-include 'qiladbcon.php';
+include 'paandbconfig.php';
 include 'includes/header-.php';
 ?>
 
@@ -37,14 +37,13 @@ include 'includes/header-.php';
                 </thead>
                 <tbody>
                     <?php
-                    // Query to fetch maintenance worker details using PDO
-                    $query = 'SELECT "worker_no", "name", "phone_no", "specialization", "email", "worker_id"
-                              FROM "maintenance_worker"';
-                    $stmt = $pdo->query($query);
+                    // Query to fetch maintenance worker details using MySQL (mysqli)
+                    $query = 'SELECT worker_no, name, phone_no, specialization, email, worker_id FROM maintenance_worker';
+                    $result = $mysqli->query($query);
 
-                    if ($stmt) {
+                    if ($result->num_rows > 0) {
                         $counter = 1;
-                        while ($staff_member = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        while ($staff_member = $result->fetch_assoc()) {
                     ?>
                             <tr>
                                 <td><?= $counter++; ?></td>

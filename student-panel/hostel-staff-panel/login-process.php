@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('qiladbcon.php'); // Include your database configuration file
+include('paandbconfig.php'); // Include your database configuration file
 
 if (isset($_POST['loginBtn'])) {
     $staff_no = $_POST['staff_no'];
@@ -11,8 +11,8 @@ if (isset($_POST['loginBtn'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-    // Ensure $pdo is defined
-    if (!isset($pdo)) {
+    // Ensure $mysqli is defined and connected
+    if (!isset($mysqli) || $mysqli->connect_error) {
         $_SESSION['error'] = 'Database connection is not established!';
         header('Location: hostelStaffLogin.php');
         exit();
@@ -21,13 +21,17 @@ if (isset($_POST['loginBtn'])) {
     // Prepare and execute the query
     try {
         // Prepare the query
-        $stmt = $pdo->prepare('SELECT * FROM hostel_staff WHERE staff_no = :staff_no');
+        $stmt = $mysqli->prepare('SELECT * FROM hostel_staff WHERE staff_no = ?');
+
+        // Bind parameters
+        $stmt->bind_param('s', $staff_no);
 
         // Execute the query
-        $stmt->execute(['staff_no' => $staff_no]);
+        $stmt->execute();
 
         // Fetch the user data
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
 
         if ($user) {
             // Debugging: Log the fetched user data (except password)
@@ -40,7 +44,7 @@ if (isset($_POST['loginBtn'])) {
                 $_SESSION['name'] = $user['name'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['phone_no'] = $user['phone_no'];
-                error_log('You have successfully logged in.: ' . $_SESSION['hostel_staff']);
+                error_log('You have successfully logged in: ' . $_SESSION['hostel_staff']);
                 header('Location: dashboard.php');
                 exit();
             } else {

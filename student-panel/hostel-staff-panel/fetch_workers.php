@@ -1,20 +1,22 @@
 <?php
-include 'qiladbcon.php';
+include 'paandbconfig.php';
 
 try {
+    // MySQLi query to fetch worker details
     $query = "SELECT name, specialization FROM maintenance_worker";
-    $result = $pdo->query($query);
+    $result = $mysqli->query($query);  // Using MySQLi query
 
-    while ($worker = $result->fetch(PDO::FETCH_ASSOC)) {
-        echo '<option value="' . htmlspecialchars($worker['name']) . '">'
-            . htmlspecialchars($worker['name']) . ' (' . htmlspecialchars($worker['specialization']) . ')'
-            . '</option>';
+    // Check if there are results
+    if ($result->num_rows > 0) {
+        while ($worker = $result->fetch_assoc()) {
+            echo '<option value="' . htmlspecialchars($worker['name']) . '">'
+                . htmlspecialchars($worker['name']) . ' (' . htmlspecialchars($worker['specialization']) . ')'
+                . '</option>';
+        }
+    } else {
+        echo '<option value="">No workers found</option>';
     }
-<<<<<<< HEAD
-} catch (PDOException $e) {
+} catch (mysqli_sql_exception $e) {
     echo '<option value="">Error loading workers</option>';
 }
 ?>
-=======
-}
->>>>>>> 9393cbee (update code)

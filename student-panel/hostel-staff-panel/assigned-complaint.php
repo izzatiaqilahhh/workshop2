@@ -1,8 +1,8 @@
 <?php
-include('qiladbcon.php');
+include('paandbconfig.php');
 include('includes/header-.php');
 
-// Fetch data from the Complaint_Status table using PDO
+// Fetch data from the Complaint_Status table using MySQLi
 $query = "
     SELECT cs.*, c.complaint_type, r.room_no, w.name, m.company_name
     FROM complaint_status cs
@@ -14,9 +14,8 @@ $query = "
 ";
 
 try {
-    $stmt = $pdo->query($query); // Using PDO query
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all results as associative array
-} catch (PDOException $e) {
+    $result = $mysqli->query($query); // Using MySQLi query
+} catch (mysqli_sql_exception $e) {
     echo 'Query failed: ' . $e->getMessage();
     exit;
 }
@@ -57,9 +56,9 @@ try {
                 <tbody>
                     <?php
                     // Check if there are records
-                    if (count($result) > 0) {
+                    if ($result->num_rows > 0) {
                         $counter = 1; // Initialize row counter
-                        foreach ($result as $row) {
+                        while ($row = $result->fetch_assoc()) {
                             $statusClass = '';
                             if (strcasecmp($row['complaint_status'], 'In Progress') === 0) {
                                 $statusClass = 'text-warning fw-bold'; // Highlight with yellow color
