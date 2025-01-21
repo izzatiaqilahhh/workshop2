@@ -1,19 +1,21 @@
 <?php
+$host = '10.147.20.11'; // ZeroTier IP of your friend's PostgreSQL server
+$dbname = 'ehrcs';
+$port = '5432';
+$username = 'fathehah';
+$password = 'password';
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Database credentials
-$dsn = "pgsql:host=10.147.20.11;dbname=ehrcs"; // Data Source Name
-$user = "fathehah";        // Replace with your PostgreSQL username
-$password = "password"; // Replace with your PostgreSQL password
+$dsn = "pgsql:host=$host;dbname=$dbname;port=$port";
 
 try {
-    // Create a PDO instance
-    $conn = new PDO($dsn, $user, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connection successful!";
+    $pgsql_pdo = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
+    echo "Connected successfully to the PostgreSQL database."; // Connection successful message for debugging
 } catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+    error_log('PostgreSQL database connection failed: ' . $e->getMessage());
+    echo 'Database connection failed: ' . $e->getMessage(); // Display detailed error message
+    exit();
 }
 ?>
