@@ -1,16 +1,16 @@
 <?php
-$host = '10.147.20.11';
+$host = '10.147.20.12';
 $port = '3306';
-$dbname = 'ehrcs';
-$user = 'aqilah';
-$password = 'password';
+$dbname = 'hostelcomplaint';
+$user = 'qilah';
+$password = 'abc123';
 
-try {
+try { 
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     $query = $pdo->query("SHOW TABLES");
 
     echo "<html><body>";
-    echo "<h1>Tables and their data:</h1>";
+    echo "<h1>Tables and Their Data:</h1>";
 
     while ($row = $query->fetch(PDO::FETCH_NUM)) {
         $table = $row[0];

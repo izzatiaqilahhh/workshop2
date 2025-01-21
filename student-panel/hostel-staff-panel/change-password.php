@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);
             $stmt->execute();
 
-            $_SESSION['password_success'] = 'Password successfully updated!';
+            $_SESSION['password_success'] = 'Password successfully changed!';
         } else {
             $_SESSION['password_error'] = 'Current password is incorrect!';
         }

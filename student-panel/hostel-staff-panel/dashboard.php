@@ -57,7 +57,6 @@ try {
         <div class="row print">
 
             <div class="d-flex justify-content-end my-3 hidden-print">
-                <!-- Print Button -->
                 <button class="btn btn-primary btn-sm text-center" onclick="printPage()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);">
                         <path d="M19 7h-1V2H6v5H5c-1.654 0-3 1.346-3 3v7c0 1.103.897 2 2 2h2v3h12v-3h2c1.103 0 2-.897 2-2v-7c0-1.654-1.346-3-3-3zM8 4h8v3H8V4zm8 16H8v-4h8v4zm4-3h-2v-3H6v3H4v-7c0-.551.449-1 1-1h14c.552 0 1 .449 1 1v7z"></path>
@@ -65,22 +64,7 @@ try {
                     </svg>
                     Print
                 </button>
-
-                <!-- Backup Button -->
-                <form method="POST" action="backup.php" class="ms-2">
-                    <button type="submit" class="btn btn-success btn-sm text-center">
-                        <i class="bx bx-cloud-download side-menu__icon"></i> Backup Database
-                    </button>
-                </form>
-
-                <!-- Recover Button -->
-                <form method="POST" action="recover.php" class="ms-2">
-                    <button type="submit" class="btn btn-warning btn-sm text-center">
-                        <i class="bx bx-refresh side-menu__icon"></i> Recover Database
-                    </button>
-                </form>
             </div>
-
 
             <!-- Card 1 -->
             <div class="col-sm-6">
