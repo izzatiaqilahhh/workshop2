@@ -10,7 +10,11 @@ try {
             . htmlspecialchars($worker['name']) . ' (' . htmlspecialchars($worker['specialization']) . ')'
             . '</option>';
     }
+<<<<<<< HEAD
 } catch (PDOException $e) {
     echo '<option value="">Error loading workers</option>';
 }
 ?>
+=======
+}
+>>>>>>> 9393cbee (update code)
