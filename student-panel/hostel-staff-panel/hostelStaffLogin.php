@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['hostel_staff'])) {
+if (isset($_SESSION['Hostel_Staff'])) {
     // Redirect logged-in users to the dashboard
     header("Location: dashboard.php");
     exit();
@@ -21,7 +21,7 @@ if (isset($_SESSION['hostel_staff'])) {
                         <!-- Display error messages -->
                         <?php
                         if (isset($_SESSION['error'])) {
-                            echo "<div class='alert alert-danger text-center'>" . $_SESSION['error'] . "</div>";
+                            echo "<div class='alert alert-danger text-center'>" . htmlspecialchars($_SESSION['error']) . "</div>";
                             unset($_SESSION['error']);
                         }
                         ?>
@@ -31,12 +31,13 @@ if (isset($_SESSION['hostel_staff'])) {
                             <div class="row gy-3">
                                 <div class="col-xl-12">
                                     <label for="signin-staff-no" class="form-label text-default">Staff Number</label>
-                                    <input type="text" class="form-control form-control-lg" id="signin-staff-no" placeholder="Staff Number" name="staff_no" required>
+                                    <input type="text" class="form-control form-control-lg" id="signin-staff-no" placeholder="Staff Number" name="Staff_No" required>
+
                                 </div>
                                 <div class="col-xl-12 mb-2">
                                     <label for="signin-password" class="form-label text-default d-block">Password</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control form-control-lg" id="signin-password" placeholder="Password" name="password" required>
+                                        <input type="password" class="form-control form-control-lg" id="signin-password" placeholder="Password" name="Password" required>
                                         <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
                                     </div>
                                 </div>
@@ -59,7 +60,6 @@ if (isset($_SESSION['hostel_staff'])) {
 
     <!-- Show Password JS -->
     <script src="assets/js/show-password.js"></script>
-
 </body>
 
 </html>

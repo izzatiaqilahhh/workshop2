@@ -1,56 +1,45 @@
 <?php
+$host = '10.147.20.16';
+$port = '3306';
+$dbname = 'hostelcomplaint';
+$user = 'paan';
+$password = 'password123';
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+try {
+    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $query = $pdo->query("SHOW TABLES");
 
-include 'paandbconfig.php';
+    echo "<html><body>";
+    echo "<h1>Tables and their data:</h1>";
 
-// Insert a new staff record into the STAFF table
-$staff_query = "INSERT INTO STAFF (StaffID, Name, Email, Phone_Num, Position, Department_Name) 
-                VALUES ('ABC123', 'Muhd Paan', 'muhd.paan@example.com', '012-3456789', 'User', 'FTMK')";
-if (!$connAisar->query($staff_query)) {
-    die("Error inserting data into the STAFF table: " . $connAisar->error);
-}
+    while ($row = $query->fetch(PDO::FETCH_NUM)) {
+        $table = $row[0];
+        echo "<h2>Table: $table</h2>";
 
-// Query the STAFF table to display data
-$staff_select_query = "SELECT StaffID, Name, Email, Phone_Num, Position, Department_Name FROM STAFF";
-$staff_result = $connAisar->query($staff_select_query);
+        $dataQuery = $pdo->query("SELECT * FROM $table");
+        $columnsQuery = $pdo->query("DESCRIBE $table");
+        $columns = $columnsQuery->fetchAll(PDO::FETCH_COLUMN);
 
-if (!$staff_result) {
-    die("Error retrieving staff data from MySQL: " . $connAisar->error);
-}
-
-// Display the staff data
-echo "<h2>STAFF Details:</h2>";
-
-if ($staff_result->num_rows > 0) {
-    echo "<table border='1' style='border-collapse: collapse; width: 80%; text-align: left;'>";
-    echo "<tr style='background-color: #f2f2f2;'>
-            <th>StaffID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Position</th>
-            <th>Department Name</th>
-          </tr>";
-
-    while ($row = $staff_result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . htmlspecialchars($row['StaffID']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['Name']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['Email']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['Phone_Num']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['Position']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['Department_Name']) . "</td>";
+        // Print column headers
+        echo "<table border='1'><tr>";
+        foreach ($columns as $column) {
+            echo "<th>$column</th>";
+        }
         echo "</tr>";
+
+        // Fetch and print table data
+        while ($data = $dataQuery->fetch(PDO::FETCH_ASSOC)) {
+            echo "<tr>";
+            foreach ($columns as $column) {
+                echo "<td>" . htmlspecialchars($data[$column]) . "</td>";
+            }
+            echo "</tr>";
+        }
+        echo "</table>";
     }
 
-    echo "</table>";
-} else {
-    echo "<p>No staff records found.</p>";
+    echo "</body></html>";
+} catch (PDOException $e) {
+    echo 'Connection failed: ' . $e->getMessage();
 }
-
-// Close MySQL connection
-//$connAisar->close();
-
 ?>

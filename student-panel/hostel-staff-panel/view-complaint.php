@@ -11,37 +11,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
 
     if (!empty($complaint_id) && !empty($worker_name)) {
         // Get worker_id based on worker_name
-        $worker_query = "SELECT worker_id FROM maintenance_worker WHERE name = :worker_name LIMIT 1";
-        $worker_stmt = $pdo->prepare($worker_query);
-        $worker_stmt->bindParam(':worker_name', $worker_name, PDO::PARAM_STR);
+        $worker_query = "SELECT worker_id FROM maintenance_worker WHERE name = ? LIMIT 1";
+        $worker_stmt = $mysqli->prepare($worker_query);
+        $worker_stmt->bind_param('s', $worker_name);
         $worker_stmt->execute();
-        $worker = $worker_stmt->fetch(PDO::FETCH_ASSOC);
+        $worker_result = $worker_stmt->get_result();
+        $worker = $worker_result->fetch_assoc();
 
         if ($worker) {
             $worker_id = $worker['worker_id'];
 
             // Proceed with complaint assignment
             $assign_query = "INSERT INTO complaint_assignment (complaint_id, worker_id, remarks) 
-                             VALUES (:complaint_id, :worker_id, :remarks)";
-            $assign_stmt = $pdo->prepare($assign_query);
-            $assign_stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
-            $assign_stmt->bindParam(':worker_id', $worker_id, PDO::PARAM_INT);
-            $assign_stmt->bindParam(':remarks', $remarks, PDO::PARAM_STR);
+                             VALUES (?, ?, ?)";
+            $assign_stmt = $mysqli->prepare($assign_query);
+            $assign_stmt->bind_param('iis', $complaint_id, $worker_id, $remarks);
 
             if ($assign_stmt->execute()) {
                 // Insert into complaint_status table
                 $status_query = "INSERT INTO complaint_status (complaint_status, description, date_update_status, complaint_id) 
-                                 VALUES ('Assigned', 'Complaint has been assigned to a worker', NOW(), :complaint_id)";
-                $status_stmt = $pdo->prepare($status_query);
-                $status_stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+                                 VALUES ('Assigned', 'Complaint has been assigned to a worker', NOW(), ?)";
+                $status_stmt = $mysqli->prepare($status_query);
+                $status_stmt->bind_param('i', $complaint_id);
 
                 if ($status_stmt->execute()) {
                     echo "<script>alert('Complaint assigned successfully, and status updated!');</script>";
                 } else {
-                    echo "<script>alert('Complaint assigned, but failed to update status: " . $pdo->errorInfo()[2] . "');</script>";
+                    echo "<script>alert('Complaint assigned, but failed to update status: " . $mysqli->error . "');</script>";
                 }
             } else {
-                echo "<script>alert('Error assigning complaint: " . $pdo->errorInfo()[2] . "');</script>";
+                echo "<script>alert('Error assigning complaint: " . $mysqli->error . "');</script>";
             }
         } else {
             echo "<script>alert('Selected worker not found. Please try again.');</script>";
@@ -86,9 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                 SELECT 1 FROM complaint_assignment ca 
                 WHERE ca.complaint_id = c.complaint_id
             )";
-                    $result = $pdo->query($query);
+                    $result = $mysqli->query($query);
                     $counter = 1;
-                    while ($complaint = $result->fetch(PDO::FETCH_ASSOC)) {
+                    while ($complaint = $result->fetch_assoc()) {
                     ?>
                         <tr>
                             <td><?= $counter++; ?></td>
@@ -140,8 +139,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                             <option value="">Select Maintenance Worker</option>
                             <?php
                             $worker_query = "SELECT worker_id, name, specialization FROM maintenance_worker";
-                            $worker_stmt = $pdo->query($worker_query);
-                            while ($worker = $worker_stmt->fetch(PDO::FETCH_ASSOC)) {
+                            $worker_result = $mysqli->query($worker_query);
+                            while ($worker = $worker_result->fetch_assoc()) {
                                 echo '<option value="' . htmlspecialchars($worker['name']) . '">' . htmlspecialchars($worker['name']) . ' (' . htmlspecialchars($worker['specialization']) . ')</option>';
                             }
                             ?>
@@ -187,4 +186,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
     });
 </script>
 
-<?php include('includes/footer-.php'); ?>
+<?php include('includes/footer-.php'); ?>  

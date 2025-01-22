@@ -13,8 +13,8 @@ include('teahdbconfig.php');
 
 // Fetch user-specific data
 try {
-    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
-    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt = $pdo->prepare('SELECT * FROM student WHERE matric_no = :matric_no');
+    $stmt->bindParam(':matric_no', $_SESSION['student']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -68,8 +68,8 @@ try {
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p>
-                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['name']); ?></p>
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['email']); ?></span>
                             </div>
                         </div>
                     </a>
@@ -118,35 +118,35 @@ try {
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="fullName">Full Name</label>
-                                    <input type="text" id="fullName" class="form-control" name="fullName" value="<?php echo htmlspecialchars($user['Name']); ?>" placeholder="Full Name">
+                                    <input type="text" id="fullName" class="form-control" name="fullName" value="<?php echo htmlspecialchars($user['name']); ?>" placeholder="Full Name">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="matricNumber">Matric Number</label>
-                                    <input type="text" id="matricNumber" class="form-control" name="matricNumber" value="<?php echo htmlspecialchars($user['Matric_No']); ?>" placeholder="Matric Number" readonly>
+                                    <input type="text" id="matricNumber" class="form-control" name="matricNumber" value="<?php echo htmlspecialchars($user['matric_no']); ?>" placeholder="Matric Number" readonly>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="email">Email Address</label>
-                                    <input type="email" id="email" class="form-control" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>" placeholder="Email Address">
+                                    <input type="email" id="email" class="form-control" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" placeholder="Email Address">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="Phone_No">Phone Number</label>
-                                    <input type="text" id="Phone_No" class="form-control" name="Phone_No" value="<?php echo htmlspecialchars($user['Phone_No']); ?>" placeholder="Phone Number">
+                                    <input type="text" id="phone_no" class="form-control" name="Phone_No" value="<?php echo htmlspecialchars($user['phone_no']); ?>" placeholder="Phone Number">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="gender">Gender</label>
-                                    <input type="text" id="gender" class="form-control" name="gender" value="<?php echo htmlspecialchars($user['Gender']); ?>" placeholder="Gender">
+                                    <input type="text" id="gender" class="form-control" name="gender" value="<?php echo htmlspecialchars($user['gender']); ?>" placeholder="Gender">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="faculty">Faculty</label>
-                                    <input type="text" id="faculty" class="form-control" name="faculty" value="<?php echo htmlspecialchars($user['Faculty']); ?>" placeholder="Faculty">
+                                    <input type="text" id="faculty" class="form-control" name="faculty" value="<?php echo htmlspecialchars($user['faculty']); ?>" placeholder="Faculty">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="course">Course</label>
-                                    <input type="text" id="course" class="form-control" name="course" value="<?php echo htmlspecialchars($user['Course']); ?>" placeholder="Course">
+                                    <input type="text" id="course" class="form-control" name="course" value="<?php echo htmlspecialchars($user['course']); ?>" placeholder="Course">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="Year_Of_Study">Year of Study</label>
-                                    <input type="text" id="Year_Of_Study" class="form-control" name="Year_Of_Study" value="<?php echo htmlspecialchars($user['Year_Of_Study']); ?>" placeholder="Year of Study">
+                                    <input type="text" id="year_of_study" class="form-control" name="year_of_study" value="<?php echo htmlspecialchars($user['year_of_study']); ?>" placeholder="Year of Study">
                                 </div>
                                 <div class="col-md-12">
                                     <div class="d-flex justify-content-start align-items-center">

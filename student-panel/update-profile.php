@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Prepare the update query
     $query = 'UPDATE student SET ';
     $params = [];
-    $fields = ['fullName' => 'Name', 'email' => 'Email', 'Phone_No' => 'Phone_No', 'gender' => 'Gender', 'faculty' => 'Faculty', 'course' => 'Course', 'Year_Of_Study' => 'Year_Of_Study'];
+    $fields = ['fullName' => 'name', 'email' => 'email', 'phone_no' => 'phone_no', 'gender' => 'gender', 'faculty' => 'faculty', 'course' => 'course', 'year_of_study' => 'year_of_study'];
 
     foreach ($fields as $field => $dbField) {
         if (!empty($_POST[$field])) {
@@ -34,8 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $query = rtrim($query, ', ');
 
     // Add the condition to update the specific user
-    $query .= ' WHERE Matric_No = :Matric_No';
-    $params['Matric_No'] = $_SESSION['student'];
+    $query .= ' WHERE matric_no = :matric_no';
+    $params['matric_no'] = $_SESSION['student'];
 
     // Execute the update query
     try {

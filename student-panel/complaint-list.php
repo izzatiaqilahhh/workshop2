@@ -11,7 +11,7 @@ if (!isset($_SESSION['student'])) {
 
 // Fetch user-specific data
 try {
-    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
+    $stmt = $pdo->prepare('SELECT * FROM student WHERE matric_no = :matric_no');
     $stmt->bindParam(':Matric_No', $_SESSION['student']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);

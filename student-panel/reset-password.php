@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
 
         // Update the password in the database
-        $stmt = $pdo->prepare("UPDATE student SET Password = ? WHERE Email = ?");
+        $stmt = $pdo->prepare("UPDATE student SET password = ? WHERE email = ?");
         if ($stmt->execute([$hashedPassword, $email])) {
             // Delete the token from the database
             $stmt = $pdo->prepare("DELETE FROM password_resets WHERE email = ?");

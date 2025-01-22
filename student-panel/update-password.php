@@ -36,20 +36,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Fetch the user's current password from the database
-        $stmt = $pdo->prepare('SELECT Password FROM student WHERE Matric_No = :Matric_No');
-        $stmt->bindParam(':Matric_No', $_SESSION['student']);
+        $stmt = $pdo->prepare('SELECT password FROM student WHERE matric_no = :matric_no');
+        $stmt->bindParam(':matric_no', $_SESSION['student']);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Verify the current password
-        if ($user && password_verify($currentPassword, $user['Password'])) {
+        if ($user && password_verify($currentPassword, $user['password'])) {
             // Hash the new password
             $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
             // Update the password in the database
-            $stmt = $pdo->prepare('UPDATE student SET Password = :password WHERE Matric_No = :Matric_No');
+            $stmt = $pdo->prepare('UPDATE student SET password = :password WHERE matric_no = :matric_no');
             $stmt->bindParam(':password', $hashedPassword);
-            $stmt->bindParam(':Matric_No', $_SESSION['student']);
+            $stmt->bindParam(':matric_no', $_SESSION['student']);
             $stmt->execute();
 
             $_SESSION['password_success'] = 'Password updated successfully!';

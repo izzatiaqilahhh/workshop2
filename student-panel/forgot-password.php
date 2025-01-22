@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
 
     // Check if the email exists in the database
-    $stmt = $pdo->prepare("SELECT * FROM student WHERE Email = ?");
+    $stmt = $pdo->prepare("SELECT * FROM student WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
