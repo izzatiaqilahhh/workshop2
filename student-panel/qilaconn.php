@@ -1,21 +1,22 @@
 <?php
-// pg_conn.php
+$host = getenv('DB_HOST') ?: '10.147.20.11'; // Change to your actual host, e.g., 'localhost'
+$dbname = getenv('DB_NAME') ?: 'ehrcs'; // Change to your actual database name
+$username = getenv('DB_USER') ?: 'fathehah'; // Change to your actual database username
+$password = getenv('DB_PASS') ?: 'password'; // Change to your actual database password
 
-$host = '10.147.20.11';
-$db = 'ehrcs';
-$user = 'fathehah';
-$pass = 'password';
-$port = '5432'; // Default is 5432
+$dsn = "pgsql:host=$host;dbname=$dbname";
 
 try {
-    $pgsql_pdo = new PDO("pgsql:host=$host;port=$port;dbname=$db", $user, $pass);
-    $pgsql_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo 'Connected successfully to the PostgreSQL database.<br>';
+    $pdo = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
+    // Connection successful message
+    echo "Connected successfully to the database.";
 } catch (PDOException $e) {
-    echo 'Connection failed: ' . $e->getMessage();
+    // Log database connection errors and display a generic error message
+    error_log('Database connection failed: ' . $e->getMessage());
+    echo 'Database connection failed. Please try again later.';
     exit();
 }
 ?>
-
-
-
