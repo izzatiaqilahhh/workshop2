@@ -1,10 +1,8 @@
 <?php
-
+include 'qiladbcon.php';
 // Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-include 'qiladbcon.php';
 
 // Fetch total complaints
 $total_complaints_query = "SELECT COUNT(*) AS total FROM complaint";
@@ -321,7 +319,7 @@ while ($row = $result_complaints_by_type->fetch(PDO::FETCH_ASSOC)) {
 <!-- JavaScript to Render the Trend Chart -->
 <script>
     // Fetch trend data and render the chart
-    fetch('fetchtrenddata.php')
+    fetch('fetch-trend-data.php')
         .then(response => response.json())
         .then(data => {
             const ctx = document.getElementById('trendChart').getContext('2d');
