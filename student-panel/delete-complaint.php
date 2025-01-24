@@ -3,7 +3,6 @@ session_start();
 include('teahdbconfig.php'); // Include MariaDB config for student verification
 include('paanconn.php'); // Include MySQL config for complaint handling
 
-
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
     header("Location: studentLogin.php");
@@ -43,9 +42,9 @@ if (isset($_GET['complaint_id'])) {
         $stmt->execute();
 
         // Delete the complaint in MySQL
-        $stmt = $mysql_pdo->prepare("DELETE FROM complaint WHERE complaint_id = :complaint_id AND student_id = :student_id");
+        $stmt = $mysql_pdo->prepare("DELETE FROM complaint WHERE complaint_id = :complaint_id AND Student_ID = :Student_ID");
         $stmt->bindParam(':complaint_id', $complaint_id);
-        $stmt->bindParam(':student_id', $student_id);
+        $stmt->bindParam(':Student_ID', $student_id);
         $stmt->execute();
 
         // Commit the transaction
