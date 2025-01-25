@@ -9,10 +9,28 @@ if (!isset($_SESSION['student'])) {
     exit();
 }
 
+// Handle status update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complaint_id'], $_POST['complaint_status'])) {
+    $complaint_id = $_POST['complaint_id'];
+    $complaint_status = $_POST['complaint_status'];
+
+    try {
+        // Update the complaint status
+        $stmt = $mysql_pdo->prepare("UPDATE complaint_status SET complaint_status = :complaint_status, date_update_status = NOW() WHERE complaint_id = :complaint_id");
+        $stmt->bindParam(':complaint_status', $complaint_status);
+        $stmt->bindParam(':complaint_id', $complaint_id);
+        $stmt->execute();
+
+        $_SESSION['success'] = 'Complaint status updated successfully.';
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 'Database error: ' . htmlspecialchars($e->getMessage());
+    }
+}
+
 // Fetch user-specific data
 try {
     $stmt = $pdo->prepare('SELECT * FROM student WHERE matric_no = :matric_no');
-    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt->bindParam(':matric_no', $_SESSION['student']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -21,13 +39,24 @@ try {
         exit();
     }
 
-    $student_id = $user['Student_ID'];
+    $student_id = $user['student_id'];
 
-    $stmt = $mysql_pdo->prepare("SELECT c.*, cs.complaint_status, cs.description as status_description, cs.date_update_status 
-                                 FROM complaint c 
-                                 LEFT JOIN complaint_status cs ON c.complaint_id = cs.complaint_id 
-                                 WHERE c.student_id = :student_id 
-                                 ORDER BY c.date_created DESC");
+    $stmt = $mysql_pdo->prepare("
+    SELECT c.*, cs.complaint_status, cs.description as status_description, cs.date_update_status
+    FROM complaint c
+    LEFT JOIN (
+        SELECT cs1.*
+        FROM complaint_status cs1
+        INNER JOIN (
+            SELECT complaint_id, MAX(date_update_status) as max_date
+            FROM complaint_status
+            GROUP BY complaint_id
+        ) cs2
+        ON cs1.complaint_id = cs2.complaint_id AND cs1.date_update_status = cs2.max_date
+    ) cs ON c.complaint_id = cs.complaint_id
+    WHERE c.student_id = :student_id
+    ORDER BY c.date_created DESC
+    ");
     $stmt->bindParam(':student_id', $student_id, PDO::PARAM_INT);
     $stmt->execute();
     $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -70,8 +99,8 @@ try {
                                 </svg>
                             </div>
                             <div class="d-sm-block d-none">
-                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['Name']); ?></p>
-                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['Email']); ?></span>
+                                <p class="fw-semibold mb-0 lh-1"><?php echo htmlspecialchars($user['name']); ?></p>
+                                <span class="op-7 fw-normal d-block fs-11"><?php echo htmlspecialchars($user['email']); ?></span>
                             </div>
                         </div>
                     </a>

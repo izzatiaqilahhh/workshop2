@@ -42,9 +42,9 @@ if (isset($_GET['complaint_id'])) {
         $stmt->execute();
 
         // Delete the complaint in MySQL
-        $stmt = $mysql_pdo->prepare("DELETE FROM complaint WHERE complaint_id = :complaint_id AND Student_ID = :Student_ID");
+        $stmt = $mysql_pdo->prepare("DELETE FROM complaint WHERE complaint_id = :complaint_id AND student_id = :student_id");
         $stmt->bindParam(':complaint_id', $complaint_id);
-        $stmt->bindParam(':Student_ID', $student_id);
+        $stmt->bindParam(':student_id', $student_id);
         $stmt->execute();
 
         // Commit the transaction

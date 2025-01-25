@@ -97,14 +97,10 @@ try {
                     $stmt->bindParam(':student_id', $student_id);
                     $stmt->bindParam(':room_id', $room_id);
                     $stmt->execute();
+
                     
                     // Get the last inserted complaint ID
                     $complaint_id = $mysql_pdo->lastInsertId();
-
-                    // Insert initial status into the Complaint_Status table
-                    $stmt = $mysql_pdo->prepare("INSERT INTO complaint_status (complaint_id, complaint_status, description) VALUES (:complaint_id, 'pending', NULL)");
-                    $stmt->bindParam(':complaint_id', $complaint_id);
-                    $stmt->execute();
 
                     $_SESSION['success'] = 'Complaint submitted successfully.';
                     header('Location: complaint-list.php');

@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <li>At least one uppercase letter</li>
                         <li>At least one number</li>
                     </ul>
-                    <p class="text-muted">Example: <strong>Hehehe1234</strong></p>
+                    <p class="text-muted">Example: <strong>Fatimah1234</strong></p>
                 </div>
             </div>
         </div>
