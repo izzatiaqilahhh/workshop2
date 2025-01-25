@@ -11,17 +11,17 @@ if (!isset($_SESSION['maintenance_staff'])) {
 include('teahdbconfig.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $company_name = $_POST['Company_Name'];
-    $company_office_no = $_POST['Company_Office_No'];
-    $company_email = $_POST['Company_Email'];
+    $company_name = $_POST['company_name'];
+    $company_office_no = $_POST['company_office_no'];
+    $company_email = $_POST['company_email'];
     $company_id = $_SESSION['company_id']; // Assume company ID is stored in session
 
     try {
-        $stmt = $pdo->prepare('UPDATE maintenance_company SET Company_Name = :Company_Name, Company_Office_No = :Company_Office_No, Company_Email = :Company_Email WHERE Company_Id = :Company_Id');
-        $stmt->bindParam(':Company_Name', $company_name);
-        $stmt->bindParam(':Company_Office_No', $company_office_no);
-        $stmt->bindParam(':Company_Email', $company_email);
-        $stmt->bindParam(':Company_Id', $company_id);
+        $stmt = $pdo->prepare('UPDATE maintenance_company SET company_name = :company_name, company_office_no = :company_office_no, company_email = :company_email WHERE company_id = :company_id');
+        $stmt->bindParam(':company_name', $company_name);
+        $stmt->bindParam(':company_office_no', $company_office_no);
+        $stmt->bindParam(':company_email', $company_email);
+        $stmt->bindParam(':company_id', $company_id);
         $stmt->execute();
 
         $_SESSION['success'] = "Company details updated successfully.";

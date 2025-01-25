@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('includes/header-.php');
 
 // Check if the user is logged in
 if (!isset($_SESSION['maintenance_staff'])) {
@@ -13,22 +14,20 @@ include('ainaconnection.php');
 
 // Fetch user-specific data
 try {
-    $stmt = $pdo->prepare('SELECT * FROM maintenance_worker WHERE Worker_No = :Worker_No');
-    $stmt->bindParam(':Worker_No', $_SESSION['maintenance_staff']);
+    $stmt = $pdo->prepare('SELECT * FROM maintenance_worker WHERE worker_no = :worker_no');
+    $stmt->bindParam(':worker_no', $_SESSION['maintenance_staff']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Fetch company data
-    $stmt_company = $pdo->prepare('SELECT * FROM maintenance_company WHERE Company_Id = :Company_Id');
-    $stmt_company->bindParam(':Company_Id', $user['Company_Id']);
+    $stmt_company = $pdo->prepare('SELECT * FROM maintenance_company WHERE company_id = :company_id');
+    $stmt_company->bindParam(':company_id', $user['company_id']);
     $stmt_company->execute();
     $company = $stmt_company->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo 'Database connection failed: ' . $e->getMessage();
     exit();
 }
-
-include('includes/header-.php');
 ?>
 
 <title>e-HRCS - Maintenance Staff Profile</title>
@@ -68,24 +67,24 @@ include('includes/header-.php');
                     <form method="POST" action="update-profile.php">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="Name">Name</label>
-                                <input type="text" id="Name" class="form-control" name="Name" value="<?php echo htmlspecialchars($user['Name']); ?>" placeholder="Name">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" class="form-control" name="name" value="<?php echo htmlspecialchars($user['name']); ?>" placeholder="Name">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="workerNumber">Worker Number</label>
-                                <input type="text" id="workerNumber" class="form-control" name="workerNumber" value="<?php echo htmlspecialchars($user['Worker_No']); ?>" placeholder="Worker Number" readonly>
+                                <input type="text" id="workerNumber" class="form-control" name="workerNumber" value="<?php echo htmlspecialchars($user['worker_no']); ?>" placeholder="Worker Number" readonly>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="email">Email Address</label>
-                                <input type="email" id="email" class="form-control" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>" placeholder="Email Address">
+                                <input type="email" id="email" class="form-control" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" placeholder="Email Address">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="Phone_No">Phone Number</label>
-                                <input type="text" id="Phone_No" class="form-control" name="Phone_No" value="<?php echo htmlspecialchars($user['Phone_No']); ?>" placeholder="Phone Number">
+                                <label for="phone_no">Phone Number</label>
+                                <input type="text" id="phone_no" class="form-control" name="phone_no" value="<?php echo htmlspecialchars($user['phone_no']); ?>" placeholder="Phone Number">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="Specialization">Specialization</label>
-                                <input type="text" id="specialization" class="form-control" name="specialization" value="<?php echo htmlspecialchars($user['Specialization']); ?>" placeholder="Specialization">
+                                <label for="specialization">Specialization</label>
+                                <input type="text" id="specialization" class="form-control" name="specialization" value="<?php echo htmlspecialchars($user['specialization']); ?>" placeholder="Specialization">
                             </div>
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-start align-items-center">
@@ -109,16 +108,16 @@ include('includes/header-.php');
                     <form method="POST" action="update-company.php">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="Company_Name">Company Name</label>
-                                <input type="text" id="Company_Name" class="form-control" name="Company_Name" value="<?php echo htmlspecialchars($company['Company_Name']); ?>" placeholder="Company Name">
+                                <label for="company_name">Company Name</label>
+                                <input type="text" id="company_name" class="form-control" name="company_name" value="<?php echo htmlspecialchars($company['company_name']); ?>" placeholder="Company Name">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="Company_Office_No">Company Office Number</label>
-                                <input type="text" id="Company_Office_No" class="form-control" name="Company_Office_No" value="<?php echo htmlspecialchars($company['Company_Office_No']); ?>" placeholder="Company Office Number">
+                                <label for="company_office_no">Company Office Number</label>
+                                <input type="text" id="company_office_no" class="form-control" name="company_office_no" value="<?php echo htmlspecialchars($company['company_office_no']); ?>" placeholder="Company Office Number">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="Company_Email">Company Email</label>
-                                <input type="email" id="Company_Email" class="form-control" name="Company_Email" value="<?php echo htmlspecialchars($company['Company_Email']); ?>" placeholder="Company Email">
+                                <label for="company_email">Company Email</label>
+                                <input type="email" id="company_email" class="form-control" name="company_email" value="<?php echo htmlspecialchars($company['company_email']); ?>" placeholder="Company Email">
                             </div>
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-start align-items-center">

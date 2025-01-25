@@ -1,23 +1,43 @@
 <?php
-include('ainaconnection.php'); // Include your database connection
+session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $complaint_id = $_POST['complaint_id'];
-    $status = $_POST['status'];
-    $progress = $_POST['progress'];
+if (!isset($_SESSION['maintenance_staff'])) {
+    header('Location: maintenanceStaffLogin.php');
+    exit();
+}
 
-    // Update complaint status and progress
-    $sql = "UPDATE complaints SET status = ?, progress_update = ?, updated_at = NOW() WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('ssi', $status, $progress, $complaint_id);
+include 'ainaconnection.php';
 
-    if ($stmt->execute()) {
-        echo "<script>alert('Complaint updated successfully'); window.location.href='assigned_complaints.php';</script>";
-    } else {
-        echo "<script>alert('Error updating complaint'); window.location.href='assigned_complaints.php';</script>";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $complaint_id = $_POST['Complaint_ID'];
+    $new_status = htmlspecialchars(trim($_POST['Complaint_Status']));
+    $status_description = htmlspecialchars(trim($_POST['Status_Description']));
+    $worker_no = $_SESSION['maintenance_staff']; // Current logged-in worker
+
+    try {
+        // Update the complaint status
+        $query = "
+            UPDATE complaint_status 
+            SET Complaint_Status = :new_status, 
+                Description = :status_description, 
+                Date_Update_Status = NOW() 
+            WHERE Complaint_ID = :complaint_id
+        ";
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':new_status', $new_status, PDO::PARAM_STR);
+        $stmt->bindParam(':status_description', $status_description, PDO::PARAM_STR);
+        $stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);  // Correcting the parameter type for integer
+        $stmt->execute();
+
+        // Redirect back with a success message
+        header('Location: assigned-complaint.php?success=Status updated successfully');
+        exit();
+    } catch (PDOException $e) {
+        error_log($e->getMessage());
+        // Redirect with an error message
+        header('Location: assigned-complaint.php?error=Failed to update status');
+        exit();
     }
-
-    $stmt->close();
-    $conn->close();
 }
 ?>

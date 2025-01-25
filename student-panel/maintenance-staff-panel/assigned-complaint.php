@@ -1,106 +1,232 @@
-<?php 
+<?php
 // Start the session
 session_start();
 
+// Ensure the worker's ID is stored in a session variable
+if (!isset($_SESSION['maintenance_staff'])) {
+    header('Location: maintenanceStaffLogin.php');
+    exit('Access denied. Please log in as a worker.');
+}
+
 // Include the header
-include('includes/header-.php'); 
+include('includes/header-.php');
 
 // Include the database connection file
-include 'ainaconnection.php'; 
+include 'ainaconnection.php';
 
-// Ensure the worker's ID is stored in a session variable
-if (!isset($_SESSION['worker_id'])) {
-    die('Access denied. Please log in as a worker.');
+// Fetch user-specific data
+try {
+    // Fetch user profile information
+    $stmt = $pdo->prepare('SELECT * FROM maintenance_worker WHERE Worker_No = :Worker_No');
+    $stmt->bindParam(':Worker_No', $_SESSION['maintenance_staff'], PDO::PARAM_STR);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Check if user exists
+    if (!$user) {
+        throw new Exception('User not found.');
+    }
+} catch (Exception $e) {
+    error_log($e->getMessage());
+    echo 'Error: Unable to fetch user data.';
+    exit();
 }
-$worker_id = $_SESSION['worker_id'];
 
-// Fetch data from the database with join and filter by worker ID
-$query = "
-    SELECT 
-        ca.Complaint_Id, 
-        ca.Worker_Id, 
-        ca.Date_Assigned, 
-        ca.Remarks, 
-        cs.Complaint_Status, 
-        cs.Description, 
-        cs.Date_Update_Status 
-    FROM 
-        Complaint_Assignment ca
-    JOIN 
-        Complaint_Status cs 
-    ON 
-        ca.Complaint_Id = cs.Complaint_ID
-    WHERE 
-        ca.Worker_Id = :worker_id
-";
-$stmt = $pdo->prepare($query);
-$stmt->execute(['worker_id' => $worker_id]);
+$worker_id = $_SESSION['maintenance_staff'];
+
+// Fetch complaints assigned to the current user
+try {
+    $query = "
+        SELECT 
+            c.Complaint_ID, 
+            c.Complaint_Type, 
+            c.Complaint_Issue, 
+            c.Description AS Complaint_Description, 
+            ca.Worker_No, 
+            ca.Date_Assigned, 
+            ca.Remarks AS Assignment_Remarks, 
+            cs.Complaint_Status, 
+            cs.Description AS Status_Description, 
+            cs.Date_Update_Status 
+        FROM 
+            complaint c
+        LEFT JOIN 
+            complaint_assignment ca ON c.Complaint_ID = ca.Complaint_Id
+        LEFT JOIN 
+            complaint_status cs ON c.Complaint_ID = cs.Complaint_ID
+        WHERE 
+            ca.Worker_No = :worker_id
+    ";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':worker_id', $worker_id, PDO::PARAM_STR);
+    $stmt->execute();
+    $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    echo 'Database query failed. Please try again later.';
+    exit();
+}
 ?>
+
 <title>e-HRCS - Assigned Complaint Management</title>
 
 <div class="main-content app-content">
     <div class="container">
-
         <!-- Page Header -->
-        <div class="d-md-flex d-block align-items-center justify-content-between mb-2 my-4 page-header-breadcrumb">
+        <div class="d-md-flex d-block align-items-center justify-content-between mb-4 page-header-breadcrumb">
             <h1 class="page-title fw-semibold fs-22 mb-0">Assigned Complaint Management</h1>
-            <div class="ms-md-1 ms-0">
-                <nav>
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="assigned-complaint.php">Assigned Complaint Management</a></li>
-                    </ol>
-                </nav>
+            <div>
+                <select id="complaintFilter" class="form-select" onchange="toggleComplaints()">
+                    <option value="active">Active Complaints</option>
+                    <option value="resolved">Resolved Complaints</option>
+                </select>
             </div>
         </div>
 
-        <!-- Table -->
-        <div class="table-responsive">
-            <table class="table table-bordered">
+        <!-- Active Complaints Table -->
+        <div id="activeComplaints" class="complaint-section">
+            <h2 class="mb-3">Active Complaints</h2>
+            <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>Complaint ID</th>
-                        <th>Worker ID</th>
-                        <th>Date Assigned</th>
-                        <th>Remarks</th>
-                        <th>Status</th>
+                        <th>Complaint Type</th>
+                        <th>Complaint Issue</th>
                         <th>Description</th>
+                        <th>Worker No</th>
+                        <th>Date Assigned</th>
+                        <th>Assignment Remarks</th>
+                        <th>Status</th>
+                        <th>Status Description</th>
                         <th>Date Updated</th>
-                        <th>Update</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    // Check if query returned results
-                    if ($stmt->rowCount() > 0) {
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $hasActive = false;
+                    foreach ($complaints as $row) {
+                        if ($row['Complaint_Status'] !== 'Resolved') {
+                            $hasActive = true;
                             echo "<tr>
-                                <td>" . htmlspecialchars($row['Complaint_Id']) . "</td>
-                                <td>" . htmlspecialchars($row['Worker_Id']) . "</td>
+                                <td>" . htmlspecialchars($row['Complaint_ID']) . "</td>
+                                <td>" . htmlspecialchars($row['Complaint_Type']) . "</td>
+                                <td>" . htmlspecialchars($row['Complaint_Issue']) . "</td>
+                                <td>" . htmlspecialchars($row['Complaint_Description']) . "</td>
+                                <td>" . htmlspecialchars($row['Worker_No']) . "</td>
                                 <td>" . htmlspecialchars($row['Date_Assigned']) . "</td>
-                                <td>" . htmlspecialchars($row['Remarks']) . "</td>
+                                <td>" . htmlspecialchars($row['Assignment_Remarks']) . "</td>
                                 <td>" . htmlspecialchars($row['Complaint_Status']) . "</td>
-                                <td>" . htmlspecialchars($row['Description']) . "</td>
+                                <td>" . htmlspecialchars($row['Status_Description']) . "</td>
                                 <td>" . htmlspecialchars($row['Date_Update_Status']) . "</td>
                                 <td>
-                                    <form method='POST' action='update_assignment.php'>
-                                        <input type='hidden' name='complaint_id' value='" . htmlspecialchars($row['Complaint_Id']) . "'>
-                                        <input type='hidden' name='worker_id' value='" . htmlspecialchars($row['Worker_Id']) . "'>
-                                        <input type='text' name='remarks' class='form-control mb-2' placeholder='Add remarks (optional)' value='" . htmlspecialchars($row['Remarks']) . "'>
-                                        <button type='submit' class='btn btn-success btn-sm'>Update</button>
+                                    <form action='update_complaint.php' method='POST'>
+                                        <input type='hidden' name='Complaint_ID' value='" . htmlspecialchars($row['Complaint_ID']) . "'>
+                                        <select name='Complaint_Status' class='form-select mb-1' required>
+                                            <option value='Assigned' " . ($row['Complaint_Status'] === 'Assigned' ? 'selected' : '') . ">Assigned</option>
+                                            <option value='In Progress' " . ($row['Complaint_Status'] === 'In Progress' ? 'selected' : '') . ">In Progress</option>
+                                            <option value='Resolved'>Resolved</option>
+                                        </select>
+                                        <textarea name='Status_Description' placeholder='Status Description' required class='form-control mb-1'></textarea>
+                                        <button type='submit' class='btn btn-primary btn-sm'>Update</button>
                                     </form>
                                 </td>
                             </tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='8' class='text-center'>No assignments found.</td></tr>";
+                    }
+
+                    if (!$hasActive) {
+                        echo "<tr><td colspan='11' class='text-center'>No active complaints assigned to you.</td></tr>";
                     }
                     ?>
                 </tbody>
             </table>
         </div>
 
-        <a href="dashboard.php" class="btn btn-primary mt-4">Back to Dashboard</a>
+        <!-- Resolved Complaints Table -->
+        <div id="resolvedComplaints" class="complaint-section" style="display: none;">
+            <h2 class="mb-3">Resolved Complaints</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Complaint ID</th>
+                        <th>Complaint Type</th>
+                        <th>Complaint Issue</th>
+                        <th>Description</th>
+                        <th>Worker No</th>
+                        <th>Date Assigned</th>
+                        <th>Assignment Remarks</th>
+                        <th>Status</th>
+                        <th>Status Description</th>
+                        <th>Date Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $hasResolved = false;
+                    foreach ($complaints as $row) {
+                        if ($row['Complaint_Status'] === 'Resolved') {
+                            $hasResolved = true;
+                            echo "<tr>
+                                <td>" . htmlspecialchars($row['Complaint_ID']) . "</td>
+                                <td>" . htmlspecialchars($row['Complaint_Type']) . "</td>
+                                <td>" . htmlspecialchars($row['Complaint_Issue']) . "</td>
+                                <td>" . htmlspecialchars($row['Complaint_Description']) . "</td>
+                                <td>" . htmlspecialchars($row['Worker_No']) . "</td>
+                                <td>" . htmlspecialchars($row['Date_Assigned']) . "</td>
+                                <td>" . htmlspecialchars($row['Assignment_Remarks']) . "</td>
+                                <td>" . htmlspecialchars($row['Complaint_Status']) . "</td>
+                                <td>" . htmlspecialchars($row['Status_Description']) . "</td>
+                                <td>" . htmlspecialchars($row['Date_Update_Status']) . "</td>
+                            </tr>";
+                        }
+                    }
+
+                    if (!$hasResolved) {
+                        echo "<tr><td colspan='10' class='text-center'>No resolved complaints assigned to you.</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
+<script>
+    function toggleComplaints() {
+        const filter = document.getElementById('complaintFilter').value;
+        const activeSection = document.getElementById('activeComplaints');
+        const resolvedSection = document.getElementById('resolvedComplaints');
+
+        if (filter === 'active') {
+            activeSection.style.display = 'block';
+            resolvedSection.style.display = 'none';
+        } else {
+            activeSection.style.display = 'none';
+            resolvedSection.style.display = 'block';
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        let table = new DataTable('.table', {
+            dom: 'Bfrtip', // To specify where the buttons should be placed
+            buttons: [{
+                    extend: 'excelHtml5', // Export to Excel
+                    title: 'Data Export'
+                },
+                {
+                    extend: 'pdfHtml5', // Export to PDF
+                    title: 'Data Export'
+                },
+                {
+                    extend: 'print', // Export to PDF
+                    title: 'Data Export'
+                }
+            ]
+        });
+    });
+</script>
 
 <?php include('includes/footer-.php'); ?>

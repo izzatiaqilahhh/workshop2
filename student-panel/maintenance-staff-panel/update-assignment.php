@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $remarks = $_POST['remarks'];
 
     // Update the assignment in the database
-    $query = "UPDATE Complaint_Assignment SET Remarks = ?, Date_Assigned = current_timestamp() WHERE Complaint_Id = ? AND Worker_Id = ?";
+    $query = "UPDATE complaint_assignment SET remarks = ?, date_assigned = current_timestamp() WHERE complaint_id = ? AND worker_id = ?";
     $stmt = $pdo->prepare($query);
     $stmt->execute([$remarks, $complaint_id, $worker_id]);
 

@@ -1,6 +1,7 @@
 <?php
 include('includes/header.php');
-include 'ainaconnection.php'; ?>
+include 'ainaconnection.php';  // Include your database configuration file
+?>
 
 <title>e-HRCS - Forgot Password</title>
 
@@ -15,8 +16,8 @@ include 'ainaconnection.php'; ?>
                     <form method="POST" action="reset-password-process.php">
                         <div class="row gy-3">
                             <div class="col-xl-12">
-                                <label for="signin-username" class="form-label text-default">Email Address</label>
-                                <input type="email" class="form-control form-control-lg" id="signin-username" placeholder="Email Address" name="email" required>
+                                <label for="email" class="form-label text-default">Email Address</label>
+                                <input type="email" class="form-control form-control-lg" id="email" placeholder="Email Address" name="email" required>
                             </div>
                             <div class="col-xl-12 d-grid mt-2">
                                 <button type="submit" name="resetPasswordBtn" class="btn btn-lg btn-primary-gradient">Send Reset Link</button>

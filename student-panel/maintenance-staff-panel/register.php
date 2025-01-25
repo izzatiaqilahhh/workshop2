@@ -1,11 +1,10 @@
 <?php
-include('includes/header.php');
-include 'ainaconnection.php'; 
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+include 'ainaconnection.php'; // Ensure this file includes the database connection setup
+include('includes/header.php');
 ?>
 
 <title>e-HRCS - Register</title>
@@ -86,7 +85,7 @@ if (isset($_SESSION['registration_success']) && $_SESSION['registration_success'
 ?>
 <script>
     alert("Registration successful. Redirecting to login page ...");
-    window.location.href = "dashboard.php";
+    window.location.href = "maintenanceStaffLogin.php";
 </script>
 <?php endif; ?>
 

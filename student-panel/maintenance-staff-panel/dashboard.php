@@ -1,17 +1,16 @@
-<?php 
-session_start();
+<?php
+include 'ainaconnection.php';  
+include('includes/header-.php');
 if (!isset($_SESSION['maintenance_staff'])) {
-    header('Location: maintenanceStaffLogin.php');
+    header('Location: maintenancestafflogin.php');
     exit();
 }
 
-include 'ainaconnection.php';  
- 
 // Fetch user-specific data
 try {
     // Fetch user profile information
-    $stmt = $pdo->prepare('SELECT * FROM maintenance_worker WHERE Worker_No = :Worker_No');
-    $stmt->bindParam(':Worker_No', $_SESSION['maintenance_staff']);
+    $stmt = $pdo->prepare('SELECT * FROM maintenance_worker WHERE worker_no = :worker_no');
+    $stmt->bindParam(':worker_no', $_SESSION['maintenance_staff']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -19,9 +18,45 @@ try {
     exit();
 }
 
-include('includes/header-.php'); ?>
+// Initialize counts and details
+$totalAssigned = 0;
+$totalCompleted = 0;
+$assignedComplaints = [];
+$completedComplaints = [];
 
-<title>e-HRCS - Dashboard</title>
+try {
+    // Fetch total complaints assigned to the user but not resolved yet
+    $stmtAssigned = $pdo->prepare('
+        SELECT ca.complaint_id, c.complaint_issue, ca.date_assigned 
+        FROM complaint_assignment ca
+        JOIN complaint c ON ca.complaint_id = c.complaint_id
+        LEFT JOIN complaint_status cs ON ca.complaint_id = cs.complaint_id
+        WHERE ca.worker_no = :worker_no AND (cs.complaint_status IS NULL OR cs.complaint_status != "resolved")
+    ');
+    $stmtAssigned->bindParam(':worker_no', $_SESSION['maintenance_staff']);
+    $stmtAssigned->execute();
+    $assignedComplaints = $stmtAssigned->fetchAll(PDO::FETCH_ASSOC);
+    $totalAssigned = count($assignedComplaints);
+
+    // Fetch total complaints completed by the user
+    $stmtCompleted = $pdo->prepare('
+        SELECT ca.complaint_id, c.complaint_issue, c.date_resolved 
+        FROM complaint_assignment ca
+        JOIN complaint c ON c.complaint_id = ca.complaint_id
+        JOIN complaint_status cs ON c.complaint_id = cs.complaint_id
+        WHERE ca.worker_no = :worker_no AND cs.complaint_status = "resolved"
+    ');
+    $stmtCompleted->bindParam(':worker_no', $_SESSION['maintenance_staff']);
+    $stmtCompleted->execute();
+    $completedComplaints = $stmtCompleted->fetchAll(PDO::FETCH_ASSOC);
+    $totalCompleted = count($completedComplaints);
+} catch (PDOException $e) {
+    echo 'Database query failed: ' . $e->getMessage();
+    exit();
+}
+?>
+
+<title>e-HRCS - Dashboard Overview</title>
 
 <!-- App Content -->
 <div class="main-content app-content">
@@ -29,7 +64,7 @@ include('includes/header-.php'); ?>
 
         <!-- Page Header -->
         <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-22 mb-0">Dashboard</h1>
+            <h1 class="page-title fw-semibold fs-22 mb-0">Dashboard Overview</h1>
             <div class="ms-md-1 ms-0 d-flex align-items-center">
 
                 <!-- Notification Icon -->
@@ -60,13 +95,13 @@ include('includes/header-.php'); ?>
                 </button>
             </div>
 
-            <!-- Card 1 -->
-            <div class="col-sm-12">
+            <!-- Card for Assigned Complaints -->
+            <div class="col-sm-6">
                 <div class="card custom-card">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-2">Total Complaint</p>
-                            <h4 class="mb-0 fw-semibold mb-2"></h4>
+                            <p class="mb-2">Total Complaints Assigned (Not Resolved)</p>
+                            <h4 class="mb-0 fw-semibold mb-2"><?= htmlspecialchars($totalAssigned) ?></h4>
                         </div>
                         <div>
                             <span class="avatar avatar-md bg-warning p-2">
@@ -74,10 +109,58 @@ include('includes/header-.php'); ?>
                             </span>
                         </div>
                     </div>
+                    <div class="card-footer">
+                        <?php if ($totalAssigned > 0): ?>
+                            <ul class="list-unstyled mb-0">
+                                <?php foreach ($assignedComplaints as $complaint): ?>
+                                    <li>
+                                        <strong>Complaint ID:</strong> <?= htmlspecialchars($complaint['complaint_id']) ?><br>
+                                        <strong>Issue:</strong> <?= htmlspecialchars($complaint['complaint_issue']) ?><br>
+                                        <strong>Date Assigned:</strong> <?= htmlspecialchars($complaint['date_assigned']) ?>
+                                    </li>
+                                    <hr>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else: ?>
+                            <p>No complaints assigned yet.</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card for Completed Complaints -->
+            <div class="col-sm-6">
+                <div class="card custom-card">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="mb-2">Total Complaints Completed (Resolved)</p>
+                            <h4 class="mb-0 fw-semibold mb-2"><?= htmlspecialchars($totalCompleted) ?></h4>
+                        </div>
+                        <div>
+                            <span class="avatar avatar-md bg-success p-2">
+                                <i class='bx bx-check-circle side-menu__icon'></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <?php if ($totalCompleted > 0): ?>
+                            <ul class="list-unstyled mb-0">
+                                <?php foreach ($completedComplaints as $complaint): ?>
+                                    <li>
+                                        <strong>Complaint ID:</strong> <?= htmlspecialchars($complaint['complaint_id']) ?><br>
+                                        <strong>Issue:</strong> <?= htmlspecialchars($complaint['complaint_issue']) ?><br>
+                                        <strong>Date Resolved:</strong> <?= htmlspecialchars($complaint['date_resolved']) ?>
+                                    </li>
+                                    <hr>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else: ?>
+                            <p>No complaints completed yet.</p>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -108,9 +191,9 @@ include('includes/header-.php'); ?>
                     complaints.forEach(complaint => {
                         const listItem = `
                             <li class="dropdown-item">
-                                <strong>${complaint.Complaint_Type} - ${complaint.Complaint_Issue}</strong>
-                                <p class="text-muted mb-0" style="font-size: 0.85em;">${complaint.Description}</p>
-                                <small class="text-muted">${complaint.Date_Created}</small>
+                                <strong>${complaint.complaint_type} - ${complaint.complaint_issue}</strong>
+                                <p class="text-muted mb-0" style="font-size: 0.85em;">${complaint.description}</p>
+                                <small class="text-muted">${complaint.date_created}</small>
                             </li>
                         `;
                         notificationList.insertAdjacentHTML('beforeend', listItem);
