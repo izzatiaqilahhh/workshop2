@@ -1,33 +1,49 @@
 <?php
 // Include database configuration
-include 'qiladbcon.php';
+include 'paandbconfig.php';
 include 'includes/header-.php';
 
 // Handle Assign Complaint form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
     $complaint_id = intval($_POST['complaint_id']);
-    $worker_id = $_POST['assigned_to'] ?? '';
-    $remarks = $_POST['remarks'] ?? '';
+    $worker_name = htmlspecialchars($_POST['assigned_to'] ?? '');
+    $remarks = htmlspecialchars($_POST['remarks'] ?? '');
 
-    if (!empty($complaint_id) && !empty($worker_id)) {
-        try {
-            // Insert into Complaint_Assignment table
-            $assign_query = $pdo->prepare("INSERT INTO \"Complaint_Assignment\" (\"Complaint_Id\", \"Worker_Id\", \"Remarks\") 
-                                           VALUES (:complaint_id, :worker_id, :remarks)");
-            $assign_query->execute([
-                ':complaint_id' => $complaint_id,
-                ':worker_id' => $worker_id,
-                ':remarks' => $remarks
-            ]);
+    if (!empty($complaint_id) && !empty($worker_name)) {
+        // Get worker_id based on worker_name
+        $worker_query = "SELECT worker_id FROM maintenance_worker WHERE name = ? LIMIT 1";
+        $worker_stmt = $mysqli->prepare($worker_query);
+        $worker_stmt->bind_param('s', $worker_name);
+        $worker_stmt->execute();
+        $worker_result = $worker_stmt->get_result();
+        $worker = $worker_result->fetch_assoc();
 
-            // Insert into Complaint_Status table
-            $status_query = $pdo->prepare("INSERT INTO \"Complaint_Status\" (\"Complaint_Status\", \"Description\", \"Date_Update_Status\", \"Complaint_ID\") 
-                                           VALUES ('Assigned', 'Complaint has been assigned to a worker', NOW(), :complaint_id)");
-            $status_query->execute([':complaint_id' => $complaint_id]);
+        if ($worker) {
+            $worker_id = $worker['worker_id'];
 
-            echo "<script>alert('Complaint assigned successfully, and status updated!');</script>";
-        } catch (PDOException $e) {
-            echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+            // Proceed with complaint assignment
+            $assign_query = "INSERT INTO complaint_assignment (complaint_id, worker_id, remarks) 
+                             VALUES (?, ?, ?)";
+            $assign_stmt = $mysqli->prepare($assign_query);
+            $assign_stmt->bind_param('iis', $complaint_id, $worker_id, $remarks);
+
+            if ($assign_stmt->execute()) {
+                // Insert into complaint_status table
+                $status_query = "INSERT INTO complaint_status (complaint_status, description, date_update_status, complaint_id) 
+                                 VALUES ('Assigned', 'Complaint has been assigned to a worker', NOW(), ?)";
+                $status_stmt = $mysqli->prepare($status_query);
+                $status_stmt->bind_param('i', $complaint_id);
+
+                if ($status_stmt->execute()) {
+                    echo "<script>alert('Complaint assigned successfully, and status updated!');</script>";
+                } else {
+                    echo "<script>alert('Complaint assigned, but failed to update status: " . $mysqli->error . "');</script>";
+                }
+            } else {
+                echo "<script>alert('Error assigning complaint: " . $mysqli->error . "');</script>";
+            }
+        } else {
+            echo "<script>alert('Selected worker not found. Please try again.');</script>";
         }
     } else {
         echo "<script>alert('Please fill in all required fields.');</script>";
@@ -39,17 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
 
 <div class="main-content app-content">
     <div class="container">
-
         <!-- Page Header -->
         <div class="d-md-flex d-block align-items-center justify-content-between mb-2 my-4 page-header-breadcrumb">
-            <h1 class="page-title fw-semibold fs-22 mb-0">Pending Complaint Management</h1>
-            <div class="ms-md-1 ms-0">
-                <nav>
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="view-complaint.php"> Pending Complaint Management</a></li>
-                    </ol>
-                </nav>
-            </div>
+            <h1 class="page-title fw-semibold fs-22 mb-0">Complaint Management</h1>
         </div>
 
         <!-- Complaints Table -->
@@ -58,41 +66,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Room Number</th> <!-- Changed from Complaint ID to Room No -->
                         <th>Complaint Type</th>
                         <th>Complaint Issue</th>
                         <th>Description</th>
+                        <th>Complaint Image</th> <!-- New Column for Image -->
                         <th>Date Created</th>
-                        <th>Room No</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    // PostgreSQL query to fetch complaints not assigned yet
                     $query = "
-                    SELECT c.\"complaint_id\", c.\"complaint_type\", c.\"complaint_issue\", c.\"description\", c.\"date_created\", r.\"room_no\" 
-                    FROM \"complaint\" c 
-                    JOIN \"room\" r ON c.\"room_id\" = r.\"room_id\"
-                    WHERE NOT EXISTS (
-                        SELECT 1 FROM \"complaint_assignment\" ca
-                        WHERE ca.\"complaint_id\" = c.\"complaint_id\"
-                    )";
-
-                    $result = $pdo->query($query);
+            SELECT c.complaint_id, c.complaint_type, c.complaint_issue, c.description, c.date_created, r.room_no, c.image 
+            FROM complaint c 
+            JOIN room r ON c.room_id = r.room_id
+            WHERE NOT EXISTS (
+                SELECT 1 FROM complaint_assignment ca 
+                WHERE ca.complaint_id = c.complaint_id
+            )";
+                    $result = $mysqli->query($query);
                     $counter = 1;
-
-                    while ($complaint = $result->fetch(PDO::FETCH_ASSOC)) {
+                    while ($complaint = $result->fetch_assoc()) {
                     ?>
                         <tr>
                             <td><?= $counter++; ?></td>
+                            <td><?= htmlspecialchars($complaint['room_no']); ?></td>
                             <td><?= htmlspecialchars($complaint['complaint_type']); ?></td>
                             <td><?= htmlspecialchars($complaint['complaint_issue']); ?></td>
                             <td><?= htmlspecialchars($complaint['description']); ?></td>
-                            <td><?= htmlspecialchars($complaint['date_created']); ?></td>
-                            <td><?= htmlspecialchars($complaint['room_no']); ?></td>
                             <td>
-                                <button class="btn btn-success assign-complaint-btn"
-                                    data-bs-toggle="modal"
+                                <!-- Display the Image if it exists -->
+                                <?php if (!empty($complaint['image'])): ?>
+                                    <img src="uploads/<?= htmlspecialchars($complaint['image']); ?>" alt="Complaint Image" width="100">
+                                <?php else: ?>
+                                    No Image
+                                <?php endif; ?>
+                            </td>
+                            <td><?= htmlspecialchars($complaint['date_created']); ?></td>
+                            <td>
+                                <button class="btn btn-success assign-complaint-btn" data-bs-toggle="modal"
                                     data-bs-target="#assigncomplaintmodal"
                                     data-id="<?= htmlspecialchars($complaint['complaint_id']); ?>">
                                     Assign
@@ -105,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                 </tbody>
             </table>
         </div>
+
     </div>
 </div>
 
@@ -124,14 +138,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
                         <select class="form-control" id="assignedTo" name="assigned_to" required>
                             <option value="">Select Maintenance Worker</option>
                             <?php
-                            // Fetching maintenance workers for assignment
-                            $worker_query = "SELECT \"Worker_Id\", \"Name\", \"Specialization\" FROM \"Maintenance_Worker\"";
-                            $worker_result = $pdo->query($worker_query);
-                            while ($worker = $worker_result->fetch(PDO::FETCH_ASSOC)) {
-                                echo "<option value='" . htmlspecialchars($worker['Worker_Id']) . "'>" . htmlspecialchars($worker['Name']) . " - " . htmlspecialchars($worker['Specialization']) . "</option>";
+                            $worker_query = "SELECT worker_id, name, specialization FROM maintenance_worker";
+                            $worker_result = $mysqli->query($worker_query);
+                            while ($worker = $worker_result->fetch_assoc()) {
+                                echo '<option value="' . htmlspecialchars($worker['name']) . '">' . htmlspecialchars($worker['name']) . ' (' . htmlspecialchars($worker['specialization']) . ')</option>';
                             }
                             ?>
                         </select>
+
                     </div>
                     <div class="mb-3">
                         <label for="remarks" class="form-label">Remarks</label>
@@ -172,5 +186,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complaint_id'])) {
     });
 </script>
 
-
-<?php include('includes/footer-.php'); ?>
+<?php include('includes/footer-.php'); ?>  

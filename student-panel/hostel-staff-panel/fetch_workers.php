@@ -1,16 +1,22 @@
 <?php
 include 'paandbconfig.php';
 
-if (isset($_POST['company_id'])) {
-    $company_id = $_POST['company_id'];
+try {
+    // MySQLi query to fetch worker details
+    $query = "SELECT name, specialization FROM maintenance_worker";
+    $result = $mysqli->query($query);  // Using MySQLi query
 
-    // Fetch workers based on company
-    $query = "SELECT Worker_ID, Name FROM Maintenance_Worker WHERE Company_ID = '$company_id'";
-
-    $result = mysqli_query($conn, $query);
-
-    echo '<option value="">Select Worker</option>';
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo '<option value="' . $row['Worker_ID'] . '">' . $row['Name'] . '</option>';
+    // Check if there are results
+    if ($result->num_rows > 0) {
+        while ($worker = $result->fetch_assoc()) {
+            echo '<option value="' . htmlspecialchars($worker['name']) . '">'
+                . htmlspecialchars($worker['name']) . ' (' . htmlspecialchars($worker['specialization']) . ')'
+                . '</option>';
+        }
+    } else {
+        echo '<option value="">No workers found</option>';
     }
+} catch (mysqli_sql_exception $e) {
+    echo '<option value="">Error loading workers</option>';
 }
+?>

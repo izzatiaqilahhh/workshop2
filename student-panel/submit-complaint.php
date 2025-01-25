@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 session_start();
 include('teahdbconfig.php'); // Include MariaDB config for student verification
-include('paandbconfig.php'); // Include MySQL config for complaint submission
+include('paanconn.php'); // Include MySQL config for complaint submission
 
 // Check if the user is logged in
 if (!isset($_SESSION['student'])) {
@@ -15,8 +15,8 @@ if (!isset($_SESSION['student'])) {
 
 // Fetch student ID using matric number from MariaDB
 try {
-    $stmt = $pdo->prepare("SELECT Student_ID, Room_ID FROM student WHERE Matric_No = :Matric_No");
-    $stmt->bindParam(':Matric_No', $_SESSION['student']);
+    $stmt = $pdo->prepare("SELECT student_id, room_id FROM student WHERE matric_no = :matric_no");
+    $stmt->bindParam(':matric_no', $_SESSION['student']);
     $stmt->execute();
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -26,8 +26,8 @@ try {
         exit();
     }
 
-    $student_id = $student['Student_ID'];
-    $room_id = $student['Room_ID'];
+    $student_id = $student['student_id'];
+    $room_id = $student['room_id'];
 
     // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -88,22 +88,22 @@ try {
             if (!isset($error_msg)) {
                 try {
                     // Use MySQL connection to insert complaint into the database
-                    $stmt = $mysql_pdo->prepare("INSERT INTO Complaint (Complaint_Type, Complaint_Issue, Description, Image, Date_Created, Student_ID, Room_ID) VALUES (:Complaint_Type, :Complaint_Issue, :Description, :Image, :Date_Created, :Student_ID, :Room_ID)");
-                    $stmt->bindParam(':Complaint_Type', $complaint_type);
-                    $stmt->bindParam(':Complaint_Issue', $issue_type);
-                    $stmt->bindParam(':Description', $description);
-                    $stmt->bindParam(':Image', $image, PDO::PARAM_LOB);
-                    $stmt->bindParam(':Date_Created', $date_created);
-                    $stmt->bindParam(':Student_ID', $student_id);
-                    $stmt->bindParam(':Room_ID', $room_id);
+                    $stmt = $mysql_pdo->prepare("INSERT INTO complaint (complaint_type, complaint_issue, description, image, date_created, student_id, room_id) VALUES (:complaint_type, :complaint_issue, :description, :image, :date_created, :student_id, :room_id)");
+                    $stmt->bindParam(':complaint_type', $complaint_type);
+                    $stmt->bindParam(':complaint_issue', $issue_type);
+                    $stmt->bindParam(':description', $description);
+                    $stmt->bindParam(':image', $image, PDO::PARAM_LOB);
+                    $stmt->bindParam(':date_created', $date_created);
+                    $stmt->bindParam(':student_id', $student_id);
+                    $stmt->bindParam(':room_id', $room_id);
                     $stmt->execute();
                     
                     // Get the last inserted complaint ID
                     $complaint_id = $mysql_pdo->lastInsertId();
 
                     // Insert initial status into the Complaint_Status table
-                    $stmt = $mysql_pdo->prepare("INSERT INTO Complaint_Status (Complaint_ID, Complaint_Status, Description) VALUES (:Complaint_ID, 'Pending', NULL)");
-                    $stmt->bindParam(':Complaint_ID', $complaint_id);
+                    $stmt = $mysql_pdo->prepare("INSERT INTO complaint_status (complaint_id, complaint_status, description) VALUES (:complaint_id, 'pending', NULL)");
+                    $stmt->bindParam(':complaint_id', $complaint_id);
                     $stmt->execute();
 
                     $_SESSION['success'] = 'Complaint submitted successfully.';

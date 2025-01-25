@@ -11,7 +11,7 @@ if (!isset($_SESSION['student'])) {
 
 // Fetch user-specific data
 try {
-    $stmt = $pdo->prepare('SELECT * FROM student WHERE Matric_No = :Matric_No');
+    $stmt = $pdo->prepare('SELECT * FROM student WHERE matric_no = :matric_no');
     $stmt->bindParam(':Matric_No', $_SESSION['student']);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -23,12 +23,12 @@ try {
 
     $student_id = $user['Student_ID'];
 
-    $stmt = $mysql_pdo->prepare("SELECT c.*, cs.Complaint_Status, cs.Description as Status_Description, cs.Date_Update_Status 
-                                 FROM Complaint c 
-                                 LEFT JOIN Complaint_Status cs ON c.Complaint_ID = cs.Complaint_ID 
-                                 WHERE c.Student_ID = :Student_ID 
-                                 ORDER BY c.Date_Created DESC");
-    $stmt->bindParam(':Student_ID', $student_id, PDO::PARAM_INT);
+    $stmt = $mysql_pdo->prepare("SELECT c.*, cs.complaint_status, cs.description as status_description, cs.date_update_status 
+                                 FROM complaint c 
+                                 LEFT JOIN complaint_status cs ON c.complaint_id = cs.complaint_id 
+                                 WHERE c.student_id = :student_id 
+                                 ORDER BY c.date_created DESC");
+    $stmt->bindParam(':student_id', $student_id, PDO::PARAM_INT);
     $stmt->execute();
     $complaints = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -197,23 +197,23 @@ try {
                                         <?php foreach ($complaints as $index => $complaint): ?>
                                             <tr>
                                                 <td><?= $index + 1 ?></td>
-                                                <td><?= htmlspecialchars($complaint['Complaint_ID']) ?></td>
-                                                <td><?= htmlspecialchars($complaint['Complaint_Type']) ?></td>
-                                                <td><?= htmlspecialchars($complaint['Complaint_Issue']) ?></td>
-                                                <td><?= htmlspecialchars($complaint['Description']) ?></td>
-                                                <td><?= htmlspecialchars($complaint['Date_Created']) ?></td>
-                                                <td><?= htmlspecialchars($complaint['Complaint_Status'] ?? 'Pending') ?></td>
+                                                <td><?= htmlspecialchars($complaint['complaint_id']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['complaint_type']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['complaint_issue']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['description']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['date_created']) ?></td>
+                                                <td><?= htmlspecialchars($complaint['complaint_status'] ?? 'pending') ?></td>
                                                 <td>
                                                     <button
                                                         type="button"
                                                         class="btn btn-info btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#complaintModal"
-                                                        onclick="populateModal('<?= htmlspecialchars($complaint['Complaint_ID']) ?>', '<?= htmlspecialchars($complaint['Description']) ?>', '<?= base64_encode($complaint['Image']) ?>')">
+                                                        onclick="populateModal('<?= htmlspecialchars($complaint['complaint_id']) ?>', '<?= htmlspecialchars($complaint['description']) ?>', '<?= base64_encode($complaint['image']) ?>')">
                                                         View
                                                     </button>
-                                                    <a href="edit-complaint.php?complaint_id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-warning btn-sm">Edit</a>
-                                                    <a href="delete-complaint.php?complaint_id=<?= htmlspecialchars($complaint['Complaint_ID']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this complaint?')">Delete</a>
+                                                    <a href="edit-complaint.php?complaint_id=<?= htmlspecialchars($complaint['complaint_id']) ?>" class="btn btn-warning btn-sm">Edit</a>
+                                                    <a href="delete-complaint.php?complaint_id=<?= htmlspecialchars($complaint['complaint_id']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this complaint?')">Delete</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -256,7 +256,7 @@ try {
             
             document.getElementById('complaintImage').src = url;
             document.getElementById('complaintDescription').textContent = description;
-            document.getElementById('complaintModalLabel').textContent = `Complaint ID: ${complaintID}`;
+            document.getElementById('complaintModalLabel').textContent = `complaint id: ${complaintID}`;
         }
     </script>
 

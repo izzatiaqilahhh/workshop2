@@ -1,5 +1,5 @@
 <?php
-session_start();
+include('includes/header-.php');
 
 // Check if the user is logged in
 if (!isset($_SESSION['hostel_staff'])) {
@@ -8,24 +8,24 @@ if (!isset($_SESSION['hostel_staff'])) {
 }
 
 // Include database configuration and fetch user data
-include('qiladbcon.php');
+include('paandbconfig.php'); // Ensure this file contains MySQL connection setup
 
 try {
-    $stmt = $pdo->prepare('SELECT * FROM hostel_staff WHERE staff_no = :staff_no');
-    $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);
+    // MySQL query to fetch user data
+    $stmt = $mysqli->prepare('SELECT * FROM hostel_staff WHERE staff_no = ?');
+    $stmt->bind_param('s', $_SESSION['hostel_staff']); // 's' means the parameter is a string
     $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
 
     if (!$user) {
         echo "User not found!";
         exit();
     }
-} catch (PDOException $e) {
+} catch (mysqli_sql_exception $e) {
     echo 'Database query failed: ' . $e->getMessage();
     exit();
 }
-
-include('includes/header-.php');
 ?>
 
 <title>e-HRCS - My Profile</title>
@@ -185,4 +185,4 @@ include('includes/header-.php');
     }
 </script>
 
-<?php include('includes/footer.php'); ?>
+<?php include('includes/footer.php'); ?>  

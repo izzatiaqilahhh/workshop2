@@ -10,7 +10,7 @@ if (!isset($_SESSION['hostel_staff'])) {
 }
 
 // Include database configuration and functions
-include('qiladbcon.php');
+include('paandbconfig.php');
 
 // Function to sanitize input data
 function sanitizeInput($data)
@@ -39,27 +39,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Fetch the user's current password from the database
-        $stmt = $pdo->prepare('SELECT password FROM hostel_staff WHERE staff_no = :staff_no');
-        $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);  // Corrected typo here
+        $stmt = $mysqli->prepare('SELECT password FROM hostel_staff WHERE staff_no = ?');
+        $stmt->bind_param('s', $_SESSION['hostel_staff']); // 's' for string
         $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
 
         // Verify the current password
-        if ($user && password_verify($currentPassword, $user['password'])) {
-            // Hash the new password
-            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-
+        if ($user && $currentPassword == $user['password']) { // Direct comparison without hashing
             // Update the password in the database
-            $stmt = $pdo->prepare('UPDATE hostel_staff SET password = :password WHERE staff_no = :staff_no');
-            $stmt->bindParam(':password', $hashedPassword);
-            $stmt->bindParam(':staff_no', $_SESSION['hostel_staff']);
+            $stmt = $mysqli->prepare('UPDATE hostel_staff SET password = ? WHERE staff_no = ?');
+            $stmt->bind_param('ss', $newPassword, $_SESSION['hostel_staff']); // 'ss' for two strings
             $stmt->execute();
 
-            $_SESSION['password_success'] = 'Password successfully updated!';
+            $_SESSION['password_success'] = 'Password successfully changed!';
         } else {
             $_SESSION['password_error'] = 'Current password is incorrect!';
         }
-    } catch (PDOException $e) {
+    } catch (mysqli_sql_exception $e) {
         $_SESSION['password_error'] = 'Database error: ' . $e->getMessage();
     }
 
@@ -71,3 +68,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: profile.php");
     exit();
 }
+?>
